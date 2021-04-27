@@ -16,8 +16,9 @@ import {
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
-import { auth, authGoogle, useAuthState, useAuthDispatch } from 'context'
+import { auth, authGoogle, authLinkedIn, useAuthState, useAuthDispatch } from 'context'
 import GoogleLogin from 'react-google-login';
+import { LinkedIn } from 'react-linkedin-login-oauth2';
 
 export default function Login() {
   const dispatch = useAuthDispatch();
@@ -41,11 +42,18 @@ export default function Login() {
     }
   }, [])
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+
   const handleLogin = (e) => {
     e.preventDefault()
     auth(dispatch, email, password)
     .then(response => {
-      console.log('response', response)
       if (response.currentUser && response.credentials) {
         history.push('/dashboard')
       }
@@ -53,14 +61,6 @@ export default function Login() {
     .catch(error => {
       console.log(error)
     })
-  }
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
   }
 
   const handleGoogleLogin = (payload) => {
@@ -73,7 +73,18 @@ export default function Login() {
     .catch(error => {
       console.log(error)
     })
+  }
 
+  const handleLinkedinLogin = (payload) => {
+    authLinkedIn(dispatch, payload.code)
+    .then(response => {
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   return (
@@ -120,16 +131,36 @@ export default function Login() {
                                 </span>
                                 </Button>
                               )}
-                            >
-                            </GoogleLogin>
+                            />
+                            <LinkedIn
+                              clientId="77kyaj6hcodakv"
+                              onFailure={handleLinkedinLogin}
+                              onSuccess={handleLinkedinLogin}
+                              scope='r_liteprofile r_emailaddress'
+                              redirectUri={`http://localhost:3000/linkedin`}
+                              renderElement={({ onClick, disabled }) => (
+                                <Button
+                                  className="m-2 btn-pill px-4 font-weight-bold btn-linkedin"
+                                  size="small"
+                                  onClick={onClick}
+                                  disabled={disabled}>
+                                  <span className="btn-wrapper--icon">
+                                    <FontAwesomeIcon icon={['fab', 'linkedin']} />
+                                  </span>
+                                  <span className="btn-wrapper--label">
+                                    Login with LinkedIn
+                                  </span>
+                                </Button>
+                              )}
+                            />
                             <Button
-                              className="m-2 btn-pill px-4 font-weight-bold btn-facebook"
+                              className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
                               size="small">
                               <span className="btn-wrapper--icon">
-                                <FontAwesomeIcon icon={['fab', 'facebook']} />
+                                <FontAwesomeIcon icon={['fab', 'microsoft']} />
                               </span>
                               <span className="btn-wrapper--label">
-                                Login with Facebook
+                                Login with Microsoft
                               </span>
                             </Button>
                           </div>
@@ -204,83 +235,34 @@ export default function Login() {
                           <div className="bg-composed-wrapper--content text-center p-5">
                             <div className="text-white px-0 px-lg-2 px-xl-4">
                               <h1 className="display-3 mb-4 font-weight-bold">
-                                Bamburgh React Admin Dashboard with Material-UI
-                                PRO
+                                Can You Introduce Me?
                               </h1>
                               <p className="font-size-lg mb-0 opacity-8">
-                                Premium admin template powered by the most
-                                popular UI components framework available for
-                                React: Material-UI. Features hundreds of
-                                examples making web development fast and easy.
-                                Start from one of the individual apps included
-                                or from the general dashboard and build
-                                beautiful scalable applications and presentation
-                                websites.
+                                Our mission is to help connect the world by making it easy for everyone involved to ask for and make introductions.
                               </p>
                               <div className="divider mx-auto border-1 my-5 border-light opacity-2 rounded w-25" />
                               <div>
-                                <Button className="btn-success px-5 font-size-sm font-weight-bold btn-animated-icon text-uppercase rounded shadow-none py-3 hover-scale-sm hover-scale-lg">
-                                  <span className="btn-wrapper--label">
-                                    See Features List
-                                  </span>
-                                  <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon
-                                      icon={['fas', 'arrow-right']}
-                                    />
-                                  </span>
-                                </Button>
+                                <p className="font-size-lg mb-0 opacity-8 mb-2">
+                                  Don't have an account yet?
+                                </p>
+                                <Link to='/sign-up'>
+                                  <Button className="btn-success px-5 font-size-sm font-weight-bold btn-animated-icon text-uppercase rounded shadow-none py-3 hover-scale-sm hover-scale-lg">
+                                    <span className="btn-wrapper--label">
+                                      Sign Up
+                                    </span>
+                                    <span className="btn-wrapper--icon">
+                                      <FontAwesomeIcon
+                                        icon={['fas', 'arrow-right']}
+                                      />
+                                    </span>
+                                  </Button>
+                                </Link>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="hero-footer pb-4">
-                          <List
-                            component="div"
-                            className="nav-pills nav-neutral-secondary d-flex">
-                            <Tooltip title="Facebook" arrow>
-                              <ListItem
-                                component="a"
-                                button
-                                href="#/"
-                                onClick={(e) => e.preventDefault()}
-                                className="font-size-lg text-white-50">
-                                <FontAwesomeIcon icon={['fab', 'facebook']} />
-                              </ListItem>
-                            </Tooltip>
 
-                            <Tooltip title="Twitter" arrow>
-                              <ListItem
-                                component="a"
-                                button
-                                href="#/"
-                                onClick={(e) => e.preventDefault()}
-                                className="font-size-lg text-white-50">
-                                <FontAwesomeIcon icon={['fab', 'twitter']} />
-                              </ListItem>
-                            </Tooltip>
-
-                            <Tooltip title="Google" arrow>
-                              <ListItem
-                                component="a"
-                                button
-                                href="#/"
-                                onClick={(e) => e.preventDefault()}
-                                className="font-size-lg text-white-50">
-                                <FontAwesomeIcon icon={['fab', 'google']} />
-                              </ListItem>
-                            </Tooltip>
-
-                            <Tooltip title="Instagram" arrow>
-                              <ListItem
-                                component="a"
-                                button
-                                href="#/"
-                                onClick={(e) => e.preventDefault()}
-                                className="font-size-lg text-white-50">
-                                <FontAwesomeIcon icon={['fab', 'instagram']} />
-                              </ListItem>
-                            </Tooltip>
-                          </List>
                         </div>
                       </div>
                     </Grid>

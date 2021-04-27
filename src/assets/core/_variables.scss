@@ -89,7 +89,9 @@ $first-neutral:         lighten(#cce9fe, 6%);
 $second-neutral:        lighten(#d0d2da, 6%);
 
 $facebook:      #3b5999;
-$discord:         #7189da;
+$linkedin:      #2867B2;
+$microsoft :    #F25022;
+$discord:       #7189da;
 $twitter:       #1da1f2;
 $google:        #dd4b39;
 $instagram:     #e4405f;
@@ -138,7 +140,9 @@ $brand-colors: ();
 $brand-colors: map-merge(
                 (
                         "facebook":      $facebook,
-"discord":      $discord,
+                        "linkedin":      $linkedin,
+                        "microsoft":     $microsoft,
+                        "discord":       $discord,
                         "twitter":       $twitter,
                         "google":        $google,
                         "instagram":     $instagram,

@@ -5,7 +5,7 @@ import { ClimbingBoxLoader } from 'react-spinners';
 import { AuthProvider } from "context";
 import { ThemeProvider } from '@material-ui/styles';
 import MuiTheme from './theme';
-
+import { LinkedInPopUp } from 'react-linkedin-login-oauth2';
 // Layout Blueprints
 
 import {
@@ -110,6 +110,7 @@ const PageLoginCover = lazy(() => import('./example-pages/PageLoginCover'));
 const PageLoginIllustration = lazy(() =>
   import('./example-pages/PageLoginIllustration')
 );
+
 const PageLoginOverlay = lazy(() => import('./example-pages/PageLoginOverlay'));
 const PageRegisterBasic = lazy(() =>
   import('./example-pages/PageRegisterBasic')
@@ -215,6 +216,7 @@ const Routes = () => {
               <Route
                 path={[
                   '/login',
+                  '/linkedin',
                   '/sign-up',
                   '/forgot-password',
                   '/reset-password',
@@ -231,6 +233,7 @@ const Routes = () => {
                       variants={pageVariants}
                       transition={pageTransition}>
                       <Route path="/login" component={PageLoginCover} />
+                      <Route exact path="/linkedin" component={LinkedInPopUp} />
                       <Route
                         path="/sign-up"
                         component={PageRegisterOverlay}
