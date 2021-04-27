@@ -17,8 +17,9 @@ import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
 import { auth, authGoogle, useAuthState, useAuthDispatch } from 'context'
+import GoogleLogin from 'react-google-login';
 
-export default function LivePreviewExample() {
+export default function Login() {
   const dispatch = useAuthDispatch();
   const userDetails = useAuthState();
   const history = useHistory();
@@ -62,6 +63,19 @@ export default function LivePreviewExample() {
     setPassword(e.target.value)
   }
 
+  const handleGoogleLogin = (payload) => {
+    authGoogle(dispatch, payload.code)
+    .then(response => {
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+  }
+
   return (
     <>
       <div className="app-wrapper min-vh-100 bg-white">
@@ -87,16 +101,27 @@ export default function LivePreviewExample() {
                             </p>
                           </div>
                           <div className="text-center py-4 rounded bg-secondary my-4">
-                            <Button
-                              className="m-2 btn-pill px-4 font-weight-bold btn-google"
-                              size="small">
-                              <span className="btn-wrapper--icon">
-                                <FontAwesomeIcon icon={['fab', 'google']} />
-                              </span>
-                              <span className="btn-wrapper--label">
-                                Login with Google
-                              </span>
-                            </Button>
+                            <GoogleLogin
+                              clientId="76583804160-hikjh5kp20nqpu701d17hemqum1mfbnt.apps.googleusercontent.com"
+                              onSuccess={handleGoogleLogin}
+                              onFailure={handleGoogleLogin}
+                              responseType='code'
+                              accessType='offline'
+                              render={renderProps => (
+                                <Button
+                                  className="m-2 btn-pill px-4 font-weight-bold btn-google"
+                                  size="small"
+                                  onClick={renderProps.onClick}>
+                                  <span className="btn-wrapper--icon">
+                                    <FontAwesomeIcon icon={['fab', 'google']} />
+                                  </span>
+                                  <span className="btn-wrapper--label">
+                                    Login with Google
+                                </span>
+                                </Button>
+                              )}
+                            >
+                            </GoogleLogin>
                             <Button
                               className="m-2 btn-pill px-4 font-weight-bold btn-facebook"
                               size="small">
