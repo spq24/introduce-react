@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { useAuthState, logout, useAuthDispatch } from 'context'
+import {useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import HeaderDrawer from '../../layout-components/HeaderDrawer';
 import HeaderUserbox from '../../layout-components/HeaderUserbox';
 import HeaderSearch from '../../layout-components/HeaderSearch';
 import HeaderMenu from '../../layout-components/HeaderMenu';
+import { useDispatch } from 'react-redux/lib/hooks/useDispatch';
 
 const Header = (props) => {
   const {
@@ -19,10 +21,23 @@ const Header = (props) => {
     sidebarToggleMobile,
     setSidebarToggleMobile
   } = props;
-
+  const userDetails = useAuthState();
+  const dispatch = useAuthDispatch();
+  const history = useHistory();
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    logout(dispatch)
+    .then(response => {
+      history.push('/login')
+    })
+    .catch(error => {
+      console.log('error logging out 2')
+    })
+  }
 
   return (
     <div
@@ -41,13 +56,12 @@ const Header = (props) => {
             <span className="hamburger-inner" />
           </span>
         </button>
-        <HeaderSearch />
-        <HeaderMenu />
+        {/* <HeaderSearch /> */}
       </div>
       <div className="app-header--pane">
-        <HeaderDots />
-        <HeaderUserbox />
-        <HeaderDrawer />
+        <HeaderUserbox
+          user={userDetails.user}
+          handleLogout={handleLogout} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Grid,
@@ -12,18 +13,54 @@ import {
   Tooltip,
   TextField
 } from '@material-ui/core';
-
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
-
 import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
+import { auth, authGoogle, useAuthState, useAuthDispatch } from 'context'
 
 export default function LivePreviewExample() {
-  const [checked1, setChecked1] = useState(true);
+  const dispatch = useAuthDispatch();
+  const userDetails = useAuthState();
+  const history = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleChange1 = (event) => {
-    setChecked1(event.target.checked);
-  };
+  useEffect(() => {
+    if (userDetails && userDetails.credentials) {
+      axios.post(`/api/v1/auth/${userDetails.user.id}/validate-token`, {
+        token: userDetails.credentials['access-token'],
+        client: userDetails.credentials.client
+      }, {
+        headers: userDetails.credentials
+      })
+      .then(response => {
+        // TODO: send notification about already being logged in.
+        history.push('/dashboard')
+      })
+    }
+  }, [])
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    auth(dispatch, email, password)
+    .then(response => {
+      console.log('response', response)
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
 
   return (
     <>
@@ -81,6 +118,7 @@ export default function LivePreviewExample() {
                                 variant="outlined"
                                 id="textfield-email"
                                 label="Email address"
+                                onChange={ (e) => handleEmailChange(e) }
                                 InputProps={{
                                   startAdornment: (
                                     <InputAdornment position="start">
@@ -97,6 +135,7 @@ export default function LivePreviewExample() {
                                 id="textfield-password"
                                 label="Password"
                                 type="password"
+                                onChange={ (e) => handlePasswordChange(e) }
                                 InputProps={{
                                   startAdornment: (
                                     <InputAdornment position="start">
@@ -106,40 +145,23 @@ export default function LivePreviewExample() {
                                 }}
                               />
                             </div>
-                            <div className="d-flex justify-content-between align-items-center font-size-md">
-                              <FormControlLabel
-                                control={
-                                  <Checkbox
-                                    checked={checked1}
-                                    onChange={handleChange1}
-                                    value="checked1"
-                                    color="primary"
-                                  />
-                                }
-                                label="Remember me"
-                              />
+                            <div className="d-flex justify-content-end align-items-center font-size-md">
                               <div>
-                                <a
-                                  href="#/"
-                                  onClick={(e) => e.preventDefault()}
-                                  className="text-first">
-                                  Recover password
-                                </a>
+                                <Link to='/forgot-password' className="text-first">
+                                  Forgot password
+                                </Link>
                               </div>
                             </div>
                             <div className="text-center py-4">
-                              <Button className="btn-second font-weight-bold w-50 my-2">
+                              <Button className="btn-second font-weight-bold w-50 my-2" onClick={ (e) => handleLogin(e) }>
                                 Sign in
                               </Button>
                             </div>
                             <div className="text-center text-black-50 mt-3">
                               Don't have an account?{' '}
-                              <a
-                                href="#/"
-                                onClick={(e) => e.preventDefault()}
-                                className="text-first">
+                              <Link to='/sign-up' className="text-first">
                                 Sign up
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
