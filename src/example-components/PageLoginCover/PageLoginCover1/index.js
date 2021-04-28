@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Grid,
@@ -16,9 +16,10 @@ import {
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
-import { auth, authGoogle, authLinkedIn, useAuthState, useAuthDispatch } from 'context'
+import { auth, authGoogle, authLinkedIn, authMicrosoft, useAuthState, useAuthDispatch } from 'context'
 import GoogleLogin from 'react-google-login';
 import { LinkedIn } from 'react-linkedin-login-oauth2';
+import MicrosoftLogin from "react-microsoft-login";
 
 export default function Login() {
   const dispatch = useAuthDispatch();
@@ -26,6 +27,7 @@ export default function Login() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
 
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
@@ -41,6 +43,26 @@ export default function Login() {
       })
     }
   }, [])
+
+  useEffect(() => {
+    const codeString = window.location.search.split('code=')[1]
+    if(codeString) {
+      setCode(codeString.split('&')[0])
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('code 1', code)
+    authMicrosoft(dispatch, code)
+    .then(response => {
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }, [code])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
@@ -153,16 +175,19 @@ export default function Login() {
                                 </Button>
                               )}
                             />
-                            <Button
-                              className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
-                              size="small">
-                              <span className="btn-wrapper--icon">
-                                <FontAwesomeIcon icon={['fab', 'microsoft']} />
-                              </span>
-                              <span className="btn-wrapper--label">
-                                Login with Microsoft
-                              </span>
-                            </Button>
+
+                            <a href='https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=http%3A%2F%2Flocalhost:3000%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20'>
+                              <Button
+                                className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
+                                size="small">
+                                <span className="btn-wrapper--icon">
+                                  <FontAwesomeIcon icon={['fab', 'microsoft']} />
+                                </span>
+                                <span className="btn-wrapper--label">
+                                  Login with Microsoft
+                                  </span>
+                              </Button>
+                            </a>
                           </div>
                           <div className="text-center text-black-50 mb-4">
                             or sign in with credentials
@@ -251,9 +276,7 @@ export default function Login() {
                                       Sign Up
                                     </span>
                                     <span className="btn-wrapper--icon">
-                                      <FontAwesomeIcon
-                                        icon={['fas', 'arrow-right']}
-                                      />
+                                      <FontAwesomeIcon icon={['fas', 'arrow-right']} />
                                     </span>
                                   </Button>
                                 </Link>

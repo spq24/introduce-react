@@ -99,6 +99,41 @@ export async function authLinkedIn(dispatch, code) {
   }
 }
 
+export async function authMicrosoft(dispatch, code) {
+  try {
+    dispatch({ type: 'REQUEST_LOGIN' });
+    if (!code || code === undefined) {
+      dispatch({ type: 'LOGIN_ERROR', error: 'No profile' });
+      return;
+    }
+
+    console.log('code actions', code)
+
+    return axios.post(`/api/v1/social-auth/from-microsoft`, {
+      microsoft_response: {
+        code: code
+      }
+    })
+    .then(response => {
+      let credentials = response.data.token_data;
+      let user = response.data.user
+
+      if (user && credentials) {
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { user: user, credentials: credentials } });
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('credentials', JSON.stringify(credentials));
+        return { currentUser: user, credentials: credentials };
+      }
+    })
+    .catch(error => {
+      dispatch({ type: 'LOGIN_ERROR', error: error.response })
+      return
+    });
+  } catch (error) {
+    dispatch({ type: 'LOGIN_ERROR', error: error });
+  }
+}
+
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
   let credentials = localStorage.getItem('credentials')
