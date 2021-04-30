@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'context'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { PageTitle } from 'layout-components';
 import DashboardAnalytics1 from '../../example-components/DashboardAnalytics/DashboardAnalytics1';
-import DashboardAnalytics2 from '../../example-components/DashboardAnalytics/DashboardAnalytics2';
-import DashboardAnalytics3 from '../../example-components/DashboardAnalytics/DashboardAnalytics3';
-import DashboardAnalytics4 from '../../example-components/DashboardAnalytics/DashboardAnalytics4';
-import DashboardAnalytics5 from '../../example-components/DashboardAnalytics/DashboardAnalytics5';
-import DashboardAnalytics6 from '../../example-components/DashboardAnalytics/DashboardAnalytics6';
-
+import Table from '../../example-components/Tables/Tables8';
+import { Card, Button, Grid } from '@material-ui/core';
 export default function DashboardAnalytics() {
   const userDetails = useAuthState();
 
@@ -25,17 +22,25 @@ export default function DashboardAnalytics() {
 
   return (
     <>
-      <PageTitle
-        titleHeading="Analytics"
-        titleDescription="Packed with hundreds of elements, you can build almost any dashboard."
-      />
-
+      <Grid container spacing={0}>
+        <Grid item md={12} className="d-flex justify-content-center">
+          <Card className="card-box bg-neutral-success p-3 p-xl-4 mb-10" style={{ marginBottom: '3rem' }}>
+            <div className="bg-composed-wrapper--content d-block text-center text-xl-left d-xl-flex justify-content-between align-items-center">
+              <p className="opacity-9 font=size-xl mr-0 mr-xl-3 mb-4 mb-xl-0">
+                Looking to get introduced to someone new? Let us help!
+              </p>
+              <Link to='/new-introduction'>
+                <Button className="btn-success text-nowrap px-4 text-uppercase font-size-sm font-weight-bold">
+                  Get Introduced
+                </Button>
+              </Link>
+            </div>
+          </Card>
+        </Grid>
+      </Grid>
       <DashboardAnalytics1 />
-      <DashboardAnalytics2 />
-      <DashboardAnalytics3 />
-      <DashboardAnalytics4 />
-      <DashboardAnalytics5 />
-      <DashboardAnalytics6 />
+      <Table />
+      <Table />
     </>
   );
 }
