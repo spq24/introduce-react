@@ -1,5 +1,7 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { auth, authGoogle, authLinkedIn, authMicrosoft, useAuthState, useAuthDispatch } from 'context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Grid,
@@ -10,10 +12,70 @@ import {
   ListItem,
   TextField
 } from '@material-ui/core';
-
 import hero3 from '../../../assets/images/hero-bg/hero-5.jpg';
 
-export default function LivePreviewExample() {
+export default function SignUp() {
+  const dispatch = useAuthDispatch();
+  const userDetails = useAuthState();
+  const history = useHistory();
+  const [user, setUser] = useState({});
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  useEffect(() => {
+    if (userDetails && userDetails.credentials) {
+      axios.post(`/api/v1/auth/${userDetails.user.id}/validate-token`, {
+        token: userDetails.credentials['access-token'],
+        client: userDetails.credentials.client
+      }, {
+        headers: userDetails.credentials
+      })
+      .then(response => {
+        // TODO: send notification about already being logged in.
+        history.push('/dashboard')
+      })
+    }
+  }, [])
+
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    setUser({
+      ...user,
+      [name]: value
+    });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setDisableSubmit(true)
+
+    axios.post('/api/v1/users', {
+      user: user
+    }, {
+      'Content-Type': 'application/json'
+    })
+    .then(response => {
+      loginUser();
+    }).catch(error => {
+      setDisableSubmit(false)
+      console.log('error', error.response.data.message)
+    })
+  }
+
+  const loginUser = () => {
+    auth(dispatch, user.email, user.password)
+    .then(response => {
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   return (
     <>
       <div className="app-wrapper min-vh-100 bg-white">
@@ -40,13 +102,94 @@ export default function LivePreviewExample() {
                             Create account
                           </h1>
                           <p className="mb-0 text-black-50">
-                            Start benefiting from our tools right away!
+                            Let's Get You Connected!
                           </p>
                         </div>
                         <div className="px-5 py-4">
                           <div className="mb-3">
+                            <Grid container spacing={6}>
+                              <Grid item md={6}>
+                                <div>
+                                  <label className="font-weight-bold mb-2">
+                                    First name
+                                    </label>
+                                  <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Enter your first name"
+                                    name="first_name"
+                                    onChange={(e) => handleChange(e)}
+                                  />
+                                </div>
+                              </Grid>
+                              <Grid item md={6}>
+                                <div>
+                                  <label className="font-weight-bold mb-2">
+                                    Last name
+                                    </label>
+                                  <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Enter your last name"
+                                    name="last_name"
+                                    onChange={(e) => handleChange(e)}
+                                  />
+                                </div>
+                              </Grid>
+                            </Grid>
+                          </div>  <div className="mb-3">
+                            <Grid container spacing={6}>
+                              <Grid item md={6}>
+                                <div>
+                                  <label className="font-weight-bold mb-2">
+                                    First name
+                                    </label>
+                                  <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Enter your first name"
+                                    name="first_name"
+                                    onChange={(e) => handleChange(e)}
+                                  />
+                                </div>
+                              </Grid>
+                              <Grid item md={6}>
+                                <div>
+                                  <label className="font-weight-bold mb-2">
+                                    Last name
+                                    </label>
+                                  <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    placeholder="Enter your last name"
+                                    name="last_name"
+                                    onChange={(e) => handleChange(e)}
+                                  />
+                                </div>
+                              </Grid>
+                            </Grid>
+                          </div>
+                          <div className="mb-3">
                             <label className="font-weight-bold mb-2">
-                              Email address
+                              Your Work Title
+                            </label>
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              fullWidth
+                              placeholder="Enter your work title"
+                              type="title"
+                              name="title"
+                              onChange={ (e) => handleChange(e) }
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label className="font-weight-bold mb-2">
+                              Email
                             </label>
                             <TextField
                               variant="outlined"
@@ -54,6 +197,8 @@ export default function LivePreviewExample() {
                               fullWidth
                               placeholder="Enter your email address"
                               type="email"
+                              name="email"
+                              onChange={(e) => handleChange(e)}
                             />
                           </div>
                           <div className="mb-3">
@@ -68,43 +213,18 @@ export default function LivePreviewExample() {
                               fullWidth
                               placeholder="Enter your password"
                               type="password"
+                              name="password"
+                              onChange={(e) => handleChange(e)}
                             />
                           </div>
-                          <Grid container spacing={6}>
-                            <Grid item md={6}>
-                              <div>
-                                <label className="font-weight-bold mb-2">
-                                  First name
-                                </label>
-                                <TextField
-                                  variant="outlined"
-                                  size="small"
-                                  fullWidth
-                                  placeholder="Enter your first name"
-                                />
-                              </div>
-                            </Grid>
-                            <Grid item md={6}>
-                              <div>
-                                <label className="font-weight-bold mb-2">
-                                  Last name
-                                </label>
-                                <TextField
-                                  variant="outlined"
-                                  size="small"
-                                  fullWidth
-                                  placeholder="Enter your last name"
-                                />
-                              </div>
-                            </Grid>
-                          </Grid>
+
                           <div className="my-4">
                             By clicking the <strong>Create account</strong>{' '}
                             button below you agree to our terms of service and
                             privacy statement.
                           </div>
                           <div className="text-center mb-4">
-                            <Button className="btn-primary text-uppercase font-weight-bold font-size-sm my-3">
+                            <Button className="btn-primary text-uppercase font-weight-bold font-size-sm my-3" disabled={disableSubmit} onClick={ (e) => handleSubmit(e) }>
                               Create account
                             </Button>
                           </div>

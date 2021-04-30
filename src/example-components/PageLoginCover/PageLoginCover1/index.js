@@ -52,7 +52,6 @@ export default function Login() {
   }, [])
 
   useEffect(() => {
-    console.log('code 1', code)
     authMicrosoft(dispatch, code)
     .then(response => {
       if (response.currentUser && response.credentials) {
