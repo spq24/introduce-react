@@ -206,6 +206,7 @@ const Routes = () => {
       </>
     );
   };
+
   return (
     <ThemeProvider theme={MuiTheme}>
       <AuthProvider>

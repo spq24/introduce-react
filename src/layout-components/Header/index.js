@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuthState, logout, useAuthDispatch } from 'context'
 import {useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-
+import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
@@ -27,6 +27,21 @@ const Header = (props) => {
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
   };
+
+  useEffect(() => {
+    const userId = userDetails && userDetails.user ? userDetails.user.id : null
+    const credentials = userDetails && userDetails.credentials ? userDetails.credentials : null
+    if(!userId || !credentials) {
+      history.push('/login');
+      return;
+    }
+
+    axios.post(`api/v1/auth/${userId}/validate-token`, { client: credentials.client, token: credentials['access-token'] })
+         .catch(error => {
+           console.log('error', error.response)
+           history.push('/login')
+         })
+  }, [])
 
   const handleLogout = (e) => {
     e.preventDefault()
