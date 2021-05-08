@@ -9,6 +9,9 @@ import { NavLink } from 'react-router-dom';
 
 const Footer = (props) => {
   const { footerShadow, footerBgTransparent } = props;
+  const date = new Date();
+  const year = date.getFullYear();
+
   return (
     <>
       <div
@@ -17,7 +20,7 @@ const Footer = (props) => {
           'app-footer--opacity-bg': footerBgTransparent
         })}>
         <div className="app-footer--first">
-          <List
+          {/* <List
             component="div"
             className="nav-neutral-primary d-flex align-items-center">
             <ListItem
@@ -41,18 +44,12 @@ const Footer = (props) => {
               to="/Overview">
               <span>Overview</span>
             </ListItem>
-          </List>
+          </List> */}
         </div>
         <div className="app-footer--second">
-          <span>Bamburgh React Admin Dashboard with Material-UI PRO</span> ©
-          2020 - crafted with <span className="text-danger px-1">❤</span> by{' '}
-          <a
-            href="https://uifort.com"
-            target="_blank"
-            title="UiFort.com"
-            rel="noopener noreferrer">
-            UiFort.com
-          </a>
+          <span>Can You Introduce Me?</span> ©
+          {year} - crafted with <span className="text-danger px-1">❤</span> by{' '}
+          Steve Quatrani
         </div>
       </div>
     </>
