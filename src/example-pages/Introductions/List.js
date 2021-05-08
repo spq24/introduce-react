@@ -12,10 +12,7 @@ import Avatar from '@material-ui/core/Avatar/Avatar';
 
 export default function List(props) {
   const introductions = props.introductions
-  console.log('introductions', introductions)
-  if(!introductions) {
-    return
-  }
+
   return (
     <>
       <Card className="card-box mb-spacing-6-x2">
@@ -121,7 +118,13 @@ export default function List(props) {
           <div className="divider" />
           <div className="divider" />
           <div className="p-3 d-flex justify-content-center">
-            {/* <Pagination className="pagination-primary" count={10} /> */}
+            {
+              props.showPagination && props.pagination ?
+                  <Pagination
+                    className="pagination-primary"
+                    onChange={props.handlePageChange}
+                    count={props.pagination.total_pages} />: null
+            }
           </div>
         </CardContent>
       </Card>

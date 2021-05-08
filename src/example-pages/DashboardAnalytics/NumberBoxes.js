@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, Card } from '@material-ui/core';
 
 export default function NumberBoxes(props) {
-  console.log('props', props)
+
   return (
     <>
       <div className="mb-spacing-6">

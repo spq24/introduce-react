@@ -20,6 +20,8 @@ import {
 import DashboardMonitoring from './example-pages/DashboardMonitoring';
 import DashboardCommerce from './example-pages/DashboardCommerce';
 import DashboardAnalytics from './example-pages/DashboardAnalytics';
+import Introductions from './example-pages/Introductions';
+import IntroductionRequests from './example-pages/IntroductionRequests';
 import DashboardStatistics from './example-pages/DashboardStatistics';
 import ElementsAvatars from './example-pages/ElementsAvatars';
 import ElementsBadges from './example-pages/ElementsBadges';
@@ -257,7 +259,9 @@ const Routes = () => {
 
               <Route
                 path={[
-                  '/dashboard'
+                  '/dashboard',
+                  '/introductions',
+                  '/introduction-requests'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -270,6 +274,14 @@ const Routes = () => {
                       <Route
                         path="/dashboard"
                         component={DashboardAnalytics}
+                      />
+                      <Route
+                        exact path="/introductions"
+                        component={Introductions}
+                      />
+                      <Route
+                        exact path="/introduction-requests"
+                        component={IntroductionRequests}
                       />
                     </motion.div>
                   </Switch>
