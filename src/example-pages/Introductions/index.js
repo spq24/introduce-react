@@ -9,6 +9,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import List from './List';
+import MarketingCta from '../MarketingCta';
 
 export default function Introductions(props) {
   const userDetails = useAuthState();
@@ -41,6 +42,11 @@ export default function Introductions(props) {
 
   return (
     <>
+      <MarketingCta
+        text='Looking to get introduced to someone new? Let us help!'
+        type='success'
+        button='Get Introduced'
+        link='/new-introduction' />
       <List
         introductions={introductions}
         showPagination={true}

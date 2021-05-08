@@ -8,6 +8,7 @@ import Table from '../../example-components/Tables/Tables8';
 import Introductions from '../../example-pages/Introductions/List';
 import IntroductionRequests from '../../example-pages/IntroductionRequests/List';
 import { Card, Button, Grid } from '@material-ui/core';
+import MarketingCta from '../MarketingCta';
 
 export default function DashboardAnalytics() {
   const userDetails = useAuthState();
@@ -34,22 +35,12 @@ export default function DashboardAnalytics() {
 
   return (
     <>
-      <Grid container spacing={0}>
-        <Grid item md={12} className="d-flex justify-content-center">
-          <Card className="card-box bg-neutral-success p-3 p-xl-4 mb-10" style={{ marginBottom: '3rem' }}>
-            <div className="bg-composed-wrapper--content d-block text-center text-xl-left d-xl-flex justify-content-between align-items-center">
-              <p className="opacity-9 font=size-xl mr-0 mr-xl-3 mb-4 mb-xl-0">
-                Looking to get introduced to someone new? Let us help!
-              </p>
-              <Link to='/new-introduction'>
-                <Button className="btn-success text-nowrap px-4 text-uppercase font-size-sm font-weight-bold">
-                  Get Introduced
-                </Button>
-              </Link>
-            </div>
-          </Card>
-        </Grid>
-      </Grid>
+      <MarketingCta
+        text='Looking to get introduced to someone new? Let us help!'
+        type='success'
+        button='Get Introduced'
+        link='/new-introduction' />
+
       <NumberBoxes
         introductions={introductions}
         introductionRequests={introductionRequests}
