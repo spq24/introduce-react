@@ -21,6 +21,8 @@ import DashboardMonitoring from './example-pages/DashboardMonitoring';
 import DashboardCommerce from './example-pages/DashboardCommerce';
 import DashboardAnalytics from './example-pages/DashboardAnalytics';
 import Introductions from './example-pages/Introductions';
+import Introduction from './example-pages/Introductions/Introduction';
+import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
 import DashboardStatistics from './example-pages/DashboardStatistics';
 import ElementsAvatars from './example-pages/ElementsAvatars';
@@ -260,7 +262,9 @@ const Routes = () => {
               <Route
                 path={[
                   '/dashboard',
+                  '/new-introduction',
                   '/introductions',
+                  '/introductions/:id',
                   '/introduction-requests'
                 ]}>
                 <LeftSidebar>
@@ -276,8 +280,16 @@ const Routes = () => {
                         component={DashboardAnalytics}
                       />
                       <Route
+                        exact path="/new-introduction"
+                        component={NewIntroduction}
+                      />
+                      <Route
                         exact path="/introductions"
                         component={Introductions}
+                      />
+                      <Route
+                        exact path="/introductions/:id"
+                        component={Introduction}
                       />
                       <Route
                         exact path="/introduction-requests"

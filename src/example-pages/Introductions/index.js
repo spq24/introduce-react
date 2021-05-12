@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuthState } from 'context'
+import { useAuthState } from 'context';
 import { Link } from 'react-router-dom';
 import { PageTitle } from 'layout-components';
 import DashboardAnalytics1 from '../../example-components/DashboardAnalytics/DashboardAnalytics1';
