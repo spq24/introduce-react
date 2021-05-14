@@ -3,16 +3,27 @@ import axios from 'axios';
 import { useAuthState } from 'context';
 import { useParams } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
-
-import avatar1 from 'assets/images/avatars/avatar1.jpg';
-import avatar2 from 'assets/images/avatars/avatar2.jpg';
-import avatar6 from 'assets/images/avatars/avatar6.jpg';
-import people3 from 'assets/images/stock-photos/people-3.jpg';
-import people1 from 'assets/images/stock-photos/people-1.jpg';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 export default function Introductions(props) {
   const userDetails = useAuthState();
   const [introduction, setIntroduction] = useState([]);
+  const [introducerStatus, setIntroducerStatus] = useState({
+    title: '',
+    date: '',
+    description: ''
+  })
+  const [introduceeStatus, setIntroduceeStatus] = useState({
+    title: '',
+    date: '',
+    description: ''
+  })
+  const [status, setStatus] = useState({
+    title: '',
+    color: 'default',
+    date: null
+  })
   const { id } = useParams();
 
   useEffect(() => {
@@ -27,96 +38,140 @@ export default function Introductions(props) {
     })
   }, [])
 
+  useEffect(() => {
+    if(!introduction.introducer_sent_request) {
+      setIntroduceeStatus({
+        title: introduction.introducer ? `We are waiting on ${introduction.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
+        description: `Your introduction request has not been sent ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} yet`,
+        date: '',
+        color: 'arielle-smile'
+      })
+    } else if (introduction.introducee_rejected) {
+      setIntroduceeStatus({
+        title: introduction.introducee ? `${introduction.introducee.first_name} denied your introduction request` : 'Your introduction request was denied',
+        description: `Unfortunately, your request was denied${introduction.introducee ? ` by ${introduction.introducee.first_name}.` : '.'}`,
+        date: introduction.introducee_rejected_at,
+        color: 'danger'
+      })
+    } else if (introduction.introducee_accepted) {
+      setIntroduceeStatus({
+        title: introduction.introducee ? `${introduction.introducee.first_name} agreed to be introduced to you!` : 'Your introduction request was accepted!',
+        description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed ${introduction.introducer ? `to have${introduction.introducer.first_name}!` : 'to be introduced to you!'}`,
+        date: introduction.introducer_rejected_at,
+        color: 'success'
+      })
+    } else {
+      setIntroduceeStatus({
+        title: `A request was sent and we are waiting ot hear back`,
+        description: `${introduction.introducer ? `${introduction.introducer.first_name} has` : 'They have'} sent an introduction request to ${introduction.introducee ? introduction.introducee.first_name : 'to the person you asked to be introduced to!'}`,
+        date: introduction.introducer_sent_request_at,
+        color: 'arielle-smile'
+      })
+    }
+  }, [introduction])
+
+  useEffect(() => {
+    if (introduction.introducer_rejected) {
+      setIntroducerStatus({
+        title: introduction.introducer ? `${introduction.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
+        description: `Unfortunately, your request was denied. This is what they said in their reason: ${introduction.rejection_reason}`,
+        date: introduction.introducer_rejected_at,
+        color: 'danger'
+      })
+    } else if (introduction.introducer_accepted) {
+      setIntroducerStatus({
+        title: introduction.introducer ? `${introduction.introducer.first_name} agreed to introduce you ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}` : 'Your introduction request was accepted!',
+        description: `We will keep you updated as the status changes!`,
+        date: introduction.introducer_accepted_at,
+        color: 'success'
+      })
+    } else {
+      setIntroducerStatus({
+        title: `We sent your request and we are waiting to hear back`,
+        description: introduction.introducer ? `We are waiting to hear back from ${introduction.introducer.first_name} on your introduction request ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}. We will let you know when we hear anything!` : 'We are waiting to hear back on your introduction request. We will let you know when we hear something!',
+        date: introduction.created_at,
+        color: 'arielle-smile'
+      })
+    }
+  }, [introduction])
+
+  useEffect(() => {
+    if(introduction.introducer_rejected) {
+      setStatus({
+        title: 'Introducer Denied',
+        color: 'warning',
+        date: introduction.introducer_rejected_at
+      })
+    } else if(introduction.introducee_rejected) {
+      setStatus({
+        title: 'Introducee Denied',
+        color: 'danger',
+        date: introduction.introducee_rejected_at
+      })
+    } else if(introduction.completed) {
+      setStatus({
+        title: 'Complete',
+        color: 'success',
+        date: introduction.completed_at
+      })
+    } else {
+      setStatus({
+        title: 'Pending',
+        color: 'info',
+        date: null
+      })
+    }
+  }, [introduction])
+
   return (
     <Grid container spacing={6}>
       <Grid item lg={4}>
         <div className="timeline-list mb-5">
           <div className="timeline-item">
             <div className="timeline-item--content">
-              <div className="timeline-item--icon bg-success" />
+              <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
               <h4 className="timeline-item--label mb-2 font-weight-bold">
-                1991
-                </h4>
-              <p>The World Wide Web goes live with its first web page.</p>
+                Introduction Sent -<span>&nbsp;</span> <Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>
+              </h4>
+              <p>You asked {introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : ''} to introduce you to {introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}</p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-item--content">
-              <div className="timeline-item--icon bg-danger" />
+              <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
               <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Java exam day
-                </h4>
-              <p>Bill Clinton's presidential scandal makes it online.</p>
-              <div className="avatar-wrapper-overlap mt-2 mb-1">
-                <div className="avatar-icon-wrapper avatar-icon-sm">
-                  <div className="avatar-icon">
-                    <img alt="..." src={avatar1} />
-                  </div>
-                </div>
-                <div className="avatar-icon-wrapper avatar-icon-sm">
-                  <div className="avatar-icon">
-                    <img alt="..." src={avatar2} />
-                  </div>
-                </div>
-                <div className="avatar-icon-wrapper avatar-icon-sm">
-                  <div className="avatar-icon">
-                    <img alt="..." src={avatar6} />
-                  </div>
-                </div>
-              </div>
+                {introducerStatus.title} - <span>&nbsp;</span>{
+                  introducerStatus.date && introducerStatus.date.length > 0 ?
+                    <Moment format="MM/DD/YYYY">{introducerStatus.date}</Moment> : null
+                }
+              </h4>
+              <p>{introducerStatus.description}</p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-item--content">
-              <div className="timeline-item--icon bg-asteroid" />
+              <div className={`timeline-item--icon bg-${introduceeStatus.color}`} />
               <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Business investor meeting
-                </h4>
-              <p>
-                Mosaic, the first graphical browser, is introduced to the
-                  average consumer.
-                </p>
-              <div className="mt-3">
-                <a href="#/" onClick={(e) => e.preventDefault()}>
-                  <img
-                    alt="..."
-                    className="img-fluid rounded mr-3 shadow-sm"
-                    src={people1}
-                    width="70"
-                  />
-                </a>
-                <a href="#/" onClick={(e) => e.preventDefault()}>
-                  <img
-                    alt="..."
-                    className="img-fluid rounded shadow-sm"
-                    src={people3}
-                    width="70"
-                  />
-                </a>
-              </div>
+                {introduceeStatus.title} {introduceeStatus.date == '' ? '' : '-'}
+                {
+                  introduceeStatus.date && introduceeStatus.date.length > 0 ?
+                    <Moment format="MM/DD/YYYY">{introduceeStatus.date}</Moment> : null
+                }
+              </h4>
+              <p>{introduceeStatus.description}</p>
             </div>
           </div>
           <div className="timeline-item">
             <div className="timeline-item--content">
-              <div className="timeline-item--icon bg-arielle-smile" />
+              <div className={`timeline-item--icon bg-${status.color}`} />
               <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Learning round table gathering
-                </h4>
-              <p>First ever iPod launches.</p>
+                Status
+              </h4>
               <div className="mt-2">
-                <Button size="small" className="btn-primary">
-                  Submit Report
-                  </Button>
+                <Button size="small" className={`btn-${status.color}`}>
+                  {status.title}
+                </Button>
               </div>
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-item--content">
-              <div className="timeline-item--icon bg-warning" />
-              <h4 className="timeline-item--label mb-2 font-weight-bold">
-                2003
-                </h4>
-              <p>MySpace becomes the most popular social network.</p>
             </div>
           </div>
         </div>
