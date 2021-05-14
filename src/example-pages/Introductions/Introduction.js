@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuthState } from 'context';
 import { useParams } from 'react-router-dom';
-import { Grid, Button } from '@material-ui/core';
+import { Avatar, Card, Grid, Button, Tooltip  } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 import 'moment-timezone';
+
+import avatar2 from 'assets/images/avatars/avatar2.jpg';
+import avatar3 from 'assets/images/avatars/avatar3.jpg';
 
 export default function Introductions(props) {
   const userDetails = useAuthState();
@@ -12,12 +16,14 @@ export default function Introductions(props) {
   const [introducerStatus, setIntroducerStatus] = useState({
     title: '',
     date: '',
-    description: ''
+    description: '',
+    color: 'default'
   })
   const [introduceeStatus, setIntroduceeStatus] = useState({
     title: '',
     date: '',
-    description: ''
+    description: '',
+    color: 'default'
   })
   const [status, setStatus] = useState({
     title: '',
@@ -41,13 +47,15 @@ export default function Introductions(props) {
   useEffect(() => {
     if(!introduction.introducer_sent_request) {
       setIntroduceeStatus({
+        shortTitle: 'Waiting On Intro Request',
         title: introduction.introducer ? `We are waiting on ${introduction.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
         description: `Your introduction request has not been sent ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} yet`,
         date: '',
-        color: 'arielle-smile'
+        color: 'info'
       })
     } else if (introduction.introducee_rejected) {
       setIntroduceeStatus({
+        shortTitle: 'Denied',
         title: introduction.introducee ? `${introduction.introducee.first_name} denied your introduction request` : 'Your introduction request was denied',
         description: `Unfortunately, your request was denied${introduction.introducee ? ` by ${introduction.introducee.first_name}.` : '.'}`,
         date: introduction.introducee_rejected_at,
@@ -55,6 +63,7 @@ export default function Introductions(props) {
       })
     } else if (introduction.introducee_accepted) {
       setIntroduceeStatus({
+        shortTitle: 'Accepted',
         title: introduction.introducee ? `${introduction.introducee.first_name} agreed to be introduced to you!` : 'Your introduction request was accepted!',
         description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed ${introduction.introducer ? `to have${introduction.introducer.first_name}!` : 'to be introduced to you!'}`,
         date: introduction.introducer_rejected_at,
@@ -62,10 +71,11 @@ export default function Introductions(props) {
       })
     } else {
       setIntroduceeStatus({
-        title: `A request was sent and we are waiting ot hear back`,
+        shortTitle: 'Pending',
+        title: `A request was sent and we are waiting to hear back`,
         description: `${introduction.introducer ? `${introduction.introducer.first_name} has` : 'They have'} sent an introduction request to ${introduction.introducee ? introduction.introducee.first_name : 'to the person you asked to be introduced to!'}`,
         date: introduction.introducer_sent_request_at,
-        color: 'arielle-smile'
+        color: 'warning'
       })
     }
   }, [introduction])
@@ -73,6 +83,7 @@ export default function Introductions(props) {
   useEffect(() => {
     if (introduction.introducer_rejected) {
       setIntroducerStatus({
+        shortTitle: 'Rejected',
         title: introduction.introducer ? `${introduction.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
         description: `Unfortunately, your request was denied. This is what they said in their reason: ${introduction.rejection_reason}`,
         date: introduction.introducer_rejected_at,
@@ -80,6 +91,7 @@ export default function Introductions(props) {
       })
     } else if (introduction.introducer_accepted) {
       setIntroducerStatus({
+        shortTitle: 'Accepted',
         title: introduction.introducer ? `${introduction.introducer.first_name} agreed to introduce you ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}` : 'Your introduction request was accepted!',
         description: `We will keep you updated as the status changes!`,
         date: introduction.introducer_accepted_at,
@@ -87,10 +99,11 @@ export default function Introductions(props) {
       })
     } else {
       setIntroducerStatus({
+        shortTitle: 'Sent',
         title: `We sent your request and we are waiting to hear back`,
         description: introduction.introducer ? `We are waiting to hear back from ${introduction.introducer.first_name} on your introduction request ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}. We will let you know when we hear anything!` : 'We are waiting to hear back on your introduction request. We will let you know when we hear something!',
         date: introduction.created_at,
-        color: 'arielle-smile'
+        color: 'warning'
       })
     }
   }, [introduction])
@@ -165,7 +178,7 @@ export default function Introductions(props) {
             <div className="timeline-item--content">
               <div className={`timeline-item--icon bg-${status.color}`} />
               <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Status
+                Overall Status
               </h4>
               <div className="mt-2">
                 <Button size="small" className={`btn-${status.color}`}>
@@ -177,7 +190,55 @@ export default function Introductions(props) {
         </div>
       </Grid>
       <Grid item lg={8}>
-
+        <Grid container spacing={6}>
+          <Grid item lg={6}>
+            <Card className="card-box p-4 bg-night-sky text-white">
+              <div className="text-center">
+                <div className="avatar-icon-wrapper rounded-circle m-0">
+                  <Avatar>
+                    {introduction.introducer ? introduction.introducer.first_name[0] : 'NA'}
+                  </Avatar>
+                </div>
+                <h3 className="font-weight-bold mt-3">
+                  {
+                    introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : 'No Name'
+                  }
+                </h3>
+                <div className={`badge badge-${introducerStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                  {introducerStatus.shortTitle}
+                </div>
+                <p className="mb-0 text-white-50">
+                  You asked {`${introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name} for` : 'for'}`} an introduction. We reached out to them and we will keep you updated with the status of the introduction!
+                </p>
+              </div>
+            </Card>
+          </Grid>
+          <Grid item lg={6}>
+            <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '275px' }}>
+              <div className="text-center">
+                <div className="avatar-icon-wrapper rounded-circle m-0">
+                  <Avatar>
+                    {introduction.introducee ? introduction.introducee.first_name[0] : 'NA'}
+                  </Avatar>
+                </div>
+                <h3 className="font-weight-bold mt-3">
+                  {
+                    introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : 'No Name'
+                  }
+                </h3>
+                <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                  {introduceeStatus.shortTitle}
+                </div>
+                <p className="mb-0 text-white-50">
+                  You asked
+                  for an introduction to {
+                    `${introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}`
+                  }. We are working to make that happen!
+                </p>
+              </div>
+            </Card>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
