@@ -24,6 +24,8 @@ import Introductions from './example-pages/Introductions';
 import Introduction from './example-pages/Introductions/Introduction';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
+import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
+
 import DashboardStatistics from './example-pages/DashboardStatistics';
 import ElementsAvatars from './example-pages/ElementsAvatars';
 import ElementsBadges from './example-pages/ElementsBadges';
@@ -265,7 +267,8 @@ const Routes = () => {
                   '/new-introduction',
                   '/introductions',
                   '/introductions/:id',
-                  '/introduction-requests'
+                  '/introduction-requests',
+                  '/introduction-requests/:id'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -294,6 +297,10 @@ const Routes = () => {
                       <Route
                         exact path="/introduction-requests"
                         component={IntroductionRequests}
+                      />
+                      <Route
+                        exact path="/introduction-requests/:id"
+                        component={IntroductionRequest}
                       />
                     </motion.div>
                   </Switch>

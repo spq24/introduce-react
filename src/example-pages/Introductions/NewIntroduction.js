@@ -320,7 +320,7 @@ export default function NewIntroduction() {
               </Button>
                 <Button
                   className="btn-primary font-weight-bold"
-                  onClick={handleNext}>
+                  onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}>
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
               </div>
