@@ -25,6 +25,7 @@ import Introduction from './example-pages/Introductions/Introduction';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
 import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
+import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 
 import DashboardStatistics from './example-pages/DashboardStatistics';
 import ElementsAvatars from './example-pages/ElementsAvatars';
@@ -226,6 +227,7 @@ const Routes = () => {
                   '/linkedin',
                   '/sign-up',
                   '/forgot-password',
+                  '/new-introduction-request/:id',
                   '/reset-password',
                   '/PageError404',
                   '/PageError500',
@@ -252,6 +254,10 @@ const Routes = () => {
                       <Route
                         path="/reset-password"
                         component={PageResetPassword}
+                      />
+                      <Route
+                        exact path="/new-introduction-request/:id"
+                        component={PublicIntroductionRequest}
                       />
                       <Route path="/page-missing-error" component={PageError404} />
                       <Route path="/server-error-500" component={PageError500} />
@@ -302,6 +308,7 @@ const Routes = () => {
                         exact path="/introduction-requests/:id"
                         component={IntroductionRequest}
                       />
+
                     </motion.div>
                   </Switch>
                 </LeftSidebar>
