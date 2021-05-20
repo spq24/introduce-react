@@ -27,6 +27,7 @@ import IntroductionRequests from './example-pages/IntroductionRequests';
 import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
+import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/IntroduceePublicIntroduction';
 import UserProfile from './example-pages/Users/UserProfile';
 
 
@@ -232,6 +233,7 @@ const Routes = () => {
                   '/forgot-password',
                   '/new-introduction-request/:id',
                   '/requested-introduction/:id',
+                  '/introducee-requested-introduction/:id',
                   '/reset-password',
                   '/PageError404',
                   '/PageError500',
@@ -266,6 +268,10 @@ const Routes = () => {
                       <Route
                         exact path="/requested-introduction/:id"
                         component={IntroducerPublicIntroduction}
+                      />
+                      <Route
+                        exact path="/introducee-requested-introduction/:id"
+                        component={IntroduceePublicIntroduction}
                       />
                       <Route path="/page-missing-error" component={PageError404} />
                       <Route path="/server-error-500" component={PageError500} />

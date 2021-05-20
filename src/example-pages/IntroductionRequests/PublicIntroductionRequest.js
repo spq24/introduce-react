@@ -120,7 +120,7 @@ export default function PublicIntroductionRequest() {
                     </h1>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
                       Hello! I'd be happy to make an introduction if I am able to. <br />Please let me know who you would like to be introduced to and I will see if I can make it happen.
-                        </span>
+                    </span>
                   </Grid>
                 </Grid>
                 <Card className="rounded-sm modal-content p-3 bg-white-10">
