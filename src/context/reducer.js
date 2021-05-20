@@ -32,8 +32,25 @@ export const AuthReducer = (initialState, action) => {
         user: '',
         credentials: '',
       };
-
     case 'LOGIN_ERROR':
+      return {
+        ...initialState,
+        loading: false,
+        errorMessage: action.error,
+      };
+    case 'UPDATE_USER':
+      return {
+        ...initialState,
+        user: '',
+        loading: false,
+      };
+    case 'UPDATE_USER_SUCCESS':
+      return {
+        ...initialState,
+        user: action.payload.user,
+        loading: false,
+      };
+    case 'UPDATE_USER_ERROR':
       return {
         ...initialState,
         loading: false,

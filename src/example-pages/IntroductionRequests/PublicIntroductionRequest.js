@@ -28,7 +28,7 @@ export default function PublicIntroductionRequest() {
   const [introducer, setIntroducer] = useState({});
   const [requester, setRequester] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const { id } = useParams();
   const date = new Date();
   const year = date.getFullYear();

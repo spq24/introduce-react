@@ -26,6 +26,8 @@ import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
 import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
+import UserProfile from './example-pages/Users/UserProfile';
+
 
 import DashboardStatistics from './example-pages/DashboardStatistics';
 import ElementsAvatars from './example-pages/ElementsAvatars';
@@ -274,7 +276,8 @@ const Routes = () => {
                   '/introductions',
                   '/introductions/:id',
                   '/introduction-requests',
-                  '/introduction-requests/:id'
+                  '/introduction-requests/:id',
+                  '/users/:id'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -307,6 +310,10 @@ const Routes = () => {
                       <Route
                         exact path="/introduction-requests/:id"
                         component={IntroductionRequest}
+                      />
+                      <Route
+                        exact path="/users/:id"
+                        component={UserProfile}
                       />
 
                     </motion.div>

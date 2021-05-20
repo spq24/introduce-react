@@ -65,22 +65,11 @@ const HeaderUserbox = (props) => {
         {
           props.user && props.user.image && props.user.image.url ?
             <div className="d-block p-0 avatar-icon-wrapper">
-              <StyledBadge
-                overlap="circle"
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right'
-                }}
-                badgeContent=" "
-                classes={{ badge: 'bg-success badge-circle border-0' }}
-                variant="dot">
-                <div className="avatar-icon rounded">
-                  <img src={props.user.image.url} alt={`${props.user.first_name} ${props.user.last_name}`} />
-                </div>
-              </StyledBadge>
+              <div className="avatar-icon rounded">
+                <img src={props.user.image.url} alt={`${props.user.first_name} ${props.user.last_name}`} />
+              </div>
             </div> : null
         }
-
 
         <div className="d-none d-xl-block pl-2">
           <div className="font-weight-bold pt-2 line-height-1">{props.user.first_name} {props.user.last_name}</div>
@@ -115,7 +104,9 @@ const HeaderUserbox = (props) => {
             component="div"
             className="nav-neutral-primary text-left d-block px-3 pb-3">
             <ListItem button className="d-block text-left">
-              Profile
+              <Link to={`/users/${props.user.id}`}>
+                Profile
+              </Link>
             </ListItem>
           </List>
           <Divider className="w-100" />

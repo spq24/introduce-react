@@ -107,8 +107,6 @@ export async function authMicrosoft(dispatch, code) {
       return;
     }
 
-    console.log('code actions', code)
-
     return axios.post(`/api/v1/social-auth/from-microsoft`, {
       microsoft_response: {
         code: code
@@ -148,4 +146,18 @@ export async function logout(dispatch) {
                 return false
               })
 
+}
+
+export async function updateUser(dispatch, user) {
+  dispatch({ type: 'UPDATE_USER' });
+  console.log('user dispatch', user)
+
+  if (user) {
+    dispatch({ type: 'UPDATE_USER_SUCCESS', payload: { user: user } });
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    return { user: user };
+  } else {
+    dispatch({ type: 'UPDATE_USER_ERROR', error: 'error updating user' })
+    return
+  }
 }
