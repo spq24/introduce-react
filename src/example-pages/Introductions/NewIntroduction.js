@@ -247,7 +247,7 @@ export default function NewIntroduction() {
                               name="first_name"
                               variant="outlined"
                               value={introducer.first_name}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              onChange={(e) => handleIntroducerChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -257,7 +257,7 @@ export default function NewIntroduction() {
                               name="last_name"
                               variant="outlined"
                               value={introducer.last_name}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              onChange={(e) => handleIntroducerChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -268,7 +268,7 @@ export default function NewIntroduction() {
                               name="email"
                               variant="outlined"
                               value={introducer.email}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              onChange={(e) => handleIntroducerChange(e)}
                             />
                           </Grid>
                           <Grid item md={12}>
@@ -280,7 +280,7 @@ export default function NewIntroduction() {
                               variant="outlined"
                               name="requester_introducer_message"
                               value={introducer.requester_introducer_message}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              onChange={(e) => handleIntroducerChange(e)}
                             />
                             <FormHelperText>Make your case for why the person you are asking should make the introduction</FormHelperText>
                           </Grid>

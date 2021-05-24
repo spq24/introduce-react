@@ -30,6 +30,8 @@ export default function PublicIntroductionRequest() {
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
   const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
+  const params = new URLSearchParams(window.location.search)
+  let status = params.get('status')
   const { id } = useParams();
   const date = new Date();
   const year = date.getFullYear();
@@ -44,6 +46,14 @@ export default function PublicIntroductionRequest() {
              document.title = `${response.data.introduction.introduction_requester.first_name} ${response.data.introduction.introduction_requester.last_name} requested an introduction to ${response.data.introduction.introducee.first_name} ${response.data.introduction.introducee.last_name}`
              if (intro.completed || intro.introducer_rejected || intro.introducer_accepted) {
                setHandled(true)
+             }
+
+             if(status && status.length > 0) {
+               if(status === 'accepted') {
+                 setAcceptRejectStatus('accepted')
+               } else if(status === 'denied'){
+                 setAcceptRejectStatus('denied')
+               }
              }
            })
            .catch(error => {
@@ -213,7 +223,7 @@ export default function PublicIntroductionRequest() {
                                 <Grid item md={12}>
                                   <TextField
                                     fullWidth
-                                    label={`Let ${introduction.introduction_requester.first_name} know why you can not make this introduction`}
+                                    label={`Let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know why you can not make this introduction`}
                                     multiline
                                     rows={4}
                                     variant="outlined"
@@ -231,7 +241,7 @@ export default function PublicIntroductionRequest() {
                                   <Grid item md={12}>
                                     <TextField
                                       fullWidth
-                                      label={`What would is ${introduction.introducee.first_name} ${introduction.introducee.last_name}'s email?`}
+                                      label={`What is ${introduction.introducee.first_name} ${introduction.introducee.last_name}'s email?`}
                                       variant="outlined"
                                       type="email"
                                       name="introducee_email"
@@ -242,7 +252,7 @@ export default function PublicIntroductionRequest() {
                                   <Grid item md={12}>
                                     <TextField
                                       fullWidth
-                                      label={`What would you like to say to ${introduction.introducee.first_name} ${introduction.introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.first_name} know why you can not make this introduction`}
+                                      label={`What would you like to say to ${introduction.introducee.first_name} ${introduction.introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}?`}
                                       multiline
                                       rows={4}
                                       variant="outlined"

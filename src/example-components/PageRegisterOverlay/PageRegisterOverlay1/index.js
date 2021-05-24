@@ -112,7 +112,7 @@ export default function SignUp() {
                                 <div>
                                   <label className="font-weight-bold mb-2">
                                     First name
-                                    </label>
+                                  </label>
                                   <TextField
                                     variant="outlined"
                                     size="small"
@@ -127,40 +127,7 @@ export default function SignUp() {
                                 <div>
                                   <label className="font-weight-bold mb-2">
                                     Last name
-                                    </label>
-                                  <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    placeholder="Enter your last name"
-                                    name="last_name"
-                                    onChange={(e) => handleChange(e)}
-                                  />
-                                </div>
-                              </Grid>
-                            </Grid>
-                          </div>  <div className="mb-3">
-                            <Grid container spacing={6}>
-                              <Grid item md={6}>
-                                <div>
-                                  <label className="font-weight-bold mb-2">
-                                    First name
-                                    </label>
-                                  <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    placeholder="Enter your first name"
-                                    name="first_name"
-                                    onChange={(e) => handleChange(e)}
-                                  />
-                                </div>
-                              </Grid>
-                              <Grid item md={6}>
-                                <div>
-                                  <label className="font-weight-bold mb-2">
-                                    Last name
-                                    </label>
+                                  </label>
                                   <TextField
                                     variant="outlined"
                                     size="small"

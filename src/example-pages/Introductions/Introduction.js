@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuthState } from 'context';
 import { useParams } from 'react-router-dom';
-import { Avatar, Card, Grid, Button, Tooltip  } from '@material-ui/core';
+import { Avatar, Card, Grid, Button, Tooltip } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -136,110 +136,113 @@ export default function Introductions(props) {
     }
   }, [introduction])
 
+
   return (
-    <Grid container spacing={6}>
-      <Grid item lg={4}>
-        <div className="timeline-list mb-5">
-          <div className="timeline-item">
-            <div className="timeline-item--content">
-              <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
-              <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Introduction Sent -<span>&nbsp;</span> <Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>
-              </h4>
-              <p>You asked {introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : ''} to introduce you to {introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}</p>
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-item--content">
-              <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
-              <h4 className="timeline-item--label mb-2 font-weight-bold">
-                {introducerStatus.title} - <span>&nbsp;</span>{
-                  introducerStatus.date && introducerStatus.date.length > 0 ?
-                    <Moment format="MM/DD/YYYY">{introducerStatus.date}</Moment> : null
-                }
-              </h4>
-              <p>{introducerStatus.description}</p>
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-item--content">
-              <div className={`timeline-item--icon bg-${introduceeStatus.color}`} />
-              <h4 className="timeline-item--label mb-2 font-weight-bold">
-                {introduceeStatus.title} {introduceeStatus.date == '' ? '' : '-'}
-                {
-                  introduceeStatus.date && introduceeStatus.date.length > 0 ?
-                    <Moment format="MM/DD/YYYY">{introduceeStatus.date}</Moment> : null
-                }
-              </h4>
-              <p>{introduceeStatus.description}</p>
-            </div>
-          </div>
-          <div className="timeline-item">
-            <div className="timeline-item--content">
-              <div className={`timeline-item--icon bg-${status.color}`} />
-              <h4 className="timeline-item--label mb-2 font-weight-bold">
-                Overall Status
-              </h4>
-              <div className="mt-2">
-                <Button size="small" className={`btn-${status.color}`}>
-                  {status.title}
-                </Button>
+    <>
+      <Grid container spacing={6}>
+        <Grid item lg={4}>
+          <div className="timeline-list mb-5">
+            <div className="timeline-item">
+              <div className="timeline-item--content">
+                <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
+                <h4 className="timeline-item--label mb-2 font-weight-bold">
+                  Introduction Sent -<span>&nbsp;</span> <Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>
+                </h4>
+                <p>You asked {introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : ''} to introduce you to {introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}</p>
               </div>
             </div>
-          </div>
-        </div>
-      </Grid>
-      <Grid item lg={8}>
-        <Grid container spacing={6}>
-          <Grid item lg={6}>
-            <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '275px' }}>
-              <div className="text-center">
-                <div className="avatar-icon-wrapper rounded-circle m-0">
-                  <Avatar>
-                    {introduction.introducer ? introduction.introducer.first_name[0] : 'NA'}
-                  </Avatar>
-                </div>
-                <h3 className="font-weight-bold mt-3">
-                  {
-                    introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : 'No Name'
+            <div className="timeline-item">
+              <div className="timeline-item--content">
+                <div className={`timeline-item--icon bg-${introducerStatus.color}`} />
+                <h4 className="timeline-item--label mb-2 font-weight-bold">
+                  {introducerStatus.title} - <span>&nbsp;</span>{
+                    introducerStatus.date && introducerStatus.date.length > 0 ?
+                      <Moment format="MM/DD/YYYY">{introducerStatus.date}</Moment> : null
                   }
-                </h3>
-                <div className={`badge badge-${introducerStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                  {introducerStatus.shortTitle}
-                </div>
-                <p className="mb-0 text-white-50">
-                  You asked {`${introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name} for` : 'for'}`} an introduction. We reached out to them and we will keep you updated with the status of the introduction!
-                </p>
+                </h4>
+                <p>{introducerStatus.description}</p>
               </div>
-            </Card>
-          </Grid>
-          <Grid item lg={6}>
-            <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '275px' }}>
-              <div className="text-center">
-                <div className="avatar-icon-wrapper rounded-circle m-0">
-                  <Avatar>
-                    {introduction.introducee ? introduction.introducee.first_name[0] : 'NA'}
-                  </Avatar>
-                </div>
-                <h3 className="font-weight-bold mt-3">
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-item--content">
+                <div className={`timeline-item--icon bg-${introduceeStatus.color}`} />
+                <h4 className="timeline-item--label mb-2 font-weight-bold">
+                  {introduceeStatus.title} {introduceeStatus.date == '' ? '' : '-'}
                   {
-                    introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : 'No Name'
+                    introduceeStatus.date && introduceeStatus.date.length > 0 ?
+                      <Moment format="MM/DD/YYYY">{introduceeStatus.date}</Moment> : null
                   }
-                </h3>
-                <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                  {introduceeStatus.shortTitle}
-                </div>
-                <p className="mb-0 text-white-50">
-                  You asked
-                  for an introduction to {
-                    `${introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}`
-                  }. We are working to make that happen!
-                </p>
+                </h4>
+                <p>{introduceeStatus.description}</p>
               </div>
-            </Card>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-item--content">
+                <div className={`timeline-item--icon bg-${status.color}`} />
+                <h4 className="timeline-item--label mb-2 font-weight-bold">
+                  Overall Status
+                </h4>
+                <div className="mt-2">
+                  <Button size="small" className={`btn-${status.color}`}>
+                    {status.title}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Grid>
+        <Grid item lg={8}>
+          <Grid container spacing={6}>
+            <Grid item lg={6}>
+              <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '275px' }}>
+                <div className="text-center">
+                  <div className="avatar-icon-wrapper rounded-circle m-0">
+                    <Avatar>
+                      {introduction.introducer ? introduction.introducer.first_name[0] : 'NA'}
+                    </Avatar>
+                  </div>
+                  <h3 className="font-weight-bold mt-3">
+                    {
+                      introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : 'No Name'
+                    }
+                  </h3>
+                  <div className={`badge badge-${introducerStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                    {introducerStatus.shortTitle}
+                  </div>
+                  <p className="mb-0 text-white-50">
+                    You asked {`${introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name} for` : 'for'}`} an introduction. We reached out to them and we will keep you updated with the status of the introduction!
+                  </p>
+                </div>
+              </Card>
+            </Grid>
+            <Grid item lg={6}>
+              <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '275px' }}>
+                <div className="text-center">
+                  <div className="avatar-icon-wrapper rounded-circle m-0">
+                    <Avatar>
+                      {introduction.introducee ? introduction.introducee.first_name[0] : 'NA'}
+                    </Avatar>
+                  </div>
+                  <h3 className="font-weight-bold mt-3">
+                    {
+                      introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : 'No Name'
+                    }
+                  </h3>
+                  <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                    {introduceeStatus.shortTitle}
+                  </div>
+                  <p className="mb-0 text-white-50">
+                    You asked
+                    for an introduction to {
+                      `${introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}`
+                    }. We are working to make that happen!
+                  </p>
+                </div>
+              </Card>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
