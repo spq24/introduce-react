@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { auth, authGoogle, authLinkedIn, authMicrosoft, useAuthState, useAuthDispatch } from 'context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,6 +12,9 @@ import {
   ListItem,
   TextField
 } from '@material-ui/core';
+import GoogleLogin from 'react-google-login';
+import { LinkedIn } from 'react-linkedin-login-oauth2';
+import MicrosoftLogin from "react-microsoft-login";
 import hero3 from '../../../assets/images/hero-bg/hero-5.jpg';
 
 export default function SignUp() {
@@ -20,6 +23,10 @@ export default function SignUp() {
   const history = useHistory();
   const [user, setUser] = useState({});
   const [disableSubmit, setDisableSubmit] = useState(false);
+  const [code, setCode] = useState('');
+  let url = ''
+  const date = new Date();
+  const year = date.getFullYear();
 
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
@@ -34,7 +41,35 @@ export default function SignUp() {
         history.push('/dashboard')
       })
     }
+
+    let hostname = window.location.hostname
+    let protocol = window.location.protocol
+    let port = window.location.port
+    if (hostname === 'localhost') {
+      url = `${protocol}//${hostname}:${port}`
+    } else {
+      url = `${protocol}//${hostname}`
+    }
   }, [])
+
+  useEffect(() => {
+    const codeString = window.location.search.split('code=')[1]
+    if (codeString) {
+      setCode(codeString.split('&')[0])
+    }
+  }, [])
+
+  useEffect(() => {
+    authMicrosoft(dispatch, code)
+      .then(response => {
+        if (response.currentUser && response.credentials) {
+          history.push('/dashboard')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [code])
 
 
   const handleChange = (e) => {
@@ -74,6 +109,30 @@ export default function SignUp() {
     .catch(error => {
       console.log(error)
     })
+  }
+
+  const handleGoogleLogin = (payload) => {
+    authGoogle(dispatch, payload.code)
+    .then(response => {
+      if (response.currentUser && response.credentials) {
+        history.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const handleLinkedinLogin = (payload) => {
+    authLinkedIn(dispatch, payload.code)
+      .then(response => {
+        if (response.currentUser && response.credentials) {
+          history.push('/dashboard')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
@@ -204,63 +263,81 @@ export default function SignUp() {
                         <div className="p-3">
                           <div className="p-4">
                             <div className="d-block d-xl-flex">
-                              <div className="mt-0 mt-xl-1 mb-md-2 mb-lg-0">
-                                <FontAwesomeIcon
-                                  icon={['far', 'heart']}
-                                  className="font-size-xl text-first"
-                                />
-                              </div>
                               <div className="pl-0 pl-xl-3">
                                 <div className="text-black font-weight-bold font-size-lg mb-1">
-                                  Widgets
+                                  Create Your Account With A Service
                                 </div>
-                                <p className="mb-0 text-black-50">
-                                  You can build unlimited layout styles using
-                                  any of the 500+ included components and
-                                  elements. Powerful, unique template built for
-                                  React and Material-UI.
-                                </p>
+                                <GoogleLogin
+                                  clientId="76583804160-hikjh5kp20nqpu701d17hemqum1mfbnt.apps.googleusercontent.com"
+                                  onSuccess={handleGoogleLogin}
+                                  onFailure={handleGoogleLogin}
+                                  responseType='code'
+                                  accessType='offline'
+                                  render={renderProps => (
+                                    <Button className="btn-google m-2" onClick={renderProps.onClick}>
+                                      <span className="btn-wrapper--icon">
+                                        <FontAwesomeIcon
+                                          icon={['fab', 'google']}
+                                          className="font-size-lg"
+                                        />
+                                      </span>
+                                      <span className="btn-wrapper--label">Sign Up With Google</span>
+                                    </Button>
+                                  )}
+                                />
                               </div>
                             </div>
                           </div>
                           <div className="p-4">
                             <div className="d-block d-xl-flex">
-                              <div className="mt-0 mt-xl-1 mb-md-2 mb-lg-0">
-                                <FontAwesomeIcon
-                                  icon={['far', 'lightbulb']}
-                                  className="font-size-xl text-first"
-                                />
-                              </div>
                               <div className="pl-0 pl-xl-3">
-                                <div className="text-black font-weight-bold font-size-lg mb-1">
-                                  Components
-                                </div>
-                                <p className="mb-0 text-black-50">
-                                  View any of the 5+ live previews we&#39;ve set
-                                  up to learn why this dashboard template is the
-                                  last one you&#39;ll ever need!
-                                </p>
+                              <LinkedIn
+                                clientId="77kyaj6hcodakv"
+                                onFailure={handleLinkedinLogin}
+                                onSuccess={handleLinkedinLogin}
+                                scope='r_liteprofile r_emailaddress'
+                                redirectUri={`${url}/linkedin`}
+                                renderElement={({ onClick, disabled }) => (
+                                  <Button className="btn-linkedin m-2" onClick={onClick} disabled={disabled}>
+                                    <span className="btn-wrapper--icon">
+                                      <FontAwesomeIcon
+                                        icon={['fab', 'linkedin']}
+                                        className="font-size-lg"
+                                      />
+                                    </span>
+                                    <span className="btn-wrapper--label">Sign Up With LinkedIn</span>
+                                  </Button>
+                                )}
+                              />
                               </div>
                             </div>
                           </div>
                           <div className="p-4">
                             <div className="d-block d-xl-flex">
-                              <div className="mt-0 mt-xl-1 mb-md-2 mb-lg-0">
-                                <FontAwesomeIcon
-                                  icon={['far', 'user']}
-                                  className="font-size-xl text-first"
-                                />
-                              </div>
                               <div className="pl-0 pl-xl-3">
-                                <div className="text-black font-weight-bold font-size-lg mb-1">
-                                  Elements
+                                <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
+                                  <Button className="btn-microsoft m-2">
+                                    <span className="btn-wrapper--icon">
+                                      <FontAwesomeIcon
+                                        icon={['fab', 'microsoft']}
+                                        className="font-size-lg"
+                                      />
+                                    </span>
+                                    <span className="btn-wrapper--label">Sign Up With Microsoft</span>
+                                  </Button>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-4">
+                            <div className="d-block d-xl-flex">
+                              <div className="pl-0 pl-xl-3">
+                                <div className="text-center text-black-50 mt-3">
+                                  Already have account?{' '}
+                                  <Link to='/login' className="text-first">
+                                    Sign in
+                                  </Link>
                                 </div>
-                                <p className="mb-0 text-black-50">
-                                  You can build unlimited layout styles using
-                                  any of the 500+ included components and
-                                  elements. Powerful, unique template built for
-                                  React and Material-UI.
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -276,7 +353,7 @@ export default function SignUp() {
             <Container>
               <div className="py-3 d-block d-lg-flex font-size-xs justify-content-between">
                 <div className="text-center d-block mb-3 mb-md-0 text-white">
-                  Copyright &copy; 2020 - UiFort.com
+                  Copyright &copy; {year} - Can You Intro Me
                 </div>
                 <List
                   component="div"

@@ -28,6 +28,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  let url = ''
 
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
@@ -41,6 +42,15 @@ export default function Login() {
         // TODO: send notification about already being logged in.
         history.push('/dashboard')
       })
+    }
+
+    let hostname = window.location.hostname
+    let protocol = window.location.protocol
+    let port = window.location.port
+    if(hostname === 'localhost') {
+      url = `${protocol}//${hostname}:${port}`
+    } else {
+      url = `${protocol}//${hostname}`
     }
   }, [])
 
@@ -158,7 +168,7 @@ export default function Login() {
                               onFailure={handleLinkedinLogin}
                               onSuccess={handleLinkedinLogin}
                               scope='r_liteprofile r_emailaddress'
-                              redirectUri={`http://localhost:3000/linkedin`}
+                              redirectUri={`${url}/linkedin`}
                               renderElement={({ onClick, disabled }) => (
                                 <Button
                                   className="m-2 btn-pill px-4 font-weight-bold btn-linkedin"
@@ -175,7 +185,7 @@ export default function Login() {
                               )}
                             />
 
-                            <a href='https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=http%3A%2F%2Flocalhost:3000%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20'>
+                            <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
                               <Button
                                 className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
                                 size="small">
