@@ -17,7 +17,7 @@ import {
   Avatar
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-
+import Loader from '../../example-components/Loader';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
@@ -116,7 +116,7 @@ export default function PublicIntroductionRequest() {
                   </Grid>
                   <Card className="rounded-sm modal-content p-3 bg-white-10">
                     <Card className="rounded-sm overflow-hidden shadow-xxl font-size-sm p-3 p-sm-0">
-                      <h2>Loading...</h2>
+                      <Loader />
                     </Card>
                   </Card>
                 </Container>
@@ -143,7 +143,7 @@ export default function PublicIntroductionRequest() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                      {`Hey ${introduction.introducer.first_name}`},<br /> {`${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} was wondering if you could make an introduction to ${introduction.introducee.first_name} ${introduction.introducee.last_name}!`}
+                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction to ${introduction && introduction.introducee ? introduction.introducee.first_name : ''} ${introduction && introduction.introducee ? introduction.introducee.last_name : ''}!`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
