@@ -139,7 +139,6 @@ export async function logout(dispatch) {
   localStorage.removeItem('credentials');
   return axios.delete(`/auth/sign_out`, {}, { headers: credentials })
               .then(response => {
-                console.log('removing...')
                 return true
               })
               .catch(error => {
@@ -150,7 +149,6 @@ export async function logout(dispatch) {
 
 export async function updateUser(dispatch, user) {
   dispatch({ type: 'UPDATE_USER' });
-  console.log('user dispatch', user)
 
   if (user) {
     dispatch({ type: 'UPDATE_USER_SUCCESS', payload: { user: user } });

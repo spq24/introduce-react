@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuthState, useAuthDispatch, updateUser } from 'context';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NotificationManager } from 'react-notifications';
 import {
   Grid,
   Container,
@@ -69,7 +70,9 @@ export default function UserProfile() {
            }
          })
          .catch(error => {
-           console.log('error 1', error.response)
+           let  message = error && error.response && error.response.data && error.response.data.message ?
+             error.response.data.message : 'There was an error. Please try again!'
+           NotificationManager.error(message)
          })
   }, [])
 
@@ -89,13 +92,14 @@ export default function UserProfile() {
     }, {
       headers: userDetails.credentials
     }).then(response => {
-      // TODO: notification
-      console.log('response.data.user', response.data.user)
+      NotificationManager.success('Successfully updated!')
       updateUser(dispatch, response.data.user)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      console.log('error 2', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 
@@ -168,17 +172,16 @@ export default function UserProfile() {
       if(response.data.user.image && response.data.user.image.url) {
         setFiles([...files, { preview :response.data.user.image.url }])
       }
-      //NotificationManager.info('Updated your profile image!')
+      NotificationManager.info('Updated your profile image!')
     })
     .catch(error => {
-      // let message = error.response && error.response.data && error.response.data.message ?
-      //   error.response.data.message : 'There was a problem uploading your profile image'
-      // NotificationManager.error(message);
+      let message = error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was a problem uploading your profile image'
+      NotificationManager.error(message);
       setUser({
         ...user,
         'image': ''
       });
-      //setUploadingAvatar(false)
     })
   };
 

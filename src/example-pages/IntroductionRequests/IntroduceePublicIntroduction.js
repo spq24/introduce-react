@@ -17,7 +17,7 @@ import {
   Avatar
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-
+import { NotificationManager } from 'react-notifications';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
@@ -30,6 +30,8 @@ export default function IntroduceePublicIntroduction() {
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
   const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
+  const params = new URLSearchParams(window.location.search)
+  let status = params.get('status')
   const { id } = useParams();
   const date = new Date();
   const year = date.getFullYear();
@@ -44,6 +46,14 @@ export default function IntroduceePublicIntroduction() {
              document.title = `${response.data.introduction.introduction_requester.first_name} ${response.data.introduction.introduction_requester.last_name} requested an introduction to ${response.data.introduction.introducee.first_name} ${response.data.introduction.introducee.last_name}`
              if (intro.completed || intro.introducer_rejected || intro.introducee_rejected || intro.introducee_accepted) {
                setHandled(true)
+             }
+
+             if (status && status.length > 0) {
+               if (status === 'accepted') {
+                 setAcceptRejectStatus('accepted')
+               } else if (status === 'denied') {
+                 setAcceptRejectStatus('denied')
+               }
              }
            })
            .catch(error => {
@@ -75,12 +85,14 @@ export default function IntroduceePublicIntroduction() {
         status: acceptRejectStatus
       },
     ).then(response => {
-      // TODO: notification
+      NotificationManager.success('Successfully submitted!')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.danger(message)
     })
   }
 

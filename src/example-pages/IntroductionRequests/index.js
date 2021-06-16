@@ -9,6 +9,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import List from './List';
+import { NotificationManager } from 'react-notifications';
 
 export default function IntroductionRequests(props) {
   const userDetails = useAuthState();
@@ -25,9 +26,12 @@ export default function IntroductionRequests(props) {
       headers: userDetails.credentials
     })
     .then(response => {
-      console.log('response', response)
       setPagination(response.data.pagination)
       setIntroductionRequests(response.data.introduction_requests)
+    }).catch(error => {
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

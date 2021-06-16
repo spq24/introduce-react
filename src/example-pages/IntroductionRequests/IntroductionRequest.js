@@ -7,7 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 import 'moment-timezone';
-
+import { NotificationManager } from 'react-notifications';
 import avatar2 from 'assets/images/avatars/avatar2.jpg';
 import avatar3 from 'assets/images/avatars/avatar3.jpg';
 
@@ -49,7 +49,9 @@ export default function IntroductionRequest(props) {
       }
     })
     .catch(error => {
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }, [])
 
@@ -169,12 +171,14 @@ export default function IntroductionRequest(props) {
         status: acceptRejectStatus
       },
     ).then(response => {
-      // TODO: notification
+      NotificationManager.success('Successfully Submitted')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

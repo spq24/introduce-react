@@ -17,7 +17,7 @@ import {
   Avatar
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-
+import { NotificationManager } from 'react-notifications';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
@@ -42,7 +42,9 @@ export default function PublicIntroductionRequest() {
              document.title = `Request An Introduction From ${user.first_name} ${user.last_name}`
            })
            .catch(error => {
-             console.log('error', error.response)
+             let message = error && error.response && error.response.data && error.response.data.message ?
+               error.response.data.message : 'There was an error. Please try again!'
+             NotificationManager.error(message)
            })
     }
   }, [])
@@ -76,12 +78,14 @@ export default function PublicIntroductionRequest() {
     axios.post('/api/v1/new-introduction-request',
       intro,
     ).then(response => {
-      // TODO: notification
+      NotificationManager.success('Successfully Submitted. Email sent to introducer to ask for permission.')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      console.log('error', error.response)
+      let message = error && error.response && error.response.message && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

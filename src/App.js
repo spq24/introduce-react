@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import Routes from './Routes';
 import ScrollToTop from './utils/ScrollToTop';
 import './assets/base.scss';
-
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   fab,
@@ -260,6 +261,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <NotificationContainer />
         <BrowserRouter>
           <ScrollToTop>
             <Routes />

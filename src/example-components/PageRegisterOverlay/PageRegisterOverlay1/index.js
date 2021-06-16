@@ -12,6 +12,7 @@ import {
   ListItem,
   TextField
 } from '@material-ui/core';
+import { NotificationManager } from 'react-notifications';
 import GoogleLogin from 'react-google-login';
 import { LinkedIn } from 'react-linkedin-login-oauth2';
 import MicrosoftLogin from "react-microsoft-login";
@@ -37,7 +38,7 @@ export default function SignUp() {
         headers: userDetails.credentials
       })
       .then(response => {
-        // TODO: send notification about already being logged in.
+        NotificationManager.info('You are already logged in!')
         history.push('/dashboard')
       })
     }
@@ -67,7 +68,9 @@ export default function SignUp() {
         }
       })
       .catch(error => {
-        console.log(error)
+        let message = error && error.response && error.response.data && error.response.data.message ?
+          error.response.data.message : 'There was an error. Please try again!'
+        NotificationManager.error(message)
       })
   }, [code])
 
@@ -95,7 +98,9 @@ export default function SignUp() {
       loginUser();
     }).catch(error => {
       setDisableSubmit(false)
-      console.log('error', error.response.data.message)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+       NotificationManager.error(message)
     })
   }
 
@@ -107,7 +112,9 @@ export default function SignUp() {
       }
     })
     .catch(error => {
-      console.log(error)
+      let message = error && error.response && error.response.message && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 
@@ -119,7 +126,9 @@ export default function SignUp() {
       }
     })
     .catch(error => {
-      console.log(error)
+      let message = error && error.response && error.response.message && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 
@@ -131,7 +140,9 @@ export default function SignUp() {
         }
       })
       .catch(error => {
-        console.log(error)
+        let message = error && error.response && error.response.message && error.response.data.message ?
+          error.response.data.message : 'There was an error. Please try again!'
+        NotificationManager.error(message)
       })
   }
 

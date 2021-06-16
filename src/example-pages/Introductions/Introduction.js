@@ -6,6 +6,7 @@ import { Avatar, Card, Grid, Button, Tooltip } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import { NotificationManager } from 'react-notifications';
 
 import avatar2 from 'assets/images/avatars/avatar2.jpg';
 import avatar3 from 'assets/images/avatars/avatar3.jpg';
@@ -40,7 +41,9 @@ export default function Introductions(props) {
       setIntroduction(response.data.introduction)
     })
     .catch(error => {
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }, [])
 

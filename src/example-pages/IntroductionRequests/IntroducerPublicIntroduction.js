@@ -16,6 +16,7 @@ import {
   FormHelperText,
   Avatar
 } from '@material-ui/core';
+import { NotificationManager } from 'react-notifications';
 import Alert from '@material-ui/lab/Alert';
 import Loader from '../../example-components/Loader';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
@@ -57,7 +58,9 @@ export default function PublicIntroductionRequest() {
              }
            })
            .catch(error => {
-             console.log('error', error.response)
+             let message = error && error.response && error.response.data && error.response.data.message ?
+               error.response.data.message : 'There was an error. Please try again!'
+             NotificationManager.error(message)
            })
     }
   }, [])
@@ -85,12 +88,14 @@ export default function PublicIntroductionRequest() {
         status: acceptRejectStatus
       },
     ).then(response => {
-      // TODO: notification
+      NotificationManager.success('Successfully Submitted')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      console.log('error', error.response)
+      let message = error && error.response && error.response.message && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

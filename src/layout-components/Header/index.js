@@ -13,6 +13,8 @@ import HeaderUserbox from '../../layout-components/HeaderUserbox';
 import HeaderSearch from '../../layout-components/HeaderSearch';
 import HeaderMenu from '../../layout-components/HeaderMenu';
 import { useDispatch } from 'react-redux/lib/hooks/useDispatch';
+import { NotificationManager } from 'react-notifications';
+
 
 const Header = (props) => {
   const {
@@ -38,7 +40,9 @@ const Header = (props) => {
 
     axios.post(`api/v1/auth/${userId}/validate-token`, { client: credentials.client, token: credentials['access-token'] })
          .catch(error => {
-           console.log('error', error.response)
+           let message = error && error.response && error.response.data && error.response.data.message ?
+             error.response.data.message : 'There was an error. Please try again!'
+           NotificationManager.error(message)
            history.push('/login')
          })
   }, [])
@@ -50,7 +54,9 @@ const Header = (props) => {
       history.push('/login')
     })
     .catch(error => {
-      console.log('error logging out 2')
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

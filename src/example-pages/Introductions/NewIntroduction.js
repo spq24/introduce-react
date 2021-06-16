@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import { useAuthState } from 'context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NotificationManager } from 'react-notifications';
 import {
   Grid,
   Container,
@@ -111,10 +112,12 @@ export default function NewIntroduction() {
       intro,
       { headers: userDetails.credentials }
     ).then(response => {
-      // TODO: notification
+      NotificationManager.success('Successfully Submitted')
       history.push(`/introductions/${response.data.introduction.id}`)
     }).catch(error => {
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }
 

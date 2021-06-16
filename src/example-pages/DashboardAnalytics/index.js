@@ -11,6 +11,7 @@ import { Card, Button, Grid } from '@material-ui/core';
 import MarketingCta from '../MarketingCta';
 import EmptyDashboard from './EmptyDashboard';
 import Loader from '../../example-components/Loader';
+import { NotificationManager } from 'react-notifications';
 
 export default function DashboardAnalytics() {
   const userDetails = useAuthState();
@@ -21,6 +22,7 @@ export default function DashboardAnalytics() {
   const [introductionRequests, setIntroductionRequests] = useState([]);
 
   useEffect(() => {
+
     axios.get('/api/v1/dashboard', {
       headers: userDetails.credentials
     })
@@ -33,7 +35,9 @@ export default function DashboardAnalytics() {
     })
     .catch(error => {
       setLoading(false)
-      console.log('error', error.response)
+      let message = error && error.response && error.response.data && error.response.data.message ?
+        error.response.data.message : 'There was an error. Please try again!'
+      NotificationManager.error(message)
     })
   }, [])
 
