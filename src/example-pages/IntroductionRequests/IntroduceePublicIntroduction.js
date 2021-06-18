@@ -79,7 +79,7 @@ export default function IntroduceePublicIntroduction() {
   const handleSubmit = () => {
     setSubmitting(true)
 
-    axios.put(`/api/v1/introducer-accept-reject/${id}`,
+    axios.put(`/api/v1/introducee-accept-reject/${id}`,
       {
         introduction: introduction,
         status: acceptRejectStatus
