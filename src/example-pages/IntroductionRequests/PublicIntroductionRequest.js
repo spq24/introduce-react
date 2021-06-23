@@ -249,7 +249,7 @@ export default function PublicIntroductionRequest() {
                                 variant="outlined"
                                 name="request_reason"
                                 value={introducee.request_reason}
-                                onChange={(e) => handleIntroduceeChange(e)}
+                                onChange={(e) => handleRequesterChange(e)}
                               />
                               <FormHelperText>examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
                             </Grid>

@@ -92,7 +92,7 @@ export default function IntroduceePublicIntroduction() {
       setSubmitting(false)
       let message = error && error.response && error.response.data && error.response.data.message ?
         error.response.data.message : 'There was an error. Please try again!'
-      NotificationManager.danger(message)
+      NotificationManager.error(message)
     })
   }
 
