@@ -48,21 +48,21 @@ export default function Introductions(props) {
   }, [])
 
   useEffect(() => {
-    if(!introduction.introducer_sent_request) {
+    if (introduction.introducer_rejected) {
+      setIntroduceeStatus({
+        shortTitle: 'Introducer Denied',
+        title: introduction.introducer && introduction.introducer.first_name ? `${introduction.introducer.first_name} denied the request` : 'The request was denied.',
+        description: `The introduction request was denied${introduction.introducer && introduction.introducer.first_name ? ` by ${introduction.introducer.first_name}` : ''}.`,
+        date: '',
+        color: 'default'
+      })
+    } else if(!introduction.introducer_sent_request) {
       setIntroduceeStatus({
         shortTitle: 'Waiting On Intro Request',
         title: introduction.introducer ? `We are waiting on ${introduction.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
         description: `Your introduction request has not been sent ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} yet`,
         date: '',
         color: 'info'
-      })
-    } else if (introduction.introducee_rejected) {
-      setIntroduceeStatus({
-        shortTitle: 'Denied',
-        title: introduction.introducee ? `${introduction.introducee.first_name} denied your introduction request` : 'Your introduction request was denied',
-        description: `Unfortunately, your request was denied${introduction.introducee ? ` by ${introduction.introducee.first_name}.` : '.'}`,
-        date: introduction.introducee_rejected_at,
-        color: 'danger'
       })
     } else if (introduction.introducee_accepted) {
       setIntroduceeStatus({
@@ -86,7 +86,7 @@ export default function Introductions(props) {
   useEffect(() => {
     if (introduction.introducer_rejected) {
       setIntroducerStatus({
-        shortTitle: 'Rejected',
+        shortTitle: 'Denied',
         title: introduction.introducer ? `${introduction.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
         description: `Unfortunately, your request was denied. This is what they said in their reason: ${introduction.rejection_reason}`,
         date: introduction.introducer_rejected_at,
@@ -115,7 +115,7 @@ export default function Introductions(props) {
     if(introduction.introducer_rejected) {
       setStatus({
         title: 'Introducer Denied',
-        color: 'warning',
+        color: 'danger',
         date: introduction.introducer_rejected_at
       })
     } else if(introduction.introducee_rejected) {

@@ -56,21 +56,49 @@ export default function IntroductionRequest(props) {
   }, [])
 
   useEffect(() => {
-    if (!introductionRequest.introducer_sent_request) {
+    if (introductionRequest.introducer_rejected) {
+      setIntroducerStatus({
+        shortTitle: 'Denied',
+        title: introductionRequest.introducer ? `${introductionRequest.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
+        description: `Unfortunately, your request was denied. This is what they said in their reason: ${introductionRequest.rejection_reason}`,
+        date: introductionRequest.introducer_rejected_at,
+        color: 'danger'
+      })
+    } else if (introductionRequest.introducer_accepted) {
+      setIntroducerStatus({
+        shortTitle: 'Accepted',
+        title: introductionRequest.introducer ? `${introductionRequest.introducer.first_name} agreed to introduce you ${introductionRequest.introducee ? `to ${introductionRequest.introducee.first_name}` : ''}` : 'Your introduction request was accepted!',
+        description: `We will keep you updated as the status changes!`,
+        date: introductionRequest.introducer_accepted_at,
+        color: 'success'
+      })
+    } else {
+      setIntroducerStatus({
+        shortTitle: 'Sent',
+        title: `We sent your request and we are waiting to hear back`,
+        description: introductionRequest.introducer ? `We are waiting to hear back from ${introductionRequest.introducer.first_name} on your introduction request ${introductionRequest.introducee ? `to ${introductionRequest.introducee.first_name}` : ''}. We will let you know when we hear anything!` : 'We are waiting to hear back on your introduction request. We will let you know when we hear something!',
+        date: introductionRequest.created_at,
+        color: 'warning'
+      })
+    }
+  }, [introductionRequest])
+
+  useEffect(() => {
+    if (introductionRequest.introducer_rejected) {
+      setIntroduceeStatus({
+        shortTitle: 'Introducer Denied',
+        title: introductionRequest.introducer && introductionRequest.introducer.first_name ? `${introductionRequest.introducer.first_name} denied the request` : 'The request was denied.',
+        description: `The introduction request was denied${introductionRequest.introducer && introductionRequest.introducer.first_name ? ` by ${introductionRequest.introducer.first_name}` : ''}.`,
+        date: '',
+        color: 'default'
+      })
+    } else if (!introductionRequest.introducer_sent_request) {
       setIntroduceeStatus({
         shortTitle: 'Waiting On Intro Request',
         title: introductionRequest.introducer ? `We are waiting on ${introductionRequest.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
         description: `Your introduction request has not been sent ${introductionRequest.introducee ? `to ${introductionRequest.introducee.first_name}` : ''} yet`,
         date: '',
         color: 'info'
-      })
-    } else if (introductionRequest.introducee_rejected) {
-      setIntroduceeStatus({
-        shortTitle: 'Denied',
-        title: introductionRequest.introducee ? `${introductionRequest.introducee.first_name} denied your introduction request` : 'Your introduction request was denied',
-        description: `Unfortunately, your request was denied${introductionRequest.introducee ? ` by ${introductionRequest.introducee.first_name}.` : '.'}`,
-        date: introductionRequest.introducee_rejected_at,
-        color: 'danger'
       })
     } else if (introductionRequest.introducee_accepted) {
       setIntroduceeStatus({
@@ -93,37 +121,9 @@ export default function IntroductionRequest(props) {
 
   useEffect(() => {
     if (introductionRequest.introducer_rejected) {
-      setIntroducerStatus({
-        shortTitle: 'Rejected',
-        title: introductionRequest.introducer ? `${introductionRequest.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
-        description: `You denied this request. Here was your reason: ${introductionRequest.rejection_reason}`,
-        date: introductionRequest.introducer_rejected_at,
-        color: 'danger'
-      })
-    } else if (introductionRequest.introducer_accepted) {
-      setIntroducerStatus({
-        shortTitle: 'Accepted',
-        title: `You agreed to introduce ${introductionRequest.introduction_requester ? introductionRequest.introduction_requester.first_name : ''} ${introductionRequest.introducee ? `to ${introductionRequest.introducee.first_name}` : ''}`,
-        description: `We will keep you updated as the status changes!`,
-        date: introductionRequest.introducer_accepted_at,
-        color: 'success'
-      })
-    } else {
-      setIntroducerStatus({
-        shortTitle: 'Sent',
-        title: `Waiting On You`,
-        description: introductionRequest.introducer ? `We are waiting on you to decide whether you want to make this introduction to ${introductionRequest.introducee ? `to ${introductionRequest.introducee.first_name}` : ''}.` : 'We are waiting on you to decide whether you want to make this introduction',
-        date: introductionRequest.created_at,
-        color: 'warning'
-      })
-    }
-  }, [introductionRequest])
-
-  useEffect(() => {
-    if (introductionRequest.introducer_rejected) {
       setStatus({
-        title: 'Introducer Denied',
-        color: 'warning',
+        title: 'You Denied',
+        color: 'danger',
         date: introductionRequest.introducer_rejected_at
       })
     } else if (introductionRequest.introducee_rejected) {
@@ -140,7 +140,7 @@ export default function IntroductionRequest(props) {
       })
     } else {
       setStatus({
-        title: 'Pending',
+        title: 'Waiting On You',
         color: 'info',
         date: null
       })
@@ -171,9 +171,11 @@ export default function IntroductionRequest(props) {
         status: acceptRejectStatus
       },
     ).then(response => {
+      setIntroductionRequest(response.data.introduction)
       NotificationManager.success('Successfully Submitted')
       setSubmitted(true)
       setSubmitting(false)
+
     }).catch(error => {
       setSubmitting(false)
       let message = error && error.response && error.response.data && error.response.data.message ?
@@ -271,8 +273,8 @@ export default function IntroductionRequest(props) {
                   <h3 className="font-weight-bold mt-3">
                     Introducee
                   </h3>
-                  <div className={`badge badge-warning mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                    Introducee
+                  <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                    {introduceeStatus.shortTitle}
                   </div>
                   <p className="mb-0 text-white-50">
                     You were asked to make an introduction to {
@@ -291,114 +293,114 @@ export default function IntroductionRequest(props) {
           <Grid container spacing={6}>
             {
               handled || submitted ?
-              <div className="p-4">
-                <Grid container spacing={6}>
-                  <Grid item md={12} style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Alert className="mb-4" severity="success">
-                      <span>
-                        {
-                          handled ?
-                            "This introduction request has already been responded to. Nothing to do." :
-                            null
-                        }
-                        {
-                          submitted && acceptRejectStatus == 'accepted' ?
-                            `Thank you we will let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know and send an email to ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name}` :
-                            acceptRejectStatus !== '' ?
-                              `Thank you we will let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know.` : null
-                        }
-                      </span>
-                    </Alert>
+                <div className="p-4">
+                  <Grid container spacing={6}>
+                    <Grid item md={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Alert className="mb-4" severity="success">
+                        <span>
+                          {
+                            handled ?
+                              "This introduction request has already been responded to. Nothing to do." :
+                              null
+                          }
+                          {
+                            submitted && acceptRejectStatus == 'accepted' ?
+                              `Thank you we will let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know and send an email to ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name}` :
+                              acceptRejectStatus !== '' ?
+                                `Thank you we will let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know.` : null
+                          }
+                        </span>
+                      </Alert>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div> :
-              <>
-                <Grid item md={6} className="d-flex justify-content-center">
-                  <Button
-                    className={`btn-${acceptRejectStatus === 'accepted' ? 'success' : 'outline-success'} font-weight-bold`}
-                    onClick={(e) => handleAcceptRejectChange(e, 'accepted')}
-                    disabled={submitting}>
-                    {
-                      acceptRejectStatus == 'accepted' ?
-                        <>
-                        <span className="btn-wrapper--icon text-white">
-                          <FontAwesomeIcon icon={['fas', 'check-square']} />
-                        </span>&nbsp;
-                          </> : null
-                    }
-                    I can make this introduction
+                </div> :
+                <>
+                  <Grid item md={6} className="d-flex justify-content-center">
+                    <Button
+                      className={`btn-${acceptRejectStatus === 'accepted' ? 'success' : 'outline-success'} font-weight-bold`}
+                      onClick={(e) => handleAcceptRejectChange(e, 'accepted')}
+                      disabled={submitting}>
+                      {
+                        acceptRejectStatus == 'accepted' ?
+                          <>
+                          <span className="btn-wrapper--icon text-white">
+                            <FontAwesomeIcon icon={['fas', 'check-square']} />
+                          </span>&nbsp;
+                            </> : null
+                      }
+                      I can make this introduction
                     </Button>
-                </Grid>
-                <Grid item md={6} className="d-flex justify-content-center">
-                  <Button
-                    className={`btn-${acceptRejectStatus === 'denied' ? 'danger' : 'outline-danger'} font-weight-bold`}
-                    onClick={(e) => handleAcceptRejectChange(e, 'denied')}
-                    disabled={submitting}>
-                    {
-                      acceptRejectStatus == 'denied' ?
-                        <>
-                        <span className="btn-wrapper--icon text-white">
-                          <FontAwesomeIcon icon={['fas', 'check-square']} />
-                        </span>&nbsp;
-                          </> : null
-                    }
-                    I will not be able to make this introduction
+                  </Grid>
+                  <Grid item md={6} className="d-flex justify-content-center">
+                    <Button
+                      className={`btn-${acceptRejectStatus === 'denied' ? 'danger' : 'outline-danger'} font-weight-bold`}
+                      onClick={(e) => handleAcceptRejectChange(e, 'denied')}
+                      disabled={submitting}>
+                      {
+                        acceptRejectStatus == 'denied' ?
+                          <>
+                          <span className="btn-wrapper--icon text-white">
+                            <FontAwesomeIcon icon={['fas', 'check-square']} />
+                          </span>&nbsp;
+                            </> : null
+                      }
+                      I will not be able to make this introduction
                     </Button>
-                </Grid>
-                {
-                  acceptRejectStatus === 'denied' ?
-                    <Grid item md={12}>
-                      <TextField
-                        fullWidth
-                        label={`Let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know why you can not make this introduction`}
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        name="rejection_reason"
-                        value={introductionRequest.rejection_reason}
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Grid>
-                    : null
-                }
-                {
-                  acceptRejectStatus === 'accepted' ?
-                    <>
-                    <Grid item md={12}>
-                      <TextField
-                        fullWidth
-                        label={`What is ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name}'s email?`}
-                        variant="outlined"
-                        type="email"
-                        name="introducee_email"
-                        value={introductionRequest.introducee_email}
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Grid>
-                    <Grid item md={12}>
-                      <TextField
-                        fullWidth
-                        label={`What would you like to say to ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name} about ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name}?`}
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        name="introducer_introducee_message"
-                        value={introductionRequest.introducer_introducee_message}
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </Grid>
-                    </>
-                    : null
-                }
-                <Grid item md={12} className="d-flex justify-content-center">
-                  <Button
-                    className="btn-primary font-weight-bold"
-                    onClick={handleSubmit}
-                    disabled={submitting}>
-                    Submit
+                  </Grid>
+                  {
+                    acceptRejectStatus === 'denied' ?
+                      <Grid item md={12}>
+                        <TextField
+                          fullWidth
+                          label={`Let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know why you can not make this introduction`}
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          name="rejection_reason"
+                          value={introductionRequest.rejection_reason}
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </Grid>
+                      : null
+                  }
+                  {
+                    acceptRejectStatus === 'accepted' ?
+                      <>
+                      <Grid item md={12}>
+                        <TextField
+                          fullWidth
+                          label={`What is ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name}'s email?`}
+                          variant="outlined"
+                          type="email"
+                          name="introducee_email"
+                          value={introductionRequest.introducee_email}
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </Grid>
+                      <Grid item md={12}>
+                        <TextField
+                          fullWidth
+                          label={`What would you like to say to ${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name} about ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name}?`}
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          name="introducer_introducee_message"
+                          value={introductionRequest.introducer_introducee_message}
+                          onChange={(e) => handleChange(e)}
+                        />
+                      </Grid>
+                      </>
+                      : null
+                  }
+                  <Grid item md={12} className="d-flex justify-content-center">
+                    <Button
+                      className="btn-primary font-weight-bold"
+                      onClick={handleSubmit}
+                      disabled={submitting}>
+                      Submit
                     </Button>
-                </Grid>
-              </>
+                  </Grid>
+                </>
             }
           </Grid>
         </Card>

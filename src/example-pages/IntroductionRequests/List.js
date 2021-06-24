@@ -8,7 +8,8 @@ import { Table, Card, Button, Grid, CardContent, } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@material-ui/core/Avatar/Avatar';
-
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 export default function List(props) {
   const introductionRequests = props.introductionRequests
@@ -30,6 +31,7 @@ export default function List(props) {
                   <th style={{ width: '40%' }}>Who asked you to introduce them</th>
                   <th>Who they asked you to introduce them to</th>
                   <th>Status</th>
+                  <th>Date</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>
@@ -42,6 +44,30 @@ export default function List(props) {
                     introductionRequests.map(introductionRequest => {
                       return(
                         <tr key={introductionRequest.id}>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <div className="avatar-icon-wrapper mr-3">
+                                <div className="avatar-icon">
+                                  <Avatar>
+                                    {introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ? introductionRequest.introduction_requester.first_name[0] : 'NA'}
+                                  </Avatar>
+                                </div>
+                              </div>
+                              <div>
+                                <Link to="/people/:id" className="font-weight-bold text-black">
+                                  {
+                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ?
+                                      introductionRequest.introduction_requester.first_name : null
+                                  }
+                                  &nbsp;
+                                  {
+                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.last_name ?
+                                      introductionRequest.introduction_requester.last_name : null
+                                  }
+                                </Link>
+                              </div>
+                            </div>
+                          </td>
                           <td>
                             <div className="d-flex align-items-center">
                               <div className="avatar-icon-wrapper mr-3">
@@ -66,30 +92,7 @@ export default function List(props) {
                               </div>
                             </div>
                           </td>
-                          <td>
-                            <div className="d-flex align-items-center">
-                              <div className="avatar-icon-wrapper mr-3">
-                                <div className="avatar-icon">
-                                  <Avatar>
-                                    {introductionRequest.introducer && introductionRequest.introducer.first_name ? introductionRequest.introducer.first_name[0] : 'NA'}
-                                  </Avatar>
-                                </div>
-                              </div>
-                              <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
-                                  {
-                                    introductionRequest.introducer && introductionRequest.introducer.first_name ?
-                                      introductionRequest.introducer.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionRequest.introducer && introductionRequest.introducer.last_name ?
-                                      introductionRequest.introducer.last_name : null
-                                  }
-                                </Link>
-                              </div>
-                            </div>
-                          </td>
+
                           <td>
                             {
                               introductionRequest.status ?
@@ -97,6 +100,9 @@ export default function List(props) {
                                   {introductionRequest.status.short_status}
                                 </div> : null
                             }
+                          </td>
+                          <td>
+                            {<Moment format="MM/DD/YYYY">{introductionRequest.created_at}</Moment>}
                           </td>
                           <td>
                             <div>

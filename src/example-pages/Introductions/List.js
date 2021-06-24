@@ -8,7 +8,8 @@ import { Table, Card, Button, Grid, CardContent, } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@material-ui/core/Avatar/Avatar';
-
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 export default function List(props) {
   const introductions = props.introductions
@@ -93,6 +94,9 @@ export default function List(props) {
                                 {introduction.status.short_status}
                               </div> : null
                           }
+                        </td>
+                        <td>
+                          {<Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>}
                         </td>
                         <td>
                           <div>
