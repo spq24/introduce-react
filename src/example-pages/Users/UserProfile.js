@@ -193,7 +193,7 @@ export default function UserProfile() {
           <div className="flex-grow-1 w-100 d-flex align-items-center">
             <div
               className="bg-composed-wrapper--image rounded-bottom opacity-3"
-              style={{ backgroundImage: 'url(' + hero1 + ')' }}
+              style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/meeting-of-the-minds_SHct6M6IUQ.jpeg)', backgroundPosition: 'center top' }}
             />
             <div className="bg-composed-wrapper--bg rounded-bottom bg-deep-sky opacity-4" />
             <div className="bg-composed-wrapper--content px-3 pt-5">

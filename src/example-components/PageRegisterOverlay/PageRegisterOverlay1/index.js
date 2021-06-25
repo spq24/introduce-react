@@ -61,17 +61,19 @@ export default function SignUp() {
   }, [])
 
   useEffect(() => {
-    authMicrosoft(dispatch, code)
-      .then(response => {
-        if (response.currentUser && response.credentials) {
-          history.push('/dashboard')
-        }
-      })
-      .catch(error => {
-        let message = error && error.response && error.response.data && error.response.data.message ?
-          error.response.data.message : 'There was an error. Please try again!'
-        NotificationManager.error(message)
-      })
+    if(code && code.length > 0) {
+      authMicrosoft(dispatch, code)
+        .then(response => {
+          if (response.currentUser && response.credentials) {
+            history.push('/dashboard')
+          }
+        })
+        .catch(error => {
+          let message = error && error.response && error.response.data && error.response.data.message ?
+            error.response.data.message : 'There was an error. Please try again!'
+          NotificationManager.error(message)
+        })
+    }
   }, [code])
 
 
@@ -153,7 +155,7 @@ export default function SignUp() {
           <div className="flex-grow-1 w-100 d-flex align-items-center">
             <div
               className="bg-composed-wrapper--image opacity-6"
-              style={{ backgroundImage: 'url(' + hero3 + ')' }}
+              style={{ backgroundImage: 'url(https://images.pexels.com/photos/1181715/pexels-photo-1181715.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=300)' }}
             />
             <div className="bg-composed-wrapper--bg bg-second opacity-7" />
             <div className="bg-composed-wrapper--bg bg-premium-dark opacity-5" />

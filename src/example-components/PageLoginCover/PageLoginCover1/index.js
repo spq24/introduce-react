@@ -14,9 +14,10 @@ import {
   TextField
 } from '@material-ui/core';
 import { NotificationManager } from 'react-notifications';
+import { IKImage } from 'imagekitio-react'
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
-import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
+//import hero8 from '../../../assets/images/hero-bg/hero-8.jpg';
 import { auth, authGoogle, authLinkedIn, authMicrosoft, useAuthState, useAuthDispatch } from 'context'
 import GoogleLogin from 'react-google-login';
 import { LinkedIn } from 'react-linkedin-login-oauth2';
@@ -63,17 +64,19 @@ export default function Login() {
   }, [])
 
   useEffect(() => {
-    authMicrosoft(dispatch, code)
-    .then(response => {
-      if (response.currentUser && response.credentials) {
-        history.push('/dashboard')
-      }
-    })
-    .catch(error => {
-      let message = error && error.response && error.response.data.message && error.response.data.message ?
-        error.response.data.message : 'There was an error. Please try again!'
-      NotificationManager.error(message)
-    })
+    if(code && code.length > 0) {
+      authMicrosoft(dispatch, code)
+      .then(response => {
+        if (response.currentUser && response.credentials) {
+          history.push('/dashboard')
+        }
+      })
+      .catch(error => {
+        let message = error && error.response && error.response.data.message && error.response.data.message ?
+          error.response.data.message : 'Error logging in with Microsoft'
+        NotificationManager.error(message)
+      })
+    }
   }, [code])
 
   const handleEmailChange = (e) => {
@@ -94,8 +97,10 @@ export default function Login() {
     })
     .catch(error => {
       let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : 'There was an error. Please try again!'
-      NotificationManager.error(message)
+        error.response.data.message : null
+      if(message) {
+        NotificationManager.error(message)
+      }
     })
   }
 
@@ -108,7 +113,7 @@ export default function Login() {
     })
     .catch(error => {
       let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : 'There was an error. Please try again!'
+        error.response.data.message : 'Error logging in with Google'
       NotificationManager.error(message)
     })
   }
@@ -122,7 +127,7 @@ export default function Login() {
     })
     .catch(error => {
       let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : 'There was an error. Please try again!'
+        error.response.data.message : 'Error logging in with LinkedIn'
       NotificationManager.error(message)
     })
   }
@@ -271,7 +276,7 @@ export default function Login() {
                         <div className="flex-grow-1 w-100 d-flex align-items-center">
                           <div
                             className="bg-composed-wrapper--image opacity-5"
-                            style={{ backgroundImage: 'url(' + hero8 + ')' }}
+                            style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/handshake_iicHlCH4N?tr=w-480,h-480,fo-auto)' }}
                           />
                           <div className="bg-composed-wrapper--bg bg-second opacity-6" />
                           <div className="bg-composed-wrapper--bg bg-deep-blue opacity-2" />
@@ -281,7 +286,7 @@ export default function Login() {
                                 Can You Introduce Me?
                               </h1>
                               <p className="font-size-lg mb-0 opacity-8">
-                                Our mission is to help connect the world by making it easy for everyone involved to ask for and make introductions.
+                                Our mission is to make warm introductions easier for everyone.
                               </p>
                               <div className="divider mx-auto border-1 my-5 border-light opacity-2 rounded w-25" />
                               <div>

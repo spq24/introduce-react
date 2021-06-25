@@ -7,6 +7,7 @@ import ScrollToTop from './utils/ScrollToTop';
 import './assets/base.scss';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
+import { IKContext } from 'imagekitio-react'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   fab,
@@ -262,11 +263,13 @@ class App extends Component {
     return (
       <Provider store={store}>
         <NotificationContainer />
-        <BrowserRouter>
-          <ScrollToTop>
-            <Routes />
-          </ScrollToTop>
-        </BrowserRouter>
+        <IKContext urlEndpoint="https://ik.imagekit.io/canyouintrome">
+          <BrowserRouter>
+            <ScrollToTop>
+              <Routes />
+            </ScrollToTop>
+          </BrowserRouter>
+        </IKContext>
       </Provider>
     );
   }

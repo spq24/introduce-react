@@ -10,7 +10,8 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import illustration1 from '../../../assets/images/illustrations/pack1/security.svg';
-
+import { NotificationManager } from 'react-notifications';
+import { Link } from 'react-router-dom';
 
 export default function Recover() {
   const [email, setEmail] = useState('');
@@ -35,6 +36,7 @@ export default function Recover() {
       setSubmitting(false)
       setMessage(error.response.message)
       setStatus('error')
+      NotificationManager.error('There was an error. Please make sure your email is correct')
     })
   }
 
@@ -92,6 +94,11 @@ export default function Recover() {
                               disabled={submitting}>
                               Send password
                             </Button>
+                          </div>
+                          <div className="text-center mb-5">
+                            <Link to='/login' className="text-first">
+                              Back To Sign in
+                            </Link>
                           </div>
                         </div>
                       </Grid>
