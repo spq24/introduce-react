@@ -224,7 +224,7 @@ const Routes = () => {
         <AnimatePresence>
           <Suspense fallback={<SuspenseLoading />}>
             <Switch>
-              <Redirect exact from="/" to="/dashboard" />
+              <Redirect exact from="/" to="https://canyouintrome.com" />
               <Route
                 path={[
                   '/login',
