@@ -28,6 +28,8 @@ import LibraryBooksTwoToneIcon from '@material-ui/icons/LibraryBooksTwoTone';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
 import DevicesOtherTwoToneIcon from '@material-ui/icons/DevicesOtherTwoTone';
 import LinkTwoToneIcon from '@material-ui/icons/LinkTwoTone';
+import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTwoTone';
+import GroupAddTwoToneIcon from '@material-ui/icons/GroupAddTwoTone';
 
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
@@ -163,7 +165,7 @@ const SidebarMenu = (props) => {
                 className="nav-link-simple"
                 to="/introductions">
                 <span className="sidebar-icon">
-                  <BallotTwoToneIcon />
+                  <GroupAddTwoToneIcon />
                 </span>
                 Introductions
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
@@ -178,7 +180,7 @@ const SidebarMenu = (props) => {
                 className="nav-link-simple"
                 to="/introduction-requests">
                 <span className="sidebar-icon">
-                  <BallotTwoToneIcon />
+                  <SupervisorAccountTwoToneIcon />
                 </span>
                 Requests
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">

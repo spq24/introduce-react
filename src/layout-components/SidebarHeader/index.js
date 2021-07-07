@@ -13,7 +13,8 @@ import {
   setSidebarToggleMobile
 } from '../../reducers/ThemeOptions';
 
-import projectLogo from '../../assets/images/react.svg';
+import projectLogo from '../../assets/images/can-you-intro-me-logo-long-white.png';
+import projectLogoSmall from '../../assets/images/can-you-intro-logo-icon-small-white.png';
 
 const SidebarHeader = (props) => {
   const toggleSidebarMobile = () => {
@@ -35,19 +36,14 @@ const SidebarHeader = (props) => {
       <div className="app-sidebar--header">
         <div className="app-sidebar-logo">
           <NavLink
-            to="/"
-            title="Bamburgh React Admin Dashboard with Material-UI PRO"
+            to="/dashboard"
+            title="Can You Intro Me?"
             className="app-sidebar-logo">
-            <div className="app-sidebar-logo--icon">
+            <div className="app-sidebar-logo">
               <img
-                alt="Bamburgh React Admin Dashboard with Material-UI PRO"
-                src={projectLogo}
+                alt="Can You Intro Me?"
+                src={sidebarToggleMobile || sidebarToggle ? projectLogoSmall : projectLogo}
               />
-            </div>
-            <div className="app-sidebar-logo--text">
-              <span>Can You</span>
-
-              <b>Introduce Me?</b>
             </div>
           </NavLink>
         </div>
