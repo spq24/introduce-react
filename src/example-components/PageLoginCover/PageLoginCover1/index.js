@@ -287,7 +287,7 @@ export default function Login() {
                           <div className="bg-composed-wrapper--content text-center p-5">
                             <div className="text-white px-0 px-lg-2 px-xl-4">
                               <h1 className="display-3 mb-4 font-weight-bold">
-                                Can You Introduce Me?
+                                Can You Intro Me?
                               </h1>
                               <p className="font-size-lg mb-0 opacity-8">
                                 Our mission is to make warm introductions easier for everyone.

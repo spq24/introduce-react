@@ -47,7 +47,7 @@ const Footer = (props) => {
           </List> */}
         </div>
         <div className="app-footer--second">
-          <span>Can You Introduce Me?</span> ©
+          <span>Can You Intro Me?</span> ©
           {year} - crafted with <span className="text-danger px-1">❤</span> by{' '}
           Steve Quatrani
         </div>
