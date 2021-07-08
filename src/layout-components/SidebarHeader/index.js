@@ -42,6 +42,7 @@ const SidebarHeader = (props) => {
             <div className="app-sidebar-logo">
               <img
                 alt="Can You Intro Me?"
+                style={{ width: sidebarToggleMobile || sidebarToggle ? '100%' : '75%' }}
                 src={sidebarToggleMobile || sidebarToggle ? projectLogoSmall : projectLogo}
               />
             </div>
