@@ -52,7 +52,7 @@ export default function Login() {
     if(hostname === 'localhost') {
       url = `${protocol}//${hostname}:${port}`
     } else {
-      url = `${protocol}//${hostname}`
+      url = `https://canyouintro.me`
     }
   }, [])
 
@@ -105,31 +105,35 @@ export default function Login() {
   }
 
   const handleGoogleLogin = (payload) => {
-    authGoogle(dispatch, payload.code)
-    .then(response => {
-      if (response.currentUser && response.credentials) {
-        history.push('/dashboard')
-      }
-    })
-    .catch(error => {
-      let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : 'Error logging in with Google'
-      NotificationManager.error(message)
-    })
+    if (payload && Object.keys(payload).length > 0) {
+      authGoogle(dispatch, payload.code)
+      .then(response => {
+        if (response.currentUser && response.credentials) {
+          history.push('/dashboard')
+        }
+      })
+      .catch(error => {
+        let message = error && error.response && error.response.message && error.response.data.message ?
+          error.response.data.message : 'Error logging in with Google'
+        NotificationManager.error(message)
+      })
+    }
   }
 
   const handleLinkedinLogin = (payload) => {
-    authLinkedIn(dispatch, payload.code)
-    .then(response => {
-      if (response.currentUser && response.credentials) {
-        history.push('/dashboard')
-      }
-    })
-    .catch(error => {
-      let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : 'Error logging in with LinkedIn'
-      NotificationManager.error(message)
-    })
+    if (payload && Object.keys(payload).length > 0) {
+      authLinkedIn(dispatch, payload.code)
+      .then(response => {
+        if (response.currentUser && response.credentials) {
+          history.push('/dashboard')
+        }
+      })
+      .catch(error => {
+        let message = error && error.response && error.response.message && error.response.data.message ?
+          error.response.data.message : 'Error logging in with LinkedIn'
+        NotificationManager.error(message)
+      })
+    }
   }
 
   return (
