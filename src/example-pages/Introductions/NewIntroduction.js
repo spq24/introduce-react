@@ -21,7 +21,7 @@ import {
   Select,
   FormHelperText
 } from '@material-ui/core';
-
+import Alert from '@material-ui/lab/Alert';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -36,6 +36,7 @@ export default function NewIntroduction() {
   const [activeStep, setActiveStep] = useState(0);
   const [introducee, setIntroducee] = useState({});
   const [introducer, setIntroducer] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
   const steps = getSteps();
 
@@ -91,8 +92,58 @@ export default function NewIntroduction() {
   }
 
   const handleNext = () => {
+    let validated = validateData(activeStep)
+    if(!validated) {
+      return
+    }
+
+    setErrorMessage('')
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+
+  const validateData = (step) => {
+    let validData = false;
+    if(step === 0) {
+      validData = validateIntroducee()
+    }
+
+    return validData
+  }
+
+  const validateIntroducee = () => {
+    const firstName = introducee.first_name && introducee.first_name.length > 0
+    const lastName = introducee.last_name && introducee.last_name.length > 0
+    const requestReason = introducee.request_reason && introducee.request_reason.length > 0
+    if(firstName && lastName && requestReason) {
+      return true
+    } else {
+      setErrorMessage(
+        `Please make sure all required fields are filled in properly.
+        You are missing: ${!firstName ? 'First Name' : ''}
+        ${!lastName ? 'Last Name' : ''}
+        ${!requestReason ? 'Request Reason' : ''}`
+      )
+      return false
+    }
+  }
+
+  const validateIntroducer = () => {
+    const firstName = introducer.first_name && introducer.first_name.length > 0
+    const lastName = introducer.last_name && introducer.last_name.length > 0
+    const email = introducer.email && introducer.email.length > 0
+    if (firstName && lastName && requestReason) {
+      return true
+    } else {
+      setErrorMessage(
+        `Please make sure all required fields are filled in properly.
+        You are missing: ${!firstName ? 'First Name' : ''}
+        ${!lastName ? 'Last Name' : ''}
+        ${!requestReason ? 'Request Reason' : ''}`
+      )
+      return false
+    }
+  }
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -171,6 +222,13 @@ export default function NewIntroduction() {
           </div>
         ) : (
             <div>
+              {
+                errorMessage && errorMessage.length > 0 ?
+                  <Alert className='text-error' severity='error' style={{ margin: '20px 40px' }}>
+                    {errorMessage}
+                  </Alert> : null
+              }
+
               <div>
                 {
                   activeStep === 0 ?
@@ -190,6 +248,7 @@ export default function NewIntroduction() {
                               name="first_name"
                               variant="outlined"
                               value={introducee.first_name}
+                              required={true}
                               onChange={(e) => handleIntroduceeChange(e)}
                             />
                           </Grid>
@@ -199,6 +258,7 @@ export default function NewIntroduction() {
                               label="Last Name"
                               name="last_name"
                               variant="outlined"
+                              required={true}
                               value={introducee.last_name}
                               onChange={(e) => handleIntroduceeChange(e)}
                             />
@@ -223,6 +283,7 @@ export default function NewIntroduction() {
                               multiline
                               rows={4}
                               variant="outlined"
+                              required={true}
                               name="request_reason"
                               value={introducee.request_reason}
                               onChange={(e) => handleIntroduceeChange(e)}
@@ -250,6 +311,7 @@ export default function NewIntroduction() {
                               name="first_name"
                               variant="outlined"
                               value={introducer.first_name}
+                              required={true}
                               onChange={(e) => handleIntroducerChange(e)}
                             />
                           </Grid>
