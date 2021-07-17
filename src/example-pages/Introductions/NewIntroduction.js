@@ -106,6 +106,8 @@ export default function NewIntroduction() {
     let validData = false;
     if(step === 0) {
       validData = validateIntroducee()
+    } else if (step === 1) {
+      validData = validateIntroducer()
     }
 
     return validData
@@ -131,15 +133,17 @@ export default function NewIntroduction() {
   const validateIntroducer = () => {
     const firstName = introducer.first_name && introducer.first_name.length > 0
     const lastName = introducer.last_name && introducer.last_name.length > 0
-    const email = introducer.email && introducer.email.length > 0
-    if (firstName && lastName && requestReason) {
+    const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
+    const email = introducer.email && introducer.email.length > 0 && validEmailRegex.test(introducer.email)
+
+    if (firstName && lastName && email) {
       return true
     } else {
       setErrorMessage(
         `Please make sure all required fields are filled in properly.
         You are missing: ${!firstName ? 'First Name' : ''}
         ${!lastName ? 'Last Name' : ''}
-        ${!requestReason ? 'Request Reason' : ''}`
+        ${!email ? 'Valid Email' : ''}`
       )
       return false
     }
