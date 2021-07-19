@@ -27,6 +27,7 @@ export default function PublicIntroductionRequest() {
   const [introducee, setIntroducee] = useState({});
   const [introducer, setIntroducer] = useState({});
   const [requester, setRequester] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { id } = useParams();
@@ -69,6 +70,14 @@ export default function PublicIntroductionRequest() {
 
   const handleSubmit = () => {
     setSubmitting(true)
+
+    let validated = validateData()
+    if (!validated) {
+      setSubmitting(false)
+      return
+    }
+
+
     let intro = {
       introducer_id: id,
       requester: requester,
@@ -87,6 +96,49 @@ export default function PublicIntroductionRequest() {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+  }
+
+  const validateData = () => {
+    let introduceeValid = validateIntroducee()
+    let requesterValid = validateRequester()
+    let validData = introduceeValid && requesterValid
+    return validData
+  }
+
+  const validateIntroducee = () => {
+    const firstName = introducee.first_name && introducee.first_name.length > 0
+    const lastName = introducee.last_name && introducee.last_name.length > 0
+    if (firstName && lastName) {
+      return true
+    } else {
+      setErrorMessage(
+        `Please make sure all required fields are filled in properly.
+        You are missing: ${!firstName ? 'First Name' : ''}
+        ${!lastName ? 'Last Name' : ''}`
+      )
+      return false
+    }
+  }
+
+  const validateRequester = () => {
+    const firstName = requester.first_name && requester.first_name.length > 0
+    const lastName = requester.last_name && requester.last_name.length > 0
+    const requestReason = requester.request_reason && requester.request_reason.length > 0
+    const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
+    const email = requester.email && requester.email.length > 0 && validEmailRegex.test(requester.email)
+
+    if (firstName && lastName && email && requestReason) {
+      return true
+    } else {
+      setErrorMessage(
+        `Please make sure all required fields are filled in properly.
+        You are missing: ${!firstName ? 'First Name' : ''}
+        ${!lastName ? 'Last Name' : ''}
+        ${!email ? 'Valid Email' : ''}
+        ${!requestReason ? 'Request Reason' : ''}`
+      )
+      return false
+    }
   }
 
   return (
@@ -248,7 +300,7 @@ export default function PublicIntroductionRequest() {
                                 rows={4}
                                 variant="outlined"
                                 name="request_reason"
-                                value={introducee.request_reason}
+                                value={requester.request_reason}
                                 onChange={(e) => handleRequesterChange(e)}
                               />
                               <FormHelperText>examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
@@ -265,13 +317,23 @@ export default function PublicIntroductionRequest() {
                                 onChange={(e) => handleRequesterChange(e)}
                               />
                             </Grid>
-                            <Grid item md={12} className="d-flex justify-content-center">
-                              <Button
-                                className="btn-success font-weight-bold"
-                                onClick={handleSubmit}
-                                disabled={submitting}>
-                                Ask For The Introduction
-                              </Button>
+                            <Grid item md={12}>
+                              {
+                                errorMessage && errorMessage.length > 0 ?
+                                  <Grid item md={12} className="d-flex justify-content-center">
+                                    <Alert className='text-error' severity='error' style={{ margin: '20px 40px' }}>
+                                      {errorMessage}
+                                    </Alert><br /><br />
+                                  </Grid> : null
+                              }
+                              <Grid item md={12} className="d-flex justify-content-center">
+                                <Button
+                                  className="btn-success font-weight-bold"
+                                  onClick={handleSubmit}
+                                  disabled={submitting}>
+                                  Ask For The Introduction
+                                </Button>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </div>
