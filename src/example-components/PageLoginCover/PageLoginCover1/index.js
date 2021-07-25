@@ -30,7 +30,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
-  let url = 'https://canyouintro.me'
+  const PRODUCTION_URL = 'https://canyouintro.me'
 
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
@@ -42,19 +42,22 @@ export default function Login() {
       })
       .then(response => {
         NotificationManager.info('You are already logged in!')
-        history.push('/dashboard')
+       return history.push('/dashboard')
       })
     }
+  }, [])
 
+  let url = () => {
     let hostname = window.location.hostname
     let protocol = window.location.protocol
     let port = window.location.port
-    if(hostname === 'localhost') {
-      url = `${protocol}//${hostname}:${port}`
-    } else {
-      url = `https://canyouintro.me`
-    }
-  }, [])
+    return hostname === 'localhost' ? `${protocol}//${hostname}:${port}` : PRODUCTION_URL
+  }
+
+  let msftLink = () => {
+    return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url()}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`
+  }
+
 
   useEffect(() => {
     const codeString = window.location.search.split('code=')[1]
@@ -105,7 +108,7 @@ export default function Login() {
   }
 
   const handleGoogleLogin = (payload) => {
-    if (payload && Object.keys(payload).length > 0) {
+    if (payload && Object.keys(payload).length > 0 && payload.code) {
       authGoogle(dispatch, payload.code)
       .then(response => {
         if (response.currentUser && response.credentials) {
@@ -121,7 +124,7 @@ export default function Login() {
   }
 
   const handleLinkedinLogin = (payload) => {
-    if (payload && Object.keys(payload).length > 0) {
+    if (payload && Object.keys(payload).length > 0 && payload.code) {
       authLinkedIn(dispatch, payload.code)
       .then(response => {
         if (response.currentUser && response.credentials) {
@@ -186,7 +189,7 @@ export default function Login() {
                               onFailure={handleLinkedinLogin}
                               onSuccess={handleLinkedinLogin}
                               scope='r_liteprofile r_emailaddress'
-                              redirectUri={`${url}/linkedin`}
+                              redirectUri={`${url()}/linkedin`}
                               renderElement={({ onClick, disabled }) => (
                                 <Button
                                   className="m-2 btn-pill px-4 font-weight-bold btn-linkedin"
@@ -202,8 +205,7 @@ export default function Login() {
                                 </Button>
                               )}
                             />
-
-                            <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
+                            <a href={msftLink()}>
                               <Button
                                 className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
                                 size="small">
@@ -212,7 +214,7 @@ export default function Login() {
                                 </span>
                                 <span className="btn-wrapper--label">
                                   Login with Microsoft
-                                  </span>
+                                </span>
                               </Button>
                             </a>
                           </div>
