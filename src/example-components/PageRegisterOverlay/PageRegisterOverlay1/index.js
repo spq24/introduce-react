@@ -25,9 +25,9 @@ export default function SignUp() {
   const [user, setUser] = useState({});
   const [disableSubmit, setDisableSubmit] = useState(false);
   const [code, setCode] = useState('');
-  let url = ''
   const date = new Date();
   const year = date.getFullYear();
+  const PRODUCTION_URL = 'https://canyouintro.me'
 
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
@@ -41,15 +41,6 @@ export default function SignUp() {
         NotificationManager.info('You are already logged in!')
         history.push('/dashboard')
       })
-    }
-
-    let hostname = window.location.hostname
-    let protocol = window.location.protocol
-    let port = window.location.port
-    if (hostname === 'localhost') {
-      url = `${protocol}//${hostname}:${port}`
-    } else {
-      url = `${protocol}//${hostname}`
     }
   }, [])
 
@@ -76,6 +67,12 @@ export default function SignUp() {
     }
   }, [code])
 
+  let url = () => {
+    let hostname = window.location.hostname
+    let protocol = window.location.protocol
+    let port = window.location.port
+    return hostname === 'localhost' ? `${protocol}//${hostname}:${port}` : PRODUCTION_URL
+  }
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -309,7 +306,7 @@ export default function SignUp() {
                                 onFailure={handleLinkedinLogin}
                                 onSuccess={handleLinkedinLogin}
                                 scope='r_liteprofile r_emailaddress'
-                                redirectUri={`${url}/linkedin`}
+                                redirectUri={`${url()}/linkedin`}
                                 renderElement={({ onClick, disabled }) => (
                                   <Button className="btn-linkedin m-2" onClick={onClick} disabled={disabled}>
                                     <span className="btn-wrapper--icon">
@@ -328,7 +325,7 @@ export default function SignUp() {
                           <div className="p-4">
                             <div className="d-block d-xl-flex">
                               <div className="pl-0 pl-xl-3">
-                                <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
+                                <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url()}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
                                   <Button className="btn-microsoft m-2">
                                     <span className="btn-wrapper--icon">
                                       <FontAwesomeIcon

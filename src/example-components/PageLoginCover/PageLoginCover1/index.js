@@ -67,8 +67,11 @@ export default function Login() {
   }, [])
 
   useEffect(() => {
+
     if(code && code.length > 0) {
-      authMicrosoft(dispatch, code)
+      const codeString = window.location.search.split('code=')[1]
+      let formattedCode = codeString.split('&')[0]
+      authMicrosoft(dispatch, formattedCode)
       .then(response => {
         if (response.currentUser && response.credentials) {
           history.push('/dashboard')
