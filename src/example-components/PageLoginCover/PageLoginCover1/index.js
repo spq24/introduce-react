@@ -103,10 +103,9 @@ export default function Login() {
     })
     .catch(error => {
       let message = error && error.response && error.response.message && error.response.data.message ?
-        error.response.data.message : null
-      if(message) {
-        NotificationManager.error(message)
-      }
+        error.response.data.message :
+        'There was an error logging you in. Please make sure your information is correct and try again.'
+      NotificationManager.error(message)
     })
   }
 
