@@ -161,18 +161,15 @@ export default function SignUp() {
                 <Card className="rounded-sm modal-content p-3 bg-white-10">
                   <Card className="rounded-sm shadow-none font-size-sm p-3 p-sm-0">
                     <Grid container spacing={0}>
-                      <Grid
+                      {/* <Grid
                         item
                         lg={6}
                         className="d-flex align-items-center justify-content-center flex-column">
                         <div className="divider-v divider-v-lg d-none d-lg-block" />
                         <div className="text-center mt-4">
                           <h1 className="font-size-xxl mb-1 font-weight-bold">
-                            Create account
+                            Get Started
                           </h1>
-                          <p className="mb-0 text-black-50">
-                            Let's Get You Connected!
-                          </p>
                         </div>
                         <div className="px-5 py-4">
                           <div className="mb-3">
@@ -208,20 +205,6 @@ export default function SignUp() {
                                 </div>
                               </Grid>
                             </Grid>
-                          </div>
-                          <div className="mb-3">
-                            <label className="font-weight-bold mb-2">
-                              Your Work Title
-                            </label>
-                            <TextField
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                              placeholder="Enter your work title"
-                              type="title"
-                              name="title"
-                              onChange={ (e) => handleChange(e) }
-                            />
                           </div>
                           <div className="mb-3">
                             <label className="font-weight-bold mb-2">
@@ -265,87 +248,76 @@ export default function SignUp() {
                             </Button>
                           </div>
                         </div>
+                      </Grid> */}
+                      <Grid item lg={12} className="d-flex align-items-center justify-content-center flex-column">
+                        <div className="d-block d-xl-flex">
+                          <div className="p-4">
+                            <div className="text-black font-weight-bold font-size-lg mb-1">
+                              Let's Get You Signed Up
+                            </div>
+                          </div>
+                        </div>
                       </Grid>
-                      <Grid
-                        item
-                        lg={6}
-                        className="d-flex align-items-center justify-content-center flex-column">
-                        <div className="p-3">
-                          <div className="p-4">
-                            <div className="d-block d-xl-flex">
-                              <div className="pl-0 pl-xl-3">
-                                <div className="text-black font-weight-bold font-size-lg mb-1">
-                                  Create Your Account With A Service
-                                </div>
-                                <GoogleLogin
-                                  clientId="76583804160-hikjh5kp20nqpu701d17hemqum1mfbnt.apps.googleusercontent.com"
-                                  onSuccess={handleGoogleLogin}
-                                  onFailure={handleGoogleLogin}
-                                  responseType='code'
-                                  accessType='offline'
-                                  render={renderProps => (
-                                    <Button className="btn-google m-2" onClick={renderProps.onClick}>
-                                      <span className="btn-wrapper--icon">
-                                        <FontAwesomeIcon
-                                          icon={['fab', 'google']}
-                                          className="font-size-lg"
-                                        />
-                                      </span>
-                                      <span className="btn-wrapper--label">Sign Up With Google</span>
-                                    </Button>
-                                  )}
+                      <Grid item lg={12} className="d-flex" style={{ justifyContent: 'space-evenly' }}>
+                        <GoogleLogin
+                          clientId="76583804160-hikjh5kp20nqpu701d17hemqum1mfbnt.apps.googleusercontent.com"
+                          onSuccess={handleGoogleLogin}
+                          onFailure={handleGoogleLogin}
+                          responseType='code'
+                          accessType='offline'
+                          render={renderProps => (
+                            <Button className="btn-google m-2" onClick={renderProps.onClick}>
+                              <span className="btn-wrapper--icon">
+                                <FontAwesomeIcon
+                                  icon={['fab', 'google']}
+                                  className="font-size-lg"
                                 />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="p-4">
-                            <div className="d-block d-xl-flex">
-                              <div className="pl-0 pl-xl-3">
-                              <LinkedIn
-                                clientId="77kyaj6hcodakv"
-                                onFailure={handleLinkedinLogin}
-                                onSuccess={handleLinkedinLogin}
-                                scope='r_liteprofile r_emailaddress'
-                                redirectUri={`${url()}/linkedin`}
-                                renderElement={({ onClick, disabled }) => (
-                                  <Button className="btn-linkedin m-2" onClick={onClick} disabled={disabled}>
-                                    <span className="btn-wrapper--icon">
-                                      <FontAwesomeIcon
-                                        icon={['fab', 'linkedin']}
-                                        className="font-size-lg"
-                                      />
-                                    </span>
-                                    <span className="btn-wrapper--label">Sign Up With LinkedIn</span>
-                                  </Button>
-                                )}
+                              </span>
+                              <span className="btn-wrapper--label">Sign Up With Google</span>
+                            </Button>
+                          )}
+                        />
+
+                        <LinkedIn
+                          clientId="77kyaj6hcodakv"
+                          onFailure={handleLinkedinLogin}
+                          onSuccess={handleLinkedinLogin}
+                          scope='r_liteprofile r_emailaddress'
+                          redirectUri={`${url()}/linkedin`}
+                          renderElement={({ onClick, disabled }) => (
+                            <Button className="btn-linkedin m-2" onClick={onClick} disabled={disabled}>
+                              <span className="btn-wrapper--icon">
+                                <FontAwesomeIcon
+                                  icon={['fab', 'linkedin']}
+                                  className="font-size-lg"
+                                />
+                              </span>
+                              <span className="btn-wrapper--label">Sign Up With LinkedIn</span>
+                            </Button>
+                          )}
+                        />
+
+                        <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url()}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
+                          <Button className="btn-microsoft m-2">
+                            <span className="btn-wrapper--icon">
+                              <FontAwesomeIcon
+                                icon={['fab', 'microsoft']}
+                                className="font-size-lg"
                               />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="p-4">
-                            <div className="d-block d-xl-flex">
-                              <div className="pl-0 pl-xl-3">
-                                <a href={`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=55bf2567-f8d2-4dba-988d-8a240f4621b5&response_type=code&redirect_uri=${url()}%2Flogin%2F&response_mode=query&scope=offline_access%20user.read%20`}>
-                                  <Button className="btn-microsoft m-2">
-                                    <span className="btn-wrapper--icon">
-                                      <FontAwesomeIcon
-                                        icon={['fab', 'microsoft']}
-                                        className="font-size-lg"
-                                      />
-                                    </span>
-                                    <span className="btn-wrapper--label">Sign Up With Microsoft</span>
-                                  </Button>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+                            </span>
+                            <span className="btn-wrapper--label">Sign Up With Microsoft</span>
+                          </Button>
+                        </a>
+                      </Grid>
+                      <Grid item lg={12} className="d-flex align-items-center justify-content-center flex-column">
+                        <div className="p-3">
                           <div className="p-4">
                             <div className="d-block d-xl-flex">
                               <div className="pl-0 pl-xl-3">
                                 <div className="text-center text-black-50 mt-3">
                                   Already have account?{' '}
                                   <Link to='/login' className="text-first">
-                                    Sign in
+                                    Login
                                   </Link>
                                 </div>
                               </div>

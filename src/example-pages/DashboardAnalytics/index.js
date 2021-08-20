@@ -49,7 +49,6 @@ export default function DashboardAnalytics() {
     return <EmptyDashboard user={userDetails.user} />
   }
 
-
   return (
     <>
       <MarketingCta

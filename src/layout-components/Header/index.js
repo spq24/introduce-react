@@ -51,7 +51,7 @@ const Header = (props) => {
     e.preventDefault()
     logout(dispatch)
     .then(response => {
-      history.push('/login')
+      history.push('/')
     })
     .catch(error => {
       let message = error && error.response && error.response.data && error.response.data.message ?

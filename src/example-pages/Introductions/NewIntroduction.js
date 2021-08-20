@@ -167,7 +167,7 @@ export default function NewIntroduction() {
       intro,
       { headers: userDetails.credentials }
     ).then(response => {
-      NotificationManager.success('Successfully Submitted')
+      NotificationManager.success("Introduction Request Is On It's Way")
       history.push(`/introductions/${response.data.introduction.id}`)
     }).catch(error => {
       let message = error && error.response && error.response.data && error.response.data.message ?

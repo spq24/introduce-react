@@ -31,6 +31,7 @@ export default function List(props) {
                   <th style={{ width: '40%' }}>Who you want to be introduced to</th>
                   <th>Who you asked to introduce you</th>
                   <th>Status</th>
+                  <th>Date</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>

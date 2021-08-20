@@ -13,6 +13,7 @@ import {
   Tooltip,
   TextField
 } from '@material-ui/core';
+import Loader from '../../Loader';
 import { NotificationManager } from 'react-notifications';
 import { IKImage } from 'imagekitio-react'
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
@@ -30,8 +31,11 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const PRODUCTION_URL = 'https://canyouintro.me'
 
+
+  // TODO: delete if we're not bringing back sign in form
   useEffect(() => {
     if (userDetails && userDetails.credentials) {
       axios.post(`/api/v1/auth/${userDetails.user.id}/validate-token`, {
@@ -71,13 +75,16 @@ export default function Login() {
     if(code && code.length > 0) {
       const codeString = window.location.search.split('code=')[1]
       let formattedCode = codeString.split('&')[0]
+      setSubmitting(true)
       authMicrosoft(dispatch, formattedCode)
       .then(response => {
+        setSubmitting(false)
         if (response.currentUser && response.credentials) {
           history.push('/dashboard')
         }
       })
       .catch(error => {
+        setSubmitting(false)
         let message = error && error.response && error.response.data.message && error.response.data.message ?
           error.response.data.message : 'Error logging in with Microsoft'
         NotificationManager.error(message)
@@ -111,13 +118,16 @@ export default function Login() {
 
   const handleGoogleLogin = (payload) => {
     if (payload && Object.keys(payload).length > 0 && payload.code) {
+      setSubmitting(true)
       authGoogle(dispatch, payload.code)
       .then(response => {
+        setSubmitting(false)
         if (response.currentUser && response.credentials) {
           history.push('/dashboard')
         }
       })
       .catch(error => {
+        setSubmitting(false)
         let message = error && error.response && error.response.message && error.response.data.message ?
           error.response.data.message : 'Error logging in with Google'
         NotificationManager.error(message)
@@ -127,13 +137,16 @@ export default function Login() {
 
   const handleLinkedinLogin = (payload) => {
     if (payload && Object.keys(payload).length > 0 && payload.code) {
+      setSubmitting(true)
       authLinkedIn(dispatch, payload.code)
       .then(response => {
+        setSubmitting(false)
         if (response.currentUser && response.credentials) {
           history.push('/dashboard')
         }
       })
       .catch(error => {
+        setSubmitting(false)
         let message = error && error.response && error.response.message && error.response.data.message ?
           error.response.data.message : 'Error logging in with LinkedIn'
         NotificationManager.error(message)
@@ -161,9 +174,6 @@ export default function Login() {
                             <h1 className="display-4 mb-1 font-weight-bold">
                               Login
                             </h1>
-                            <p className="font-size-lg mb-0 text-black-50">
-                              Fill in the fields below to login to your account
-                            </p>
                           </div>
                           <div className="text-center py-4 rounded bg-secondary my-4">
                             <GoogleLogin
@@ -172,11 +182,13 @@ export default function Login() {
                               onFailure={handleGoogleLogin}
                               responseType='code'
                               accessType='offline'
+                              disabled={submitting}
                               render={renderProps => (
                                 <Button
                                   className="m-2 btn-pill px-4 font-weight-bold btn-google"
                                   size="small"
-                                  onClick={renderProps.onClick}>
+                                  onClick={renderProps.onClick}
+                                  disabled={renderProps.disabled}>
                                   <span className="btn-wrapper--icon">
                                     <FontAwesomeIcon icon={['fab', 'google']} />
                                   </span>
@@ -192,6 +204,7 @@ export default function Login() {
                               onSuccess={handleLinkedinLogin}
                               scope='r_liteprofile r_emailaddress'
                               redirectUri={`${url()}/linkedin`}
+                              disabled={submitting}
                               renderElement={({ onClick, disabled }) => (
                                 <Button
                                   className="m-2 btn-pill px-4 font-weight-bold btn-linkedin"
@@ -210,7 +223,8 @@ export default function Login() {
                             <a href={msftLink()}>
                               <Button
                                 className="m-2 btn-pill px-4 font-weight-bold btn-microsoft"
-                                size="small">
+                                size="small"
+                              disabled={submitting}>
                                 <span className="btn-wrapper--icon">
                                   <FontAwesomeIcon icon={['fab', 'microsoft']} />
                                 </span>
@@ -220,11 +234,15 @@ export default function Login() {
                               </Button>
                             </a>
                           </div>
-                          <div className="text-center text-black-50 mb-4">
-                            or sign in with credentials
+                          <div className="d-flex justify-content-center">
+                            { submitting ? <Loader /> : null}
                           </div>
+
+                          {/* <div className="text-center text-black-50 mb-4">
+                            or sign in with credentials
+                            </div> */}
                           <div>
-                            <div className="mb-4">
+                            {/* <div className="mb-4">
                               <TextField
                                 fullWidth
                                 variant="outlined"
@@ -268,7 +286,7 @@ export default function Login() {
                               <Button className="btn-second font-weight-bold w-50 my-2" onClick={ (e) => handleLogin(e) }>
                                 Sign in
                               </Button>
-                            </div>
+                            </div> */}
                             <div className="text-center text-black-50 mt-3">
                               Don't have an account?{' '}
                               <Link to='/sign-up' className="text-first">
@@ -294,7 +312,7 @@ export default function Login() {
                                 Can You Intro Me?
                               </h1>
                               <p className="font-size-lg mb-0 opacity-8">
-                                Our mission is to make warm introductions easier for everyone.
+                                We're on a mission to help the world feel more connected.
                               </p>
                               <div className="divider mx-auto border-1 my-5 border-light opacity-2 rounded w-25" />
                               <div>

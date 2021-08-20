@@ -20,7 +20,7 @@ export default function EmptyDashboard(props) {
   return (
     <>
     <div className="app-page-title--heading d-flex justify-content-center" style={{ marginBottom: '50px' }}>
-      <h1 style={{ fontSize: '3rem' }}>Welcome! Let's Get Connected.</h1>
+      <h1 style={{ fontSize: '3rem' }}>Welcome!</h1>
     </div>
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Grid container spacing={6}>

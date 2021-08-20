@@ -22,7 +22,7 @@ import Loader from '../../example-components/Loader';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
-import hero6 from 'assets/images/hero-bg/hero-1.jpg';
+import hero6 from 'assets/images/hero-bg/particles-2.svg';
 
 export default function PublicIntroductionRequest() {
   const [loading, setLoading] = useState(true)
@@ -31,6 +31,7 @@ export default function PublicIntroductionRequest() {
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
   const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
   const params = new URLSearchParams(window.location.search)
   let status = params.get('status')
   const { id } = useParams();
@@ -81,6 +82,13 @@ export default function PublicIntroductionRequest() {
 
   const handleSubmit = () => {
     setSubmitting(true)
+    if (acceptRejectStatus === 'accepted') {
+      let validated = validateEmail()
+      if (!validated) {
+        setSubmitting(false)
+        return
+      }
+    }
 
     axios.put(`/api/v1/introducer-accept-reject/${id}`,
       {
@@ -97,6 +105,19 @@ export default function PublicIntroductionRequest() {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+  }
+
+  const validateEmail = () => {
+    const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
+    const email = introduction.introducee_email && introduction.introducee_email.length > 0 && validEmailRegex.test(introduction.introducee_email)
+    if(email) {
+      return true
+    } else {
+      setErrorMessage(
+        `Please make sure the email you entered for ${introduction.introducee.first_name} ${introduction.introducee.last_name}`
+      )
+      return false
+    }
   }
 
   if(loading) {
@@ -140,7 +161,7 @@ export default function PublicIntroductionRequest() {
           <div className="flex-grow-1 w-100 d-flex align-items-center">
             <div
               className="bg-composed-wrapper--image opacity-6"
-              style={{ backgroundImage: 'url(' + hero6 + ')' }}
+              style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/handshake_iicHlCH4N?tr=w-480,h-480,fo-auto)' }}
             />
             <div className="bg-composed-wrapper--bg bg-second opacity-7" />
             <div className="bg-composed-wrapper--content p-3 p-md-5">
@@ -191,6 +212,14 @@ export default function PublicIntroductionRequest() {
                         :
                         <div className="p-4">
                           <Grid container spacing={6}>
+                            <Grid item md={12}>
+                              {
+                                errorMessage && errorMessage.length > 0 ?
+                                  <Alert className='text-error mb-4' severity='error' style={{ margin: '20px 40px' }}>
+                                    {errorMessage}
+                                  </Alert> : null
+                              }
+                            </Grid>
                             <Grid item md={6} className="d-flex justify-content-center">
                               <Button
                                 className={`btn-${acceptRejectStatus === 'accepted' ? 'success' : 'outline-success'} font-weight-bold`}
