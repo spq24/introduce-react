@@ -51,14 +51,14 @@ export default function Introductions(props) {
     if (introduction.introducer_rejected) {
       setIntroduceeStatus({
         shortTitle: 'Introducer Denied',
-        title: introduction.introducer && introduction.introducer.first_name ? `${introduction.introducer.first_name} denied the request` : 'The request was denied.',
+        title: 'Introducer denied the request',
         description: `The introduction request was denied${introduction.introducer && introduction.introducer.first_name ? ` by ${introduction.introducer.first_name}` : ''}.`,
         date: '',
         color: 'default'
       })
     } else if(!introduction.introducer_sent_request) {
       setIntroduceeStatus({
-        shortTitle: 'Waiting On Intro Request',
+        shortTitle: 'Waiting On Introducer',
         title: introduction.introducer ? `We are waiting on ${introduction.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
         description: `Your introduction request has not been sent ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} yet`,
         date: '',
@@ -67,15 +67,15 @@ export default function Introductions(props) {
     } else if (introduction.introducee_accepted) {
       setIntroduceeStatus({
         shortTitle: 'Accepted',
-        title: introduction.introducee ? `${introduction.introducee.first_name} agreed to be introduced to you!` : 'Your introduction request was accepted!',
-        description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed ${introduction.introducer ? `to have${introduction.introducer.first_name}!` : 'to be introduced to you!'}`,
+        title: 'Your introduction request was accepted!',
+        description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed ${introduction.introducer ? `to the introduction request!` : 'to be introduced to you!'}`,
         date: introduction.introducer_rejected_at,
         color: 'success'
       })
     } else {
       setIntroduceeStatus({
         shortTitle: 'Pending',
-        title: `A request was sent and we are waiting to hear back`,
+        title: `Request Sent`,
         description: `${introduction.introducer ? `${introduction.introducer.first_name} has` : 'They have'} sent an introduction request to ${introduction.introducee ? introduction.introducee.first_name : 'to the person you asked to be introduced to!'}`,
         date: introduction.introducer_sent_request_at,
         color: 'warning'
@@ -87,7 +87,7 @@ export default function Introductions(props) {
     if (introduction.introducer_rejected) {
       setIntroducerStatus({
         shortTitle: 'Denied',
-        title: introduction.introducer ? `${introduction.introducer.first_name} denied your introduction request` : 'Your introduction request was denied',
+        title: 'Introduction Request denied',
         description: `Unfortunately, your request was denied. This is what they said in their reason: ${introduction.rejection_reason}`,
         date: introduction.introducer_rejected_at,
         color: 'danger'
@@ -95,15 +95,15 @@ export default function Introductions(props) {
     } else if (introduction.introducer_accepted) {
       setIntroducerStatus({
         shortTitle: 'Accepted',
-        title: introduction.introducer ? `${introduction.introducer.first_name} agreed to introduce you ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}` : 'Your introduction request was accepted!',
-        description: `We will keep you updated as the status changes!`,
+        title: 'Request Accepted!',
+        description: `Your introducer ${introduction.introducer ? introduction.introducer.first_name : ''} has agreed to try to make the introduction. A request was sent to ${introduction.introducee ? introduction.introducee.first_name : ''}. We will keep you updated!`,
         date: introduction.introducer_accepted_at,
         color: 'success'
       })
     } else {
       setIntroducerStatus({
         shortTitle: 'Sent',
-        title: `We sent your request and we are waiting to hear back`,
+        title: `Request Sent - Waiting`,
         description: introduction.introducer ? `We are waiting to hear back from ${introduction.introducer.first_name} on your introduction request ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''}. We will let you know when we hear anything!` : 'We are waiting to hear back on your introduction request. We will let you know when we hear something!',
         date: introduction.created_at,
         color: 'warning'
@@ -197,7 +197,7 @@ export default function Introductions(props) {
         <Grid item lg={8}>
           <Grid container spacing={6}>
             <Grid item lg={6}>
-              <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '275px' }}>
+              <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '225px' }}>
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>
@@ -205,21 +205,20 @@ export default function Introductions(props) {
                     </Avatar>
                   </div>
                   <h3 className="font-weight-bold mt-3">
+                    <small>Introducer:</small><br />
                     {
                       introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name}` : 'No Name'
                     }
                   </h3>
                   <div className={`badge badge-${introducerStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                    {introducerStatus.shortTitle}
+                    Request Status: <br />{introducerStatus.shortTitle}
                   </div>
-                  <p className="mb-0 text-white-50">
-                    You asked {`${introduction.introducer ? `${introduction.introducer.first_name} ${introduction.introducer.last_name} for` : 'for'}`} an introduction. We reached out to them and we will keep you updated with the status of the introduction!
-                  </p>
+
                 </div>
               </Card>
             </Grid>
             <Grid item lg={6}>
-              <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '275px' }}>
+              <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '225px' }}>
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>
@@ -227,19 +226,14 @@ export default function Introductions(props) {
                     </Avatar>
                   </div>
                   <h3 className="font-weight-bold mt-3">
+                    <small>Introducee:</small><br />
                     {
                       introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : 'No Name'
                     }
                   </h3>
                   <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                    {introduceeStatus.shortTitle}
+                    Request Status: <br /> {introduceeStatus.shortTitle}
                   </div>
-                  <p className="mb-0 text-white-50">
-                    You asked
-                    for an introduction to {
-                      `${introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : ''}`
-                    }. We are working to make that happen!
-                  </p>
                 </div>
               </Card>
             </Grid>
