@@ -51,7 +51,7 @@ export default function Introductions(props) {
     if (introduction.introducer_rejected) {
       setIntroduceeStatus({
         shortTitle: 'Introducer Denied',
-        title: 'Introducer denied the request',
+        title: 'Introducer Denied Request',
         description: `The introduction request was denied${introduction.introducer && introduction.introducer.first_name ? ` by ${introduction.introducer.first_name}` : ''}.`,
         date: '',
         color: 'default'
@@ -59,7 +59,7 @@ export default function Introductions(props) {
     } else if(!introduction.introducer_sent_request) {
       setIntroduceeStatus({
         shortTitle: 'Waiting On Introducer',
-        title: introduction.introducer ? `We are waiting on ${introduction.introducer.first_name} to send the request` : 'We are waiting on your introduction request to be sent.',
+        title: 'Pending On Introducer',
         description: `Your introduction request has not been sent ${introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} yet`,
         date: '',
         color: 'info'
@@ -67,7 +67,7 @@ export default function Introductions(props) {
     } else if (introduction.introducee_accepted) {
       setIntroduceeStatus({
         shortTitle: 'Accepted',
-        title: 'Your introduction request was accepted!',
+        title: 'Introducee Request Accepted!',
         description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed ${introduction.introducer ? `to the introduction request!` : 'to be introduced to you!'}`,
         date: introduction.introducer_rejected_at,
         color: 'success'
@@ -87,7 +87,7 @@ export default function Introductions(props) {
     if (introduction.introducer_rejected) {
       setIntroducerStatus({
         shortTitle: 'Denied',
-        title: 'Introduction Request denied',
+        title: 'Request Denied',
         description: `Unfortunately, your request was denied. This is what they said in their reason: ${introduction.rejection_reason}`,
         date: introduction.introducer_rejected_at,
         color: 'danger'
