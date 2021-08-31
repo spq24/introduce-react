@@ -30,6 +30,8 @@ import DevicesOtherTwoToneIcon from '@material-ui/icons/DevicesOtherTwoTone';
 import LinkTwoToneIcon from '@material-ui/icons/LinkTwoTone';
 import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTwoTone';
 import GroupAddTwoToneIcon from '@material-ui/icons/GroupAddTwoTone';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
@@ -187,6 +189,28 @@ const SidebarMenu = (props) => {
                   <ChevronRightTwoToneIcon />
                 </span>
               </NavLink>
+            </li>
+            <li>
+              <a href="https://canyouintrome.fider.io/" target="_blank" className="nav-link-simple">
+                <span className="sidebar-icon">
+                  <FeedbackIcon />
+                </span>
+                Feature Request
+                <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
+                  <ChevronRightTwoToneIcon />
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="https://canyouintrome.freshdesk.com/" target="_blank" className="nav-link-simple" >
+                <span className="sidebar-icon">
+                  <HelpOutlineIcon />
+                </span>
+                  Support
+                <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
+                  <ChevronRightTwoToneIcon />
+                </span>
+              </a>
             </li>
           </ul>
         </div>

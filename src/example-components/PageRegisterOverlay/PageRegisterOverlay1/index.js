@@ -320,6 +320,15 @@ export default function SignUp() {
                                     Login
                                   </Link>
                                 </div>
+                                <div className="text-center text-black-50 mt-3">
+                                  By signing up you agree to our {' '}
+                                <a href='https://canyouintrome.com/terms' target="_blank" className="text-first">
+                                  Terms
+                                  </a> and&nbsp;
+                                  <a href='https://canyouintrome.com/privacy' target="_blank" className="text-first">
+                                    Privacy Policy
+                                  </a>
+                                </div>
                               </div>
                             </div>
                           </div>
