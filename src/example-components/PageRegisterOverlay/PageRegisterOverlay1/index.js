@@ -161,95 +161,7 @@ export default function SignUp() {
                 <Card className="rounded-sm modal-content p-3 bg-white-10">
                   <Card className="rounded-sm shadow-none font-size-sm p-3 p-sm-0">
                     <Grid container spacing={0}>
-                      {/* <Grid
-                        item
-                        lg={6}
-                        className="d-flex align-items-center justify-content-center flex-column">
-                        <div className="divider-v divider-v-lg d-none d-lg-block" />
-                        <div className="text-center mt-4">
-                          <h1 className="font-size-xxl mb-1 font-weight-bold">
-                            Get Started
-                          </h1>
-                        </div>
-                        <div className="px-5 py-4">
-                          <div className="mb-3">
-                            <Grid container spacing={6}>
-                              <Grid item md={6}>
-                                <div>
-                                  <label className="font-weight-bold mb-2">
-                                    First name
-                                  </label>
-                                  <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    placeholder="Enter your first name"
-                                    name="first_name"
-                                    onChange={(e) => handleChange(e)}
-                                  />
-                                </div>
-                              </Grid>
-                              <Grid item md={6}>
-                                <div>
-                                  <label className="font-weight-bold mb-2">
-                                    Last name
-                                  </label>
-                                  <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    placeholder="Enter your last name"
-                                    name="last_name"
-                                    onChange={(e) => handleChange(e)}
-                                  />
-                                </div>
-                              </Grid>
-                            </Grid>
-                          </div>
-                          <div className="mb-3">
-                            <label className="font-weight-bold mb-2">
-                              Email
-                            </label>
-                            <TextField
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                              placeholder="Enter your email address"
-                              type="email"
-                              name="email"
-                              onChange={(e) => handleChange(e)}
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <div className="d-flex justify-content-between">
-                              <label className="font-weight-bold mb-2">
-                                Password
-                              </label>
-                            </div>
-                            <TextField
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                              placeholder="Enter your password"
-                              type="password"
-                              name="password"
-                              onChange={(e) => handleChange(e)}
-                            />
-                          </div>
-
-                          <div className="my-4">
-                            By clicking the <strong>Create account</strong>{' '}
-                            button below you agree to our terms of service and
-                            privacy statement.
-                          </div>
-                          <div className="text-center mb-4">
-                            <Button className="btn-primary text-uppercase font-weight-bold font-size-sm my-3" disabled={disableSubmit} onClick={ (e) => handleSubmit(e) }>
-                              Create account
-                            </Button>
-                          </div>
-                        </div>
-                      </Grid> */}
-                      <Grid item lg={12} className="d-flex align-items-center justify-content-center flex-column">
+                      <Grid item lg={12} md={12} sm={12} xs={12} className="d-flex align-items-center justify-content-center flex-column">
                         <div className="d-block d-xl-flex">
                           <div className="p-4">
                             <div className="text-black font-weight-bold font-size-lg mb-1">
@@ -258,7 +170,7 @@ export default function SignUp() {
                           </div>
                         </div>
                       </Grid>
-                      <Grid item lg={12} className="d-flex" style={{ justifyContent: 'space-evenly' }}>
+                      <Grid container lg={12} className="d-flex" style={{ justifyContent: 'space-evenly' }}>
                         <GoogleLogin
                           clientId="76583804160-hikjh5kp20nqpu701d17hemqum1mfbnt.apps.googleusercontent.com"
                           onSuccess={handleGoogleLogin}
