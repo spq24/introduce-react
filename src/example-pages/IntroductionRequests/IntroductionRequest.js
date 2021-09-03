@@ -97,8 +97,8 @@ export default function IntroductionRequest(props) {
       })
     } else if (!introductionRequest.introducer_sent_request) {
       setIntroduceeStatus({
-        shortTitle: 'Waiting',
-        title: `Waiting`,
+        shortTitle: 'Pending',
+        title: `Pending`,
         description: `We are waiting on you to decide what to do with the request before we send anything to your contact.`,
         date: '',
         color: 'info'
@@ -106,17 +106,17 @@ export default function IntroductionRequest(props) {
     } else if (introductionRequest.introducee_accepted) {
       setIntroduceeStatus({
         shortTitle: 'Accepted',
-        title: `You agreed to make the introduction to ${introductionRequest.introducee ? introductionRequest.introducee.first_name : null} ${introductionRequest.introducee ? introductionRequest.introducee.last_name : null}!`,
-        description: `You agreed to make the introduction so we sent the request to ${ introductionRequest.introducee.first_name }`,
-        date: introductionRequest.introducer_rejected_at,
+        title: `They agreed!`,
+        description: `${introductionRequest.introducee && introductionRequest.introducee.first_name.length > 0 ? introductionRequest.introducee.first_name : 'They'} agreed to the introduction. We sent an email to everyone to make the introduction happen.`,
+        date: introductionRequest.introducee_accepted_at,
         color: 'success'
       })
     } else if (introductionRequest.introducee_rejected) {
       setIntroduceeStatus({
         shortTitle: 'Denied',
-        title: `Your contact ${introductionRequest.introducee ? introductionRequest.introducee.first_name : null} ${introductionRequest.introducee ? introductionRequest.introducee.last_name : null} denied the introduction request.`,
+        title: `Your contact denied the request.`,
         description: `Your contact ${introductionRequest.introducee ? introductionRequest.introducee.first_name : null} ${introductionRequest.introducee ? introductionRequest.introducee.last_name : null} denied the introduction request.`,
-        date: introductionRequest.introducer_rejected_at,
+        date: introductionRequest.introducee_rejected_at,
         color: 'danger'
       })
     } else {
