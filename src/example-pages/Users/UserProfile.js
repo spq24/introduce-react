@@ -200,7 +200,7 @@ export default function UserProfile() {
         <Grid container spacing={2}>
           <ProfileCard
             title='Your Personalized Link'
-            link={`https://canyouintro.me/new-introduction-request/${user.unique_id}`} />
+            link={`https://canyouintro.me/${user.unique_id}`} />
         </Grid>
       {/* </div> */}
       <div className="app-inner-content-layout">
@@ -263,7 +263,7 @@ export default function UserProfile() {
                             </div>
                           </div>
                           <div className="font-weight-bold mt-1 font-size-lg text-white-50">
-                            <a href={`/new-introduction-request/${user.unique_id}`} className="text-white-50" target="_blank">
+                            <a href={`/r/${user.unique_id}`} className="text-white-50" target="_blank">
                               Your Introduction Request Page <FontAwesomeIcon icon={['fas', 'external-link-alt']} lassName="text-white-50" />
                             </a>
                           </div>

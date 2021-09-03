@@ -10,26 +10,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import List from './List';
 import { NotificationManager } from 'react-notifications';
-import ProfileCard from '../../example-pages/Users/ProfileCard';
+import MarketingCta from '../MarketingCta';
 
-export default function IntroductionRequests(props) {
+export default function IntroductionProposals(props) {
   const userDetails = useAuthState();
-  const [introductionRequests, setIntroductionRequests] = useState([]);
+  const [introductionProposals, setIntroductionProposals] = useState([]);
   const [pagination, setPagination] = useState({});
   const [pageNumber, setPageNumber] = useState(1);
-  const PROFILE_LINK = `https://canyouintro.me/r/${userDetails.user.unique_id}`
 
   useEffect(() => {
-    retrieveIntroductionRequests()
+    retrieveIntroductionProposals()
   }, [])
 
-  const retrieveIntroductionRequests = () => {
-    axios.get(`/api/v1/introduction_requests?page=${pageNumber}`, {
+  const retrieveIntroductionProposals = () => {
+    axios.get(`/api/v1/introduction_proposals?page=${pageNumber}`, {
       headers: userDetails.credentials
     })
     .then(response => {
       setPagination(response.data.pagination)
-      setIntroductionRequests(response.data.introduction_requests)
+      setIntroductionProposals(response.data.introduction_proposals)
     }).catch(error => {
       let message = error && error.response && error.response.data && error.response.data.message ?
         error.response.data.message : 'There was an error. Please try again!'
@@ -38,7 +37,7 @@ export default function IntroductionRequests(props) {
   }
 
   useEffect(() => {
-    retrieveIntroductionRequests()
+    retrieveIntroductionProposals()
   }, [pageNumber])
 
   const handlePageChange = (e, pageNumber) => {
@@ -48,13 +47,13 @@ export default function IntroductionRequests(props) {
 
   return (
     <>
-       <Grid container spacing={6}>
-          <ProfileCard
-            title='Share your intro request link'
-            link={PROFILE_LINK} />
-        </Grid>
+      <MarketingCta
+        text='Do you think two people you know should meet? Introduce Them!'
+        type='info'
+        button='Propose Introduction'
+        link='/new-introduction-proposal' />
       <List
-        introductionRequests={introductionRequests}
+        introductionProposals={introductionProposals}
         showPagination={true}
         pagination={pagination}
         handlePageChange={handlePageChange} />

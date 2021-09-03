@@ -97,8 +97,8 @@ export default function IntroductionRequest(props) {
       })
     } else if (!introductionRequest.introducer_sent_request) {
       setIntroduceeStatus({
-        shortTitle: 'Waiting On Intro Request',
-        title: `Waiting On You`,
+        shortTitle: 'Waiting',
+        title: `Waiting`,
         description: `We are waiting on you to decide what to do with the request before we send anything to your contact.`,
         date: '',
         color: 'info'
@@ -293,7 +293,7 @@ export default function IntroductionRequest(props) {
                     {introductionRequest.introducee ? `${introductionRequest.introducee.first_name} ${introductionRequest.introducee.last_name}` : 'Introducee'}
                   </h3>
                   <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                   Introducee <br /> Request Status: {introduceeStatus.shortTitle}
+                   Introducee <br /> Request Status: <br />{introduceeStatus.shortTitle}
                   </div>
                 </div>
               </Card>

@@ -24,6 +24,8 @@ import Introductions from './example-pages/Introductions';
 import Introduction from './example-pages/Introductions/Introduction';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
+import IntroductionProposals from './example-pages/IntroductionProposals';
+import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIntroductionProposal';
 import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
@@ -231,7 +233,7 @@ const Routes = () => {
                   '/linkedin',
                   '/sign-up',
                   '/forgot-password',
-                  '/new-introduction-request/:id',
+                  '/r/:id',
                   '/requested-introduction/:id',
                   '/introducee-requested-introduction/:id',
                   '/reset-password',
@@ -262,7 +264,7 @@ const Routes = () => {
                         component={PageResetPassword}
                       />
                       <Route
-                        exact path="/new-introduction-request/:id"
+                        exact path="/r/:id"
                         component={PublicIntroductionRequest}
                       />
                       <Route
@@ -289,6 +291,8 @@ const Routes = () => {
                   '/introductions/:id',
                   '/introduction-requests',
                   '/introduction-requests/:id',
+                  '/introduction-proposals',
+                  '/new-introduction-proposal',
                   '/users/:id'
                 ]}>
                 <LeftSidebar>
@@ -322,6 +326,14 @@ const Routes = () => {
                       <Route
                         exact path="/introduction-requests/:id"
                         component={IntroductionRequest}
+                      />
+                      <Route
+                        exact path="/new-introduction-proposal"
+                        component={NewIntroductionProposal}
+                      />
+                      <Route
+                        exact path="/introduction-proposals"
+                        component={IntroductionProposals}
                       />
                       <Route
                         exact path="/users/:id"

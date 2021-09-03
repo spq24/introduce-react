@@ -32,7 +32,7 @@ import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTw
 import GroupAddTwoToneIcon from '@material-ui/icons/GroupAddTwoTone';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import FeedbackIcon from '@material-ui/icons/Feedback';
-
+import PersonAddTwoToneIcon from '@material-ui/icons/PersonAddTwoTone';
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
 
@@ -186,6 +186,21 @@ const SidebarMenu = (props) => {
                 </span>
                 Requests
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
+                  <ChevronRightTwoToneIcon />
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeClassName="active"
+                onClick={toggleSidebarMobile}
+                className="nav-link-simple"
+                to="/introduction-proposals">
+                <span className="sidebar-icon">
+                  <PersonAddTwoToneIcon />
+                </span>
+                Proposals
+                  <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
               </NavLink>
