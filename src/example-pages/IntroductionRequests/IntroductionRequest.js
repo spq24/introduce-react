@@ -123,7 +123,7 @@ export default function IntroductionRequest(props) {
       setIntroduceeStatus({
         shortTitle: 'Pending',
         title: `Request Sent`,
-        description: `You agreed and we sent the request to ${introductionRequest.introducee ? `${introductionRequest.introducee.first_name}!` : 'to the person you asked to be introduced to!'} We are waiting to hear back.`,
+        description: `We sent the request${introductionRequest.introducee ? ` to ${introductionRequest.introducee.first_name}!` : ' to your contact!'} We are waiting to hear back.`,
         date: introductionRequest.introducer_sent_request_at,
         color: 'warning'
       })
