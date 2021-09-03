@@ -26,6 +26,7 @@ import hero6 from 'assets/images/hero-bg/particles-2.svg';
 
 export default function PublicIntroductionRequest() {
   const [loading, setLoading] = useState(true)
+  const [introducee, setIntroducee] = useState({});
   const [introduction, setIntroduction] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -43,9 +44,11 @@ export default function PublicIntroductionRequest() {
       axios.get(`/api/v1/requested-introduction/${id}`)
            .then(response => {
              let intro = response.data.introduction
+             console.log('intro', intro.introducee)
              setIntroduction(intro)
+             setIntroducee(intro.introducee)
              setLoading(false)
-             document.title = `${response.data.introduction.introduction_requester.first_name} ${response.data.introduction.introduction_requester.last_name} requested an introduction to ${response.data.introduction.introducee.first_name} ${response.data.introduction.introducee.last_name}`
+             document.title = `${intro.introduction_requester.first_name} ${intro.introduction_requester.last_name} requested an introduction to ${intro.introducee.first_name} ${intro.introducee.last_name}`
              if (intro.completed || intro.introducer_rejected || intro.introducer_accepted) {
                setHandled(true)
              }
@@ -75,6 +78,17 @@ export default function PublicIntroductionRequest() {
     }));
   }
 
+  const handleIntroduceeChange = (e) => {
+    const { name, value } = e.target;
+    console.log('name', name)
+    console.log('value', value)
+    setIntroducee(introducee => ({
+      ...introducee,
+      [name]: value
+    }));
+    console.log('introducee', introducee)
+  }
+
   const handleAcceptRejectChange = (e, status) => {
     e.preventDefault();
     setAcceptRejectStatus(status)
@@ -93,6 +107,7 @@ export default function PublicIntroductionRequest() {
     axios.put(`/api/v1/introducer-accept-reject/${id}`,
       {
         introduction: introduction,
+        introducee: introducee,
         status: acceptRejectStatus
       },
     ).then(response => {
@@ -109,12 +124,12 @@ export default function PublicIntroductionRequest() {
 
   const validateEmail = () => {
     const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const email = introduction.introducee_email && introduction.introducee_email.length > 0 && validEmailRegex.test(introduction.introducee_email)
+    const email = introducee.email && introducee.email.length > 0 && validEmailRegex.test(introducee.email)
     if(email) {
       return true
     } else {
       setErrorMessage(
-        `Please make sure the email you entered for ${introduction.introducee.first_name} ${introduction.introducee.last_name}`
+        `Please make sure the email you entered for ${introducee.first_name} ${introducee.last_name}`
       )
       return false
     }
@@ -169,7 +184,7 @@ export default function PublicIntroductionRequest() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction ${introduction && introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} ${introduction && introduction.introducee ? introduction.introducee.last_name : ''}!`}
+                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction${introduction && introducee ? ` to ${introducee.first_name}` : ''} ${introduction && introducee ? introducee.last_name : ''}!`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
@@ -193,7 +208,7 @@ export default function PublicIntroductionRequest() {
                                   }
                                   {
                                     submitted && acceptRejectStatus == 'accepted' ?
-                                    `Thank you we will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know and send an email to ${introduction.introducee.first_name} ${introduction.introducee.last_name}` :
+                                    `Thank you we will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know and send an email to ${introducee.first_name} ${introducee.last_name}` :
                                     acceptRejectStatus !== '' ?
                                       `Thank you we will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know.` : null
                                   }
@@ -278,9 +293,9 @@ export default function PublicIntroductionRequest() {
                                       label={`Their First Name`}
                                       variant="outlined"
                                       type="text"
-                                      name="introducee_first_name"
-                                      value={introduction.introducee && introduction.introducee.first_name ? introduction.introducee.first_name : null}
-                                      onChange={(e) => handleChange(e)}
+                                      name="first_name"
+                                      value={introducee.first_name}
+                                      onChange={(e) => handleIntroduceeChange(e)}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
@@ -289,9 +304,9 @@ export default function PublicIntroductionRequest() {
                                       label={`Their Last Name`}
                                       variant="outlined"
                                       type="text"
-                                      name="introducee_last_name"
-                                      value={introduction.introducee && introduction.introducee.last_name ? introduction.introducee.last_name : null}
-                                      onChange={(e) => handleChange(e)}
+                                      name="last_name"
+                                      value={introducee.last_name}
+                                      onChange={(e) => handleIntroduceeChange(e)}
                                     />
                                   </Grid>
                                   <Grid item md={4}>
@@ -300,15 +315,15 @@ export default function PublicIntroductionRequest() {
                                       label={`Their email`}
                                       variant="outlined"
                                       type="email"
-                                      name="introducee_email"
-                                      value={introduction.introducee_email}
-                                      onChange={(e) => handleChange(e)}
+                                      name="email"
+                                      value={introducee.email}
+                                      onChange={(e) => handleIntroduceeChange(e)}
                                     />
                                   </Grid>
                                   <Grid item md={12}>
                                     <TextField
                                       fullWidth
-                                      label={`What would you like to say to ${introduction.introducee.first_name} ${introduction.introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}?`}
+                                      label={`What would you like to say to ${introducee.first_name} ${introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}?`}
                                       multiline
                                       placeholder={`Reminder what they said to you: ${introduction.requester_introducer_message}`}
                                       rows={4}
