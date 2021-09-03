@@ -203,12 +203,81 @@ export default function PublicIntroductionRequest() {
                         </div>
                         :
                         <div className="p-4">
+                        <h5 className="font-size-xl mb-1 font-weight-bold">
+                          Tell Me About You
+                        </h5>
+                        <Grid container spacing={6}>
+                          <Grid item md={4}>
+                            <TextField
+                              fullWidth
+                              label="First Name"
+                              name="first_name"
+                              variant="outlined"
+                              required={true}
+                              value={requester.first_name}
+                              onChange={(e) => handleRequesterChange(e)}
+                            />
+                          </Grid>
+                          <Grid item md={4}>
+                            <TextField
+                              fullWidth
+                              label="Last Name"
+                              name="last_name"
+                              required={true}
+                              variant="outlined"
+                              value={requester.last_name}
+                              onChange={(e) => handleRequesterChange(e)}
+                            />
+                          </Grid>
+                          <Grid item md={4}>
+                            <TextField
+                              fullWidth
+                              type="email"
+                              label="Your Email"
+                              name="email"
+                              required={true}
+                              variant="outlined"
+                              value={requester.email}
+                              onChange={(e) => handleRequesterChange(e)}
+                            />
+                          </Grid>
+                          <Grid item md={12}>
+                            <TextField
+                              fullWidth
+                              label="What should I know about you that will help me make this introduction?"
+                              multiline
+                              rows={4}
+                              variant="outlined"
+                              name="requester_introducer_message"
+                              value={requester.requester_introducer_message}
+                              onChange={(e) => handleRequesterChange(e)}
+                            />
+                          </Grid>
+                        </Grid>
+                        <div style={{ margin: '30px 0px' }} />
                           <h5 className="font-size-xl mb-1 font-weight-bold">
-                            Who Are You Looking To Get Introduced To?
+                            Who are you looking to be introduced to?
                           </h5>
-                          <p className="text-black-50 mb-4">
-                            Let me know who you would like to be introduced to and I will see if I can help!
-                          </p>
+                          <Grid container spacing={6}>
+                            <Grid item md={12}>
+                              <TextField
+                                fullWidth
+                                label="Info about the person"
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                name="about_introducee"
+                                required={true}
+                                value={introducee.about_introducee}
+                                onChange={(e) => handleIntroduceeChange(e)}
+                              />
+                              <FormHelperText>examples: Job title, company, etc. Make sure I know the right person to introduce you to.</FormHelperText>
+                            </Grid>
+                          </Grid>
+                          <div style={{ margin: '30px 0px' }} />
+                          <h6 className="font-size-l mb-1">
+                            If you know the person's name put it below (optional)
+                          </h6>
                           <Grid container spacing={6}>
                             <Grid item md={6}>
                               <TextField
@@ -230,72 +299,17 @@ export default function PublicIntroductionRequest() {
                                 onChange={(e) => handleIntroduceeChange(e)}
                               />
                             </Grid>
-                            <Grid item md={12}>
-                              <TextField
-                                fullWidth
-                                label="What are some more details about this person?"
-                                multiline
-                                rows={4}
-                                variant="outlined"
-                                name="about_introducee"
-                                value={introducee.about_introducee}
-                                onChange={(e) => handleIntroduceeChange(e)}
-                              />
-                              <FormHelperText>examples: Job title, company, etc. Make sure I know the right person to introduce you to.</FormHelperText>
-                            </Grid>
                           </Grid>
                           <div style={{ margin: '30px 0px' }} />
-                          <h5 className="font-size-xl mb-1 font-weight-bold">
-                            Tell Me About You?
-                          </h5>
-                          <p className="text-black-50 mb-4">
-                            Let me know who you are so I can make the introduction
-                          </p>
-                          <Grid container spacing={6}>
-                            <Grid item md={6}>
-                              <TextField
-                                fullWidth
-                                label="First Name"
-                                name="first_name"
-                                variant="outlined"
-                                value={requester.first_name}
-                                onChange={(e) => handleRequesterChange(e)}
-                              />
-                            </Grid>
-                            <Grid item md={6}>
-                              <TextField
-                                fullWidth
-                                label="Last Name"
-                                name="last_name"
-                                variant="outlined"
-                                value={requester.last_name}
-                              onChange={(e) => handleRequesterChange(e)}
-                              />
-                            </Grid>
-                            <Grid item md={12}>
-                              <TextField
-                                fullWidth
-                                type="email"
-                                label="Your Email"
-                                name="email"
-                                variant="outlined"
-                                value={requester.email}
-                                onChange={(e) => handleRequesterChange(e)}
-                              />
-                            </Grid>
-                          </Grid>
-                          <div style={{ margin: '30px 0px' }} />
+
                           <h5 className="font-size-xl mb-1 font-weight-bold">
                             How Will This Introduction Help You?
                           </h5>
-                          <p className="text-black-50 mb-4">
-                            Let me know who you are so I can make the introduction
-                          </p>
                           <Grid container spacing={6}>
                             <Grid item md={12}>
                               <TextField
                                 fullWidth
-                                label="Why Are You Requesting An Introduction?"
+                                label="Tell me why you are requesting this introduction"
                                 multiline
                                 rows={4}
                                 variant="outlined"
@@ -304,18 +318,6 @@ export default function PublicIntroductionRequest() {
                                 onChange={(e) => handleRequesterChange(e)}
                               />
                               <FormHelperText>examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
-                            </Grid>
-                            <Grid item md={12}>
-                              <TextField
-                                fullWidth
-                                label="What should I know about you that will help me make this introduction?"
-                                multiline
-                                rows={4}
-                                variant="outlined"
-                                name="requester_introducer_message"
-                                value={requester.requester_introducer_message}
-                                onChange={(e) => handleRequesterChange(e)}
-                              />
                             </Grid>
                             <Grid item md={12}>
                               {

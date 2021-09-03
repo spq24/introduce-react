@@ -169,7 +169,7 @@ export default function PublicIntroductionRequest() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction to ${introduction && introduction.introducee ? introduction.introducee.first_name : ''} ${introduction && introduction.introducee ? introduction.introducee.last_name : ''}!`}
+                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction ${introduction && introduction.introducee ? `to ${introduction.introducee.first_name}` : ''} ${introduction && introduction.introducee ? introduction.introducee.last_name : ''}!`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
@@ -272,10 +272,32 @@ export default function PublicIntroductionRequest() {
                             {
                               acceptRejectStatus === 'accepted' ?
                                 <>
-                                  <Grid item md={12}>
+                                  <Grid item md={4}>
                                     <TextField
                                       fullWidth
-                                      label={`What is ${introduction.introducee.first_name} ${introduction.introducee.last_name}'s email?`}
+                                      label={`Their First Name`}
+                                      variant="outlined"
+                                      type="text"
+                                      name="introducee_first_name"
+                                      value={introduction.introducee && introduction.introducee.first_name ? introduction.introducee.first_name : null}
+                                      onChange={(e) => handleChange(e)}
+                                    />
+                                  </Grid>
+                                  <Grid item md={4}>
+                                    <TextField
+                                      fullWidth
+                                      label={`Their Last Name`}
+                                      variant="outlined"
+                                      type="text"
+                                      name="introducee_last_name"
+                                      value={introduction.introducee && introduction.introducee.last_name ? introduction.introducee.last_name : null}
+                                      onChange={(e) => handleChange(e)}
+                                    />
+                                  </Grid>
+                                  <Grid item md={4}>
+                                    <TextField
+                                      fullWidth
+                                      label={`Their email`}
                                       variant="outlined"
                                       type="email"
                                       name="introducee_email"
@@ -288,6 +310,7 @@ export default function PublicIntroductionRequest() {
                                       fullWidth
                                       label={`What would you like to say to ${introduction.introducee.first_name} ${introduction.introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}?`}
                                       multiline
+                                      placeholder={`Reminder what they said to you: ${introduction.requester_introducer_message}`}
                                       rows={4}
                                       variant="outlined"
                                       name="introducer_introducee_message"
