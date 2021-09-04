@@ -263,7 +263,7 @@ export default function IntroductionRequest(props) {
         <Grid item lg={8}>
           <Grid container spacing={6}>
             <Grid item lg={6}>
-              <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '225px' }}>
+              <Card className="card-box p-4 bg-night-sky text-white" style={{ minHeight: '245px' }}>
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>
@@ -282,7 +282,7 @@ export default function IntroductionRequest(props) {
               </Card>
             </Grid>
             <Grid item lg={6}>
-              <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '225px' }}>
+              <Card className="card-box bg-midnight-bloom text-white p-4" style={{ minHeight: '245px' }}>
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>

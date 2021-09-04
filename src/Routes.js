@@ -30,6 +30,8 @@ import IntroductionRequest from './example-pages/IntroductionRequests/Introducti
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
 import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/IntroduceePublicIntroduction';
+import IntroduceeOneIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
+import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
 import UserProfile from './example-pages/Users/UserProfile';
 
 
@@ -236,6 +238,8 @@ const Routes = () => {
                   '/r/:id',
                   '/requested-introduction/:id',
                   '/introducee-requested-introduction/:id',
+                  '/introduction-proposal/:id/introduceeone/:introducee_id',
+                  '/introduction-proposal/:id/introduceetwo/:introducee_id',
                   '/reset-password',
                   '/PageError404',
                   '/PageError500',
@@ -266,6 +270,14 @@ const Routes = () => {
                       <Route
                         exact path="/r/:id"
                         component={PublicIntroductionRequest}
+                      />
+                      <Route
+                        exact path="/introduction-proposal/:id/introduceeone/:introducee_id"
+                        component={IntroduceeOneIntroductionProposal}
+                      />
+                      <Route
+                        exact path="/introduction-proposal/:id/introduceetwo/:introducee_id"
+                        component={IntroduceeTwoIntroductionProposal}
                       />
                       <Route
                         exact path="/requested-introduction/:id"

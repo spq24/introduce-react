@@ -16,21 +16,18 @@ import {
   FormHelperText,
   Avatar
 } from '@material-ui/core';
-import { NotificationManager } from 'react-notifications';
 import Alert from '@material-ui/lab/Alert';
-import Loader from '../../example-components/Loader';
+import { NotificationManager } from 'react-notifications';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
-export default function PublicIntroductionRequest() {
+export default function IntroduceePublicIntroduction() {
   const [loading, setLoading] = useState(true)
-  const [introducee, setIntroducee] = useState({});
   const [introduction, setIntroduction] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
   const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
-  const [errorMessage, setErrorMessage] = useState('');
   const params = new URLSearchParams(window.location.search)
   let status = params.get('status')
   const { id } = useParams();
@@ -39,30 +36,26 @@ export default function PublicIntroductionRequest() {
 
   useEffect(() => {
     if(id) {
-      axios.get(`/api/v1/requested-introduction/${id}`)
+      axios.get(`/api/v1/proposed-introduction/${id}`)
            .then(response => {
              let intro = response.data.introduction
-             console.log('intro', intro.introducee)
              setIntroduction(intro)
-             setIntroducee(intro.introducee)
              setLoading(false)
-             document.title = `${intro.introduction_requester.first_name} ${intro.introduction_requester.last_name} requested an introduction to ${intro.introducee.first_name} ${intro.introducee.last_name}`
-             if (intro.completed || intro.introducer_rejected || intro.introducer_accepted) {
+             document.title = `${response.data.introduction.introducer.first_name} ${response.data.introduction.introducer.last_name} wants to introduce you to ${response.data.introduction.introducee.first_name} ${response.data.introduction.introducee.last_name}`
+             if (intro.completed || intro.introducer_rejected || intro.introducee_rejected || intro.introducee_accepted) {
                setHandled(true)
              }
 
-             if(status && status.length > 0) {
-               if(status === 'accepted') {
+             if (status && status.length > 0) {
+               if (status === 'accepted') {
                  setAcceptRejectStatus('accepted')
-               } else if(status === 'denied'){
+               } else if (status === 'denied') {
                  setAcceptRejectStatus('denied')
                }
              }
            })
            .catch(error => {
-             let message = error && error.response && error.response.data && error.response.data.message ?
-               error.response.data.message : 'There was an error. Please try again!'
-             NotificationManager.error(message)
+             console.log('error', error.response)
            })
     }
   }, [])
@@ -76,15 +69,6 @@ export default function PublicIntroductionRequest() {
     }));
   }
 
-  const handleIntroduceeChange = (e) => {
-    const { name, value } = e.target;
-    setIntroducee(introducee => ({
-      ...introducee,
-      [name]: value
-    }));
-    console.log('introducee', introducee)
-  }
-
   const handleAcceptRejectChange = (e, status) => {
     e.preventDefault();
     setAcceptRejectStatus(status)
@@ -92,43 +76,21 @@ export default function PublicIntroductionRequest() {
 
   const handleSubmit = () => {
     setSubmitting(true)
-    if (acceptRejectStatus === 'accepted') {
-      let validated = validateEmail()
-      if (!validated) {
-        setSubmitting(false)
-        return
-      }
-    }
 
-    axios.put(`/api/v1/introducer-accept-reject/${id}`,
-      {
+    axios.put(`/api/v1/introducee-proposal-accept-reject/${id}`, {
         introduction: introduction,
-        introducee: introducee,
-        status: acceptRejectStatus
-      },
-    ).then(response => {
-      NotificationManager.success('Successfully Submitted')
+        status: acceptRejectStatus,
+        class_name: 'introduction_requester'
+    }).then(response => {
+      NotificationManager.success('Successfully submitted!')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {
       setSubmitting(false)
-      let message = error && error.response && error.response.message && error.response.data.message ?
+      let message = error && error.response && error.response.data && error.response.data.message ?
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
-  }
-
-  const validateEmail = () => {
-    const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const email = introducee.email && introducee.email.length > 0 && validEmailRegex.test(introducee.email)
-    if(email) {
-      return true
-    } else {
-      setErrorMessage(
-        `Please make sure the email you entered for ${introducee.first_name} ${introducee.last_name}`
-      )
-      return false
-    }
   }
 
   if(loading) {
@@ -147,13 +109,13 @@ export default function PublicIntroductionRequest() {
                   <Grid container spacing={6}>
                     <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                       <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
-                        Can You Make This Introduction?
+                        Will You Accept This Introduction?
                       </h1>
                     </Grid>
                   </Grid>
                   <Card className="rounded-sm modal-content p-3 bg-white-10">
                     <Card className="rounded-sm overflow-hidden shadow-xxl font-size-sm p-3 p-sm-0">
-                      <Loader />
+                      <h2>Loading...</h2>
                     </Card>
                   </Card>
                 </Container>
@@ -172,7 +134,7 @@ export default function PublicIntroductionRequest() {
           <div className="flex-grow-1 w-100 d-flex align-items-center">
             <div
               className="bg-composed-wrapper--image opacity-6"
-              style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/handshake_iicHlCH4N?tr=w-480,h-480,fo-auto)' }}
+              style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/handshake-close_kmndubvB_.jpeg)' }}
             />
             <div className="bg-composed-wrapper--bg bg-second opacity-7" />
             <div className="bg-composed-wrapper--content p-3 p-md-5">
@@ -180,11 +142,11 @@ export default function PublicIntroductionRequest() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                    {`Hey ${introduction && introduction.introducer ? introduction.introducer.first_name : ''}`},<br /> {`${introduction && introduction.introduction_requester ? introduction.introduction_requester.first_name : ''} ${introduction && introduction.introduction_requester ? introduction.introduction_requester.last_name : ''} was wondering if you could make an introduction${introduction && introducee ? ` to ${introducee.first_name}` : ''} ${introduction && introducee ? introducee.last_name : ''}!`}
+                      {`Hey ${introduction.introduction_requester.first_name}`},<br /> {`${introduction.introducer.first_name} ${introduction.introducer.last_name} wants to introduce you to ${introduction.introducee.first_name} ${introduction.introducee.last_name}.`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
-                      Can You Make This Introduction?
+                      Will You Accept This Introduction?
                     </h1>
                   </Grid>
                 </Grid>
@@ -204,17 +166,17 @@ export default function PublicIntroductionRequest() {
                                   }
                                   {
                                     submitted && acceptRejectStatus == 'accepted' ?
-                                    `Thank you we will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know and send an email to ${introducee.first_name} ${introducee.last_name}` :
+                                    `Great! Look out for an email soon that will connect you to ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}. We will Cc ${introduction.introducer.first_name} ${introduction.introducer.last_name} as well.` :
                                     acceptRejectStatus !== '' ?
-                                      `Thank you we will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know.` : null
+                                      `Thank you we will let ${introduction.introducer.first_name} ${introduction.introducer.last_name} know.` : null
                                   }
                                 </span>
                               </Alert>
                             </Grid>
                             <Grid item md={12} className="d-flex justify-content-center">
-                              <Link to="/login">
+                              <Link to="/sign-up">
                                 <Button className="btn-info font-weight-bold">
-                                  Check Out Your Dashboard
+                                  Start Accepting Your Own Introduction Requests
                                 </Button>
                               </Link>
                             </Grid>
@@ -223,14 +185,6 @@ export default function PublicIntroductionRequest() {
                         :
                         <div className="p-4">
                           <Grid container spacing={6}>
-                            <Grid item md={12}>
-                              {
-                                errorMessage && errorMessage.length > 0 ?
-                                  <Alert className='text-error mb-4' severity='error' style={{ margin: '20px 40px' }}>
-                                    {errorMessage}
-                                  </Alert> : null
-                              }
-                            </Grid>
                             <Grid item md={6} className="d-flex justify-content-center">
                               <Button
                                 className={`btn-${acceptRejectStatus === 'accepted' ? 'success' : 'outline-success'} font-weight-bold`}
@@ -244,7 +198,7 @@ export default function PublicIntroductionRequest() {
                                       </span>&nbsp;
                                     </> : null
                                 }
-                                I can make this introduction
+                                I Accept
                               </Button>
                             </Grid>
                             <Grid item md={6} className="d-flex justify-content-center">
@@ -260,7 +214,7 @@ export default function PublicIntroductionRequest() {
                                       </span>&nbsp;
                                     </> : null
                                 }
-                                I will not be able to make this introduction
+                                Deny Introduction Request
                               </Button>
                             </Grid>
                             {
@@ -268,68 +222,16 @@ export default function PublicIntroductionRequest() {
                                 <Grid item md={12}>
                                   <TextField
                                     fullWidth
-                                    label={`Let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know why you can not make this introduction`}
+                                    label={`Can you let ${introduction.introducer.first_name}  ${introduction.introducer.last_name} why you are denying the introduction request?`}
                                     multiline
                                     rows={4}
                                     variant="outlined"
-                                    name="rejection_reason"
-                                    value={introduction.rejection_reason}
+                                    name="introducee_rejection_reason"
+                                    value={introduction.introducee_rejection_reason}
                                     onChange={(e) => handleChange(e)}
                                   />
+                                <FormHelperText>{`This will only be sent to ${introduction.introducer.first_name} ${introduction.introducer.last_name}. We will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know but, we will not share the reason why.`}</FormHelperText>
                                 </Grid>
-                                : null
-                            }
-
-                            {
-                              acceptRejectStatus === 'accepted' ?
-                                <>
-                                  <Grid item md={4}>
-                                    <TextField
-                                      fullWidth
-                                      label={`Their First Name`}
-                                      variant="outlined"
-                                      type="text"
-                                      name="first_name"
-                                      value={introducee.first_name}
-                                      onChange={(e) => handleIntroduceeChange(e)}
-                                    />
-                                  </Grid>
-                                  <Grid item md={4}>
-                                    <TextField
-                                      fullWidth
-                                      label={`Their Last Name`}
-                                      variant="outlined"
-                                      type="text"
-                                      name="last_name"
-                                      value={introducee.last_name}
-                                      onChange={(e) => handleIntroduceeChange(e)}
-                                    />
-                                  </Grid>
-                                  <Grid item md={4}>
-                                    <TextField
-                                      fullWidth
-                                      label={`Their email`}
-                                      variant="outlined"
-                                      type="email"
-                                      name="email"
-                                      value={introducee.email}
-                                      onChange={(e) => handleIntroduceeChange(e)}
-                                    />
-                                  </Grid>
-                                  <Grid item md={12}>
-                                    <TextField
-                                      fullWidth
-                                      label={`What would you like to say to ${introducee.first_name} ${introducee.last_name} about ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}?`}
-                                      multiline
-                                      placeholder={`Reminder what they said to you: ${introduction.requester_introducer_message}`}
-                                      rows={4}
-                                      variant="outlined"
-                                      name="introducer_introducee_message"
-                                      value={introduction.introducer_introducee_message}
-                                      onChange={(e) => handleChange(e)}
-                                    />
-                                  </Grid>
-                                </>
                                 : null
                             }
 

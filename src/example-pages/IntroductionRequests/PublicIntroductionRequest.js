@@ -21,8 +21,6 @@ import { NotificationManager } from 'react-notifications';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
-import hero6 from 'assets/images/hero-bg/hero-1.jpg';
-
 export default function PublicIntroductionRequest() {
   const [introducee, setIntroducee] = useState({});
   const [introducer, setIntroducer] = useState({});
