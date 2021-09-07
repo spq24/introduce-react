@@ -78,7 +78,7 @@ export default function List(props) {
                                 </div>
                               </div>
                               <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
+                                {/* <Link to="/people/:id" className="font-weight-bold text-black"> */}
                                   {
                                     introductionProposal.introducee && introductionProposal.introducee.first_name ?
                                       introductionProposal.introducee.first_name : null
@@ -88,7 +88,7 @@ export default function List(props) {
                                     introductionProposal.introducee && introductionProposal.introducee.last_name ?
                                       introductionProposal.introducee.last_name : null
                                   }
-                                </Link>
+                                {/* </Link> */}
                               </div>
                             </div>
                           </td>
@@ -106,7 +106,7 @@ export default function List(props) {
                           </td>
                           <td>
                             <div>
-                              <Link to={`/introduction-requests/${introductionProposal.id}`}>
+                              <Link to={`/introduction-proposals/${introductionProposal.id}`}>
                                 <Button
                                   size="small"
                                   className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">

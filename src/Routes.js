@@ -26,6 +26,7 @@ import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
 import IntroductionProposals from './example-pages/IntroductionProposals';
 import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIntroductionProposal';
+import IntroductionProposal from './example-pages/IntroductionProposals/IntroductionProposal';
 import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
@@ -305,6 +306,7 @@ const Routes = () => {
                   '/introduction-requests/:id',
                   '/introduction-proposals',
                   '/new-introduction-proposal',
+                  '/introduction-proposals/:id',
                   '/users/:id'
                 ]}>
                 <LeftSidebar>
@@ -342,6 +344,10 @@ const Routes = () => {
                       <Route
                         exact path="/new-introduction-proposal"
                         component={NewIntroductionProposal}
+                      />
+                      <Route
+                        exact path="/introduction-proposals/:id"
+                        component={IntroductionProposal}
                       />
                       <Route
                         exact path="/introduction-proposals"

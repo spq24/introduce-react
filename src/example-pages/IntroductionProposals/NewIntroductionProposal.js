@@ -35,6 +35,7 @@ export default function NewIntroduction() {
   const userDetails = useAuthState();
   const [activeStep, setActiveStep] = useState(0);
   const [introducee, setIntroducee] = useState({});
+  const [introducer] = useState(userDetails.user);
   const [requester, setRequester] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
@@ -118,9 +119,9 @@ export default function NewIntroduction() {
     const lastName = introducee.last_name && introducee.last_name.length > 0
     const requestReason = introducee.request_reason && introducee.request_reason.length > 0
     const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const email = requester.email && requester.email.length > 0 && validEmailRegex.test(requester.email)
+    const email = introducee.email && introducee.email.length > 0 && validEmailRegex.test(introducee.email)
 
-    if (firstName && lastName && requestReason) {
+    if (firstName && lastName && email && requestReason) {
       return true
     } else {
       setErrorMessage(
@@ -140,7 +141,7 @@ export default function NewIntroduction() {
     const requesterIntroducerMessage = requester.requester_introducer_message && requester.requester_introducer_message.length > 0
     const email = requester.email && requester.email.length > 0 && validEmailRegex.test(requester.email)
 
-    if (firstName && lastName && email) {
+    if (firstName && lastName && email && requesterIntroducerMessage) {
       return true
     } else {
       setErrorMessage(
@@ -165,15 +166,16 @@ export default function NewIntroduction() {
     let intro = {
       introducee: introducee,
       requester: requester,
+      introducer: introducer,
       proposal: true
     }
 
-    axios.post('/api/v1/introductions',
+    axios.post('/api/v1/introduction-proposal-create',
       intro,
       { headers: userDetails.credentials }
     ).then(response => {
       NotificationManager.success("Introduction Proposal Is On It's Way")
-      history.push(`/introductions/${response.data.introduction.id}`)
+      history.push(`/introduction-proposals/${response.data.introduction.id}`)
     }).catch(error => {
       let message = error && error.response && error.response.data && error.response.data.message ?
         error.response.data.message : 'There was an error. Please try again!'
@@ -328,6 +330,7 @@ export default function NewIntroduction() {
                               fullWidth
                               label="Last Name"
                               name="last_name"
+                              required={true}
                               variant="outlined"
                               value={requester.last_name}
                               onChange={(e) => handleRequesterChange(e)}
@@ -339,6 +342,7 @@ export default function NewIntroduction() {
                               label="Email"
                               type="email"
                               name="email"
+                              required={true}
                               variant="outlined"
                               value={requester.email}
                               onChange={(e) => handleRequesterChange(e)}
@@ -351,6 +355,7 @@ export default function NewIntroduction() {
                               multiline
                               rows={4}
                               variant="outlined"
+                              required={true}
                               name="requester_introducer_message"
                               value={requester.requester_introducer_message}
                               onChange={(e) => handleRequesterChange(e)}
@@ -368,7 +373,7 @@ export default function NewIntroduction() {
                     <Container>
                       <div className="p-4 d-flex justify-content-center" style={{ alignItems: 'center', flexDirection: 'column' }}>
                         <h5 className="font-size-xl mb-1 font-weight-bold">
-                          Send Your Introduction Request
+                          Send Your Introduction Proposal
                         </h5>
                         <p className="text-black-50 mb-4">
                           Send out an email and we will keep you up to date on the status
@@ -377,7 +382,7 @@ export default function NewIntroduction() {
                         <Button
                           className="btn-success font-weight-bold"
                           onClick={handleSubmit}>
-                          Send Introduction Request
+                          Send It!
                         </Button>
                       </div>
                     </Container>

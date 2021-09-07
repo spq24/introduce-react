@@ -52,6 +52,7 @@ export default function IntroductionProposals(props) {
         type='info'
         button='Propose Introduction'
         link='/new-introduction-proposal' />
+
       <List
         introductionProposals={introductionProposals}
         showPagination={true}
