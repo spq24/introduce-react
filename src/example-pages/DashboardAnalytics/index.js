@@ -7,6 +7,7 @@ import NumberBoxes from './NumberBoxes';
 import Table from '../../example-components/Tables/Tables8';
 import Introductions from '../../example-pages/Introductions/List';
 import IntroductionRequests from '../../example-pages/IntroductionRequests/List';
+import IntroductionProposals from '../../example-pages/IntroductionProposals/List';
 import { Card, Button, Grid } from '@material-ui/core';
 import MarketingCta from '../MarketingCta';
 import EmptyDashboard from './EmptyDashboard';
@@ -20,6 +21,7 @@ export default function DashboardAnalytics() {
   const [completedIntroductions, setCompletedIntroductions] = useState(0);
   const [introductions, setIntroductions] = useState([]);
   const [introductionRequests, setIntroductionRequests] = useState([]);
+  const [introductionProposals, setIntroductionProposals] = useState([]);
 
   useEffect(() => {
 
@@ -30,6 +32,7 @@ export default function DashboardAnalytics() {
       setAcceptedIntroductions(response.data.accepted_introductions)
       setCompletedIntroductions(response.data.completed_introductions)
       setIntroductionRequests(response.data.introduction_requests)
+      setIntroductionProposals(response.data.introduction_proposals)
       setIntroductions(response.data.introductions)
       setLoading(false)
     })
@@ -45,7 +48,7 @@ export default function DashboardAnalytics() {
     return <Loader />
   }
 
-  if(introductions && introductionRequests && introductions.length == 0 && introductionRequests.length == 0) {
+  if(introductions && introductionRequests && introductionProposals && introductions.length === 0 && introductionRequests.length === 0 && introductionProposals.length === 0) {
     return <EmptyDashboard user={userDetails.user} />
   }
 
@@ -60,10 +63,12 @@ export default function DashboardAnalytics() {
       <NumberBoxes
         introductions={introductions}
         introductionRequests={introductionRequests}
+        introductionProposals={introductionProposals}
         acceptedIntroductions={acceptedIntroductions}
         completedIntroductions={completedIntroductions} />
       <Introductions introductions={introductions} />
       <IntroductionRequests introductionRequests={introductionRequests} />
+      <IntroductionProposals introductionProposals={introductionProposals} />
     </>
   );
 }

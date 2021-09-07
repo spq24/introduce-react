@@ -35,6 +35,7 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import PersonAddTwoToneIcon from '@material-ui/icons/PersonAddTwoTone';
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
+import OpenInNewTwoToneIcon from '@material-ui/icons/OpenInNewTwoTone';
 
 const SidebarMenu = (props) => {
   const { setSidebarToggleMobile, sidebarUserbox } = props;
@@ -169,7 +170,7 @@ const SidebarMenu = (props) => {
                 <span className="sidebar-icon">
                   <GroupAddTwoToneIcon />
                 </span>
-                Introductions
+                Intros You Asked For
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
@@ -184,7 +185,7 @@ const SidebarMenu = (props) => {
                 <span className="sidebar-icon">
                   <SupervisorAccountTwoToneIcon />
                 </span>
-                Requests
+                Intros Asked To Make
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
@@ -199,22 +200,11 @@ const SidebarMenu = (props) => {
                 <span className="sidebar-icon">
                   <PersonAddTwoToneIcon />
                 </span>
-                Proposals
-                  <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
-                  <ChevronRightTwoToneIcon />
-                </span>
-              </NavLink>
-            </li>
-            <li>
-              <a href="https://canyouintrome.fider.io/" target="_blank" className="nav-link-simple">
-                <span className="sidebar-icon">
-                  <FeedbackIcon />
-                </span>
-                Feature Request
+                Intros Proposed
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
-              </a>
+              </NavLink>
             </li>
             <li>
               <a href="https://canyouintrome.freshdesk.com/" target="_blank" className="nav-link-simple" >
@@ -223,7 +213,7 @@ const SidebarMenu = (props) => {
                 </span>
                   Support
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
-                  <ChevronRightTwoToneIcon />
+                  <OpenInNewTwoToneIcon />
                 </span>
               </a>
             </li>
