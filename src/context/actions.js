@@ -164,7 +164,7 @@ export async function impersonate(dispatch, originalCurrentUser, impersonateUser
   try {
     dispatch({ type: 'IMPERSONATE_START' });
 
-    return axios.get(`/api/v1/users/${impersonateUserId}`, { headers: originalCurrentUserCredentials })
+    return axios.get(`/api/v1/users/${impersonateUserId}/impersonate`, { headers: originalCurrentUserCredentials })
                 .then(response => {
                   let user = response.data.user
                   let credentials = response.data.token_data
