@@ -159,3 +159,49 @@ export async function updateUser(dispatch, user) {
     return
   }
 }
+
+export async function impersonate(dispatch, originalCurrentUser, impersonateUserId, originalCurrentUserCredentials) {
+  try {
+    dispatch({ type: 'IMPERSONATE_START' });
+
+    return axios.get(`/api/v1/users/${impersonateUserId}`, { headers: originalCurrentUserCredentials })
+                .then(response => {
+                  let user = response.data.user
+                  let credentials = response.data.token_data
+                  let payload = {
+                    currentUser: user,
+                    credentials: credentials,
+                    trueUser: originalCurrentUser,
+                    trueUserCredentials: originalCurrentUserCredentials
+                  }
+
+                  dispatch({ type: 'IMPERSONATE_SUCCESS', payload: payload });
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  localStorage.setItem('credentials', JSON.stringify(credentials));
+                  localStorage.setItem('trueUser', JSON.stringify(originalCurrentUser));
+                  localStorage.setItem('trueUserCredentials', JSON.stringify(originalCurrentUserCredentials));
+                  return payload;
+                })
+                .catch(error => {
+                  dispatch({ type: 'IMPERSONATE_ERROR', error: error.response })
+                  return
+                });
+  } catch (error) {
+    dispatch({ type: 'IMPERSONATE_ERROR', error: error });
+  }
+}
+
+export async function stopImpersonate(dispatch) {
+  try {
+    dispatch({ type: 'STOP_IMPERSONATE_START' });
+    let user = localStorage.getItem('trueUser')
+    let credentials = localStorage.getItem('trueUserCredentials')
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('credentials', JSON.stringify(credentials));
+    localStorage.removeItem('trueUser');
+    localStorage.removeItem('trueUserCredentials');
+    dispatch({ type: 'STOP_IMPERSONATE_SUCCESS', payload: { currentUser: user, credentials: credentials } });
+  } catch (error) {
+    dispatch({ type: 'STOP_IMPERSONATE_ERROR', error: error });
+  }
+}
