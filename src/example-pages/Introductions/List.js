@@ -74,17 +74,15 @@ export default function List(props) {
                               </div>
                             </div>
                             <div>
-                              <Link to="/people/:id" className="font-weight-bold text-black">
-                                {
-                                  introduction.introducer && introduction.introducer.first_name ?
-                                    introduction.introducer.first_name : null
-                                }
-                                &nbsp;
-                                {
-                                  introduction.introducer && introduction.introducer.last_name ?
-                                    introduction.introducer.last_name : null
-                                }
-                              </Link>
+                              {
+                                introduction.introducer && introduction.introducer.first_name ?
+                                  introduction.introducer.first_name : null
+                              }
+                              &nbsp;
+                              {
+                                introduction.introducer && introduction.introducer.last_name ?
+                                  introduction.introducer.last_name : null
+                              }
                             </div>
                           </div>
                         </td>
@@ -101,16 +99,14 @@ export default function List(props) {
                         </td>
                         <td>
                           <div>
-                            <Link to={`/introductions/${introduction.id}`}>
-                              <Button
-                                size="small"
-                                className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">
-                                <FontAwesomeIcon
-                                  icon={['fas', 'link']}
-                                  className="font-size-lg"
-                                />
-                              </Button>
-                            </Link>
+                            <Button
+                              size="small"
+                              className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">
+                              <FontAwesomeIcon
+                                icon={['fas', 'link']}
+                                className="font-size-lg"
+                              />
+                            </Button>
                           </div>
                         </td>
                       </tr>

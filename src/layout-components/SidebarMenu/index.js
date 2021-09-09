@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 
 import { Collapse } from '@material-ui/core';
-
+import { stopImpersonate, useAuthState, useAuthDispatch } from 'context'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { connect } from 'react-redux';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
 
 import SidebarUserbox from '../SidebarUserbox';
@@ -38,6 +38,8 @@ import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
 import OpenInNewTwoToneIcon from '@material-ui/icons/OpenInNewTwoTone';
 
 const SidebarMenu = (props) => {
+  const dispatch = useAuthDispatch();
+  const userDetails = useAuthState();
   const { setSidebarToggleMobile, sidebarUserbox } = props;
 
   const toggleSidebarMobile = () => setSidebarToggleMobile(false);
@@ -137,6 +139,8 @@ const SidebarMenu = (props) => {
     setPagesRecoverOpen(!pagesRecoverOpen);
     event.preventDefault();
   };
+
+
 
   return (
     <>

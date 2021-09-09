@@ -34,6 +34,7 @@ import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/I
 import IntroduceeOneIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
 import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
 import UserProfile from './example-pages/Users/UserProfile';
+import Users from './example-pages/Users/Users';
 
 
 import DashboardStatistics from './example-pages/DashboardStatistics';
@@ -307,7 +308,8 @@ const Routes = () => {
                   '/introduction-proposals',
                   '/new-introduction-proposal',
                   '/introduction-proposals/:id',
-                  '/users/:id'
+                  '/users/:id',
+                  '/users'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -357,7 +359,10 @@ const Routes = () => {
                         exact path="/users/:id"
                         component={UserProfile}
                       />
-
+                      <Route
+                        exact path="/users"
+                        component={Users}
+                      />
                     </motion.div>
                   </Switch>
                 </LeftSidebar>

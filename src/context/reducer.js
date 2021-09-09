@@ -1,12 +1,12 @@
 let user = localStorage.getItem('currentUser')
   ? JSON.parse(localStorage.getItem('currentUser'))
-  : '';
+  : {};
 let trueUser = localStorage.getItem('trueUser')
   ? JSON.parse(localStorage.getItem('trueUser'))
-  : '';
+  : {};
 let credentials = localStorage.getItem('credentials')
   ? JSON.parse(localStorage.getItem('credentials'))
-  : '';
+  : {};
 
 export const initialState = {
   user: '' || user,
@@ -60,6 +60,11 @@ export const AuthReducer = (initialState, action) => {
         loading: false,
         errorMessage: action.error,
       };
+    case 'IMPERSONATE_START':
+      return {
+        ...initialState,
+        loading: false
+      };
     case 'IMPERSONATE_SUCCESS':
       return {
         ...initialState,
@@ -73,10 +78,16 @@ export const AuthReducer = (initialState, action) => {
         loading: false,
         errorMessage: action.error,
       };
+    case 'STOP_IMPERSONATE_START':
+      return {
+        ...initialState,
+        loading: false
+      };
     case 'STOP_IMPERSONATE_SUCCESS':
       return {
         ...initialState,
-        user: action.payload.currentUser
+        user: action.payload.currentUser,
+        trueUser: {}
       };
     case 'STOP_IMPERSONATE_ERROR':
       return {

@@ -39,7 +39,6 @@ export default function Introductions(props) {
     setPageNumber(pageNumber)
   }
 
-
   return (
     <>
       <MarketingCta

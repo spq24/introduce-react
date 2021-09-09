@@ -175,6 +175,9 @@ export async function impersonate(dispatch, originalCurrentUser, impersonateUser
                     trueUserCredentials: originalCurrentUserCredentials
                   }
 
+                  console.log('currentUser', user)
+                  console.log('trueUser', originalCurrentUser)
+
                   dispatch({ type: 'IMPERSONATE_SUCCESS', payload: payload });
                   localStorage.setItem('currentUser', JSON.stringify(user));
                   localStorage.setItem('credentials', JSON.stringify(credentials));
@@ -194,13 +197,22 @@ export async function impersonate(dispatch, originalCurrentUser, impersonateUser
 export async function stopImpersonate(dispatch) {
   try {
     dispatch({ type: 'STOP_IMPERSONATE_START' });
-    let user = localStorage.getItem('trueUser')
-    let credentials = localStorage.getItem('trueUserCredentials')
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('credentials', JSON.stringify(credentials));
+    let parsedUser = JSON.parse(localStorage.getItem('trueUser'))
+    let parsedCredentials = JSON.parse(localStorage.getItem('trueUserCredentials'))
+    localStorage.setItem('currentUser', localStorage.getItem('trueUser'));
+    localStorage.setItem('credentials', localStorage.getItem('trueUserCredentials'));
     localStorage.removeItem('trueUser');
     localStorage.removeItem('trueUserCredentials');
-    dispatch({ type: 'STOP_IMPERSONATE_SUCCESS', payload: { currentUser: user, credentials: credentials } });
+
+    let payload = {
+      currentUser: parsedUser,
+      credentials: parsedCredentials,
+      trueUser: {},
+      trueUserCredentials: {}
+    }
+    dispatch({ type: 'STOP_IMPERSONATE_SUCCESS', payload: payload });
+    return payload
+
   } catch (error) {
     dispatch({ type: 'STOP_IMPERSONATE_ERROR', error: error });
   }
