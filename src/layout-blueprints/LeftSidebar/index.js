@@ -30,11 +30,7 @@ const LeftSidebar = (props) => {
 
   const handleStopImpersonate = (e) => {
     e.preventDefault()
-
-    stopImpersonate(dispatch).then(response => {
-      console.log('currentUser 2', localStorage.getItem('currentUser'))
-      console.log('trueUser 2', localStorage.getItem('trueUser'))
-    })
+    stopImpersonate(dispatch)
   }
 
   const action = (

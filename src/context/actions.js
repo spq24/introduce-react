@@ -175,9 +175,6 @@ export async function impersonate(dispatch, originalCurrentUser, impersonateUser
                     trueUserCredentials: originalCurrentUserCredentials
                   }
 
-                  console.log('currentUser', user)
-                  console.log('trueUser', originalCurrentUser)
-
                   dispatch({ type: 'IMPERSONATE_SUCCESS', payload: payload });
                   localStorage.setItem('currentUser', JSON.stringify(user));
                   localStorage.setItem('credentials', JSON.stringify(credentials));

@@ -49,10 +49,7 @@ export default function Users(props) {
       userDetails.user,
       id,
       userDetails.credentials
-    ).then(response => {
-      console.log('currentUser', localStorage.getItem('currentUser'))
-      console.log('trueUser', localStorage.getItem('trueUser'))
-    })
+    )
   }
 
   return (
