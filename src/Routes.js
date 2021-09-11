@@ -20,6 +20,7 @@ import {
 import DashboardMonitoring from './example-pages/DashboardMonitoring';
 import DashboardCommerce from './example-pages/DashboardCommerce';
 import DashboardAnalytics from './example-pages/DashboardAnalytics';
+import NewUser from './example-pages/DashboardAnalytics/NewUser';
 import Introductions from './example-pages/Introductions';
 import Introduction from './example-pages/Introductions/Introduction';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
@@ -178,6 +179,7 @@ const Routes = () => {
 
               <Route
                 path={[
+                  '/new-user',
                   '/dashboard',
                   '/new-introduction',
                   '/introductions',
@@ -198,6 +200,10 @@ const Routes = () => {
                       exit="out"
                       variants={pageVariants}
                       transition={pageTransition}>
+                      <Route
+                        path="/new-user"
+                        component={NewUser}
+                      />
                       <Route
                         path="/dashboard"
                         component={DashboardAnalytics}

@@ -56,7 +56,7 @@ export default function SignUp() {
       authMicrosoft(dispatch, code)
         .then(response => {
           if (response.currentUser && response.credentials) {
-            history.push('/dashboard')
+            history.push('/new-user')
           }
         })
         .catch(error => {
@@ -107,7 +107,7 @@ export default function SignUp() {
     auth(dispatch, user.email, user.password)
     .then(response => {
       if (response.currentUser && response.credentials) {
-        history.push('/dashboard')
+        history.push('/new-user')
       }
     })
     .catch(error => {
@@ -121,7 +121,7 @@ export default function SignUp() {
     authGoogle(dispatch, payload.code)
     .then(response => {
       if (response.currentUser && response.credentials) {
-        history.push('/dashboard')
+        history.push('/new-user')
       }
     })
     .catch(error => {
@@ -135,7 +135,7 @@ export default function SignUp() {
     authLinkedIn(dispatch, payload.code)
       .then(response => {
         if (response.currentUser && response.credentials) {
-          history.push('/dashboard')
+          history.push('/new-user')
         }
       })
       .catch(error => {
