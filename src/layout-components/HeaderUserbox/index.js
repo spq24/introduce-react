@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSegment } from 'react-segment-hooks';
 import {
   Typography,
   Badge,
@@ -13,6 +14,9 @@ import {
 } from '@material-ui/core';
 import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 import { withStyles } from '@material-ui/core/styles';
+import { createBrowserHistory } from "history";
+
+
 
 
 const StyledBadge = withStyles({
@@ -45,7 +49,20 @@ const StyledBadge = withStyles({
 })(Badge);
 
 const HeaderUserbox = (props) => {
+  const analytics = useSegment();
   const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    const { user } = props
+    analytics.identify({
+      userId: user.id,
+      traits: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email
+      }
+    })
+  })
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

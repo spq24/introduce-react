@@ -33,6 +33,7 @@ import GroupAddTwoToneIcon from '@material-ui/icons/GroupAddTwoTone';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import PersonAddTwoToneIcon from '@material-ui/icons/PersonAddTwoTone';
+import PeopleTwoToneIcon from '@material-ui/icons/PeopleTwoTone';
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
 import OpenInNewTwoToneIcon from '@material-ui/icons/OpenInNewTwoTone';
@@ -210,6 +211,25 @@ const SidebarMenu = (props) => {
                 </span>
               </NavLink>
             </li>
+            {
+              userDetails && userDetails.user && userDetails.user.admin ?
+                <li>
+                  <NavLink
+                    activeClassName="active"
+                    onClick={toggleSidebarMobile}
+                    className="nav-link-simple"
+                    to="/users">
+                    <span className="sidebar-icon">
+                      <PeopleTwoToneIcon />
+                    </span>
+                    Users
+                    <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
+                      <ChevronRightTwoToneIcon />
+                    </span>
+                  </NavLink>
+                </li>
+                : null
+            }
             <li>
               <a href="https://canyouintrome.freshdesk.com/" target="_blank" className="nav-link-simple" >
                 <span className="sidebar-icon">

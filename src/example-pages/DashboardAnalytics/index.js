@@ -48,9 +48,9 @@ export default function DashboardAnalytics() {
     return <Loader />
   }
 
-  if(introductions && introductionRequests && introductionProposals && introductions.length === 0 && introductionRequests.length === 0 && introductionProposals.length === 0) {
+  //if(introductions && introductionRequests && introductionProposals && introductions.length === 0 && introductionRequests.length === 0 && introductionProposals.length === 0) {
     return <EmptyDashboard user={userDetails.user} />
-  }
+  //}
 
   return (
     <>

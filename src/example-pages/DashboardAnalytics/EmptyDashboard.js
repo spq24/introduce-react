@@ -24,8 +24,33 @@ export default function EmptyDashboard(props) {
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Grid container spacing={6}>
+          <Grid item md={6}>
+            <Card className="overflow-hidden shadow-xxl font-size-sm" style={{ padding: '50px', borderRadius: '0.75rem', marginBottom: '5%', width: '100%' }}>
+              <div className="font-weight-bold font-size-lg mb-3" style={{ width: '100%' }}>
+                Send A Test
+              </div>
+              <Grid container spacing={6}>
+                <Grid item md={12} className="d-flex justify-content-center">
+                  button
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+          <Grid item md={6}>
+            <Card className="overflow-hidden shadow-xxl font-size-sm" style={{ padding: '50px', borderRadius: '0.75rem', marginBottom: '5%', width: '100%' }}>
+              <div className="font-weight-bold font-size-lg mb-3" style={{ width: '100%' }}>
+                Propose An Intro
+              </div>
+              <Grid container spacing={6}>
+                <Grid item md={12} className="d-flex justify-content-center">
+                  button
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+
           <ProfileCard
-            title='Add Your Personalized Link To Your Email Signature Or Website'
+            title='Share your link'
             link={PROFILE_LINK} />
         </Grid>
       </div>

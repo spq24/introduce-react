@@ -9,6 +9,7 @@ import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import { IKContext } from 'imagekitio-react'
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { SegmentProvider } from 'react-segment-hooks';
 import {
   fab,
   faFacebook,
@@ -262,14 +263,16 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <NotificationContainer />
-        <IKContext urlEndpoint="https://ik.imagekit.io/canyouintrome">
-          <BrowserRouter>
-            <ScrollToTop>
-              <Routes />
-            </ScrollToTop>
-          </BrowserRouter>
-        </IKContext>
+        <SegmentProvider debug={true} apiKey="Ga3QwDsJoERewAlMuQ7kpffBIFymVjgv">
+          <NotificationContainer />
+          <IKContext urlEndpoint="https://ik.imagekit.io/canyouintrome">
+            <BrowserRouter>
+              <ScrollToTop>
+                <Routes />
+              </ScrollToTop>
+            </BrowserRouter>
+          </IKContext>
+        </SegmentProvider>
       </Provider>
     );
   }
