@@ -18,7 +18,7 @@ export default function ProfileCard(props) {
 
   return (
    <Grid item md={12}>
-      <Card className="overflow-hidden shadow-xxl font-size-sm" style={{ padding: '50px', borderRadius: '0.75rem', marginBottom: '5%', width: '100%' }}>
+      <Card className="overflow-hidden shadow-xxl font-size-sm" style={{ padding: '50px', borderRadius: '0.75rem', marginBottom: props.marginBottom ? props.marginBottom : '5%', width: '100%' }}>
         <div className="font-weight-bold font-size-lg mb-3" style={{ width: '100%' }}>
           {props.title}
         </div>

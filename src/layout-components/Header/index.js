@@ -82,6 +82,7 @@ const Header = (props) => {
       <div className="app-header--pane">
         <HeaderUserbox
           user={userDetails.user}
+          trueUser={userDetails.trueUser}
           handleLogout={handleLogout} />
       </div>
     </div>

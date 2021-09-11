@@ -263,7 +263,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SegmentProvider debug={true} apiKey="Ga3QwDsJoERewAlMuQ7kpffBIFymVjgv">
+        <SegmentProvider timeout={200} apiKey="Ga3QwDsJoERewAlMuQ7kpffBIFymVjgv">
           <NotificationContainer />
           <IKContext urlEndpoint="https://ik.imagekit.io/canyouintrome">
             <BrowserRouter>

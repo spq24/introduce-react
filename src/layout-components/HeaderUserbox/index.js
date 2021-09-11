@@ -59,7 +59,9 @@ const HeaderUserbox = (props) => {
       traits: {
         first_name: user.first_name,
         last_name: user.last_name,
-        email: user.email
+        email: user.email,
+        true_user_id: props.trueUser ? props.trueUser.id : null,
+        true_user: props.trueUser
       }
     })
   })
