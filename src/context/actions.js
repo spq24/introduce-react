@@ -47,6 +47,7 @@ export async function authGoogle(dispatch, code) {
       }
     })
     .then(response => {
+      console.log('response', response)
       let credentials = response.data.token_data;
       let user = response.data.user
 

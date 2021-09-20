@@ -85,7 +85,7 @@ const HeaderUserbox = (props) => {
           props.user && props.user.image && props.user.image.url ?
             <div className="d-block p-0 avatar-icon-wrapper">
               <div className="avatar-icon rounded">
-                <img src={props.user.image.url} alt={`${props.user.first_name} ${props.user.last_name}`} />
+                <img src={props.image ? props.image : props.user.image.url} alt={`${props.user.first_name} ${props.user.last_name}`} />
               </div>
             </div> : null
         }

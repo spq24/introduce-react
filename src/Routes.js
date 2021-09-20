@@ -15,28 +15,32 @@ import {
   PresentationLayout
 } from './layout-blueprints';
 
-// Example Pages
-
-import DashboardMonitoring from './example-pages/DashboardMonitoring';
-import DashboardCommerce from './example-pages/DashboardCommerce';
-import DashboardAnalytics from './example-pages/DashboardAnalytics';
+// Authenticated Pages
+import Dashboard from './example-pages/DashboardAnalytics';
 import NewUser from './example-pages/DashboardAnalytics/NewUser';
 import Introductions from './example-pages/Introductions';
-import Introduction from './example-pages/Introductions/Introduction';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
+import Introduction from './example-pages/Introductions/Introduction';
 import IntroductionRequests from './example-pages/IntroductionRequests';
+import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
 import IntroductionProposals from './example-pages/IntroductionProposals';
 import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIntroductionProposal';
 import IntroductionProposal from './example-pages/IntroductionProposals/IntroductionProposal';
-import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
+import RequestsForIntroductions from './example-pages/RequestForIntroductions';
+import RequestForIntroduction from './example-pages/RequestForIntroductions/RequestForIntroduction';
+
+
+
+import UserProfile from './example-pages/Users/UserProfile';
+import Users from './example-pages/Users/Users';
+
+//Public Pages
 import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
 import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
 import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/IntroduceePublicIntroduction';
 import IntroduceeOneIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
 import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
-import UserProfile from './example-pages/Users/UserProfile';
-import Users from './example-pages/Users/Users';
-
+import PublicRequestForIntroduction from './example-pages/RequestForIntroductions/PublicRequestForIntroduction';
 const PageLoginCover = lazy(() => import('./example-pages/PageLoginCover'));
 const PageRegisterOverlay = lazy(() =>import('./example-pages/PageRegisterOverlay'));
 const PageInvoice = lazy(() => import('./example-pages/PageInvoice'));
@@ -98,10 +102,9 @@ const Routes = () => {
                   <ClimbingBoxLoader color={'#3c44b1'} loading={true} />
                 </div>
                 <div className="text-muted font-size-xl text-center pt-3">
-                  Please wait while we load the live preview examples
+                  Loading...
                   <span className="font-size-lg d-block text-dark">
-                    This live preview instance can be slower than a real
-                    production build!
+                    Be with you in just a moment!
                   </span>
                 </div>
               </div>
@@ -124,13 +127,11 @@ const Routes = () => {
                   '/login',
                   '/linkedin',
                   '/sign-up',
-                  '/forgot-password',
                   '/r/:id',
                   '/requested-introduction/:id',
                   '/introducee-requested-introduction/:id',
                   '/introduction-proposal/:id/introduceeone/:introducee_id',
                   '/introduction-proposal/:id/introduceetwo/:introducee_id',
-                  '/reset-password',
                   '/PageError404',
                   '/PageError500',
                   '/PageError505'
@@ -206,7 +207,7 @@ const Routes = () => {
                       />
                       <Route
                         path="/dashboard"
-                        component={DashboardAnalytics}
+                        component={Dashboard}
                       />
                       <Route
                         exact path="/new-introduction"

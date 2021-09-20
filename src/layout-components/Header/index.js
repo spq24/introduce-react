@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAuthState, logout, useAuthDispatch } from 'context'
+import { useAuthState, logout, updateUser, useAuthDispatch } from 'context'
 import {useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -26,6 +26,8 @@ const Header = (props) => {
   const userDetails = useAuthState();
   const dispatch = useAuthDispatch();
   const history = useHistory();
+  let image = userDetails && userDetails && userDetails.user ? userDetails.user.image.url : ''
+
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
   };
@@ -37,6 +39,19 @@ const Header = (props) => {
       history.push('/login');
       return;
     }
+
+    axios.get(image)
+         .catch(error => {
+           axios.get(`/api/v1/users/${userId}`, {
+             headers: credentials
+           })
+           .then(response => {
+              if(response && response.data && response.data.user) {
+                image = response.data.user.image.url
+                updateUser(dispatch, response.data.user)
+              }
+           })
+         })
 
     axios.post(`api/v1/auth/${userId}/validate-token`, { client: credentials.client, token: credentials['access-token'] })
          .catch(error => {
@@ -83,6 +98,7 @@ const Header = (props) => {
         <HeaderUserbox
           user={userDetails.user}
           trueUser={userDetails.trueUser}
+          image={image}
           handleLogout={handleLogout} />
       </div>
     </div>
