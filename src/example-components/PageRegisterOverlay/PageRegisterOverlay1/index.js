@@ -25,6 +25,7 @@ export default function SignUp() {
   const [user, setUser] = useState({});
   const [disableSubmit, setDisableSubmit] = useState(false);
   const [code, setCode] = useState('');
+  const [requestForIntroId, setRequestForIntroId] = useState('');
   const date = new Date();
   const year = date.getFullYear();
   const PRODUCTION_URL = 'https://canyouintro.me'

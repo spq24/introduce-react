@@ -26,7 +26,7 @@ import IntroductionRequest from './example-pages/IntroductionRequests/Introducti
 import IntroductionProposals from './example-pages/IntroductionProposals';
 import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIntroductionProposal';
 import IntroductionProposal from './example-pages/IntroductionProposals/IntroductionProposal';
-import RequestsForIntroductions from './example-pages/RequestForIntroductions';
+import RequestForIntroductions from './example-pages/RequestForIntroductions';
 import RequestForIntroduction from './example-pages/RequestForIntroductions/RequestForIntroduction';
 
 
@@ -41,6 +41,8 @@ import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/I
 import IntroduceeOneIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
 import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
 import PublicRequestForIntroduction from './example-pages/RequestForIntroductions/PublicRequestForIntroduction';
+import PublicNewIntroFromRequestForIntro from './example-pages/Introductions/PublicNewIntroFromRequestForIntro';
+
 const PageLoginCover = lazy(() => import('./example-pages/PageLoginCover'));
 const PageRegisterOverlay = lazy(() =>import('./example-pages/PageRegisterOverlay'));
 const PageInvoice = lazy(() => import('./example-pages/PageInvoice'));
@@ -58,8 +60,6 @@ function usePageViews() {
 const Routes = () => {
   const location = useLocation();
   usePageViews()
-
-
   const pageVariants = {
     initial: {
       opacity: 0
@@ -132,6 +132,8 @@ const Routes = () => {
                   '/introducee-requested-introduction/:id',
                   '/introduction-proposal/:id/introduceeone/:introducee_id',
                   '/introduction-proposal/:id/introduceetwo/:introducee_id',
+                  '/request-for-intro/:id',
+                  '/request-for-intro/:id/new-introduction',
                   '/PageError404',
                   '/PageError500',
                   '/PageError505'
@@ -170,7 +172,14 @@ const Routes = () => {
                         exact path="/introducee-requested-introduction/:id"
                         component={IntroduceePublicIntroduction}
                       />
-                      <Route path="/page-missing-error" component={PageError404} />
+                      <Route
+                        exact path='/request-for-intro/:id'
+                        component={PublicRequestForIntroduction}
+                      />
+                      <Route
+                        exact path='/request-for-intro/:id/new-introduction'
+                        component={PublicNewIntroFromRequestForIntro}
+                      />
                       <Route path="/server-error-500" component={PageError500} />
                       <Route path="/server-error-505" component={PageError505} />
                     </motion.div>
@@ -191,7 +200,10 @@ const Routes = () => {
                   '/new-introduction-proposal',
                   '/introduction-proposals/:id',
                   '/users/:id',
-                  '/users'
+                  '/users',
+                  '/request-for-introductions',
+                  '/request-for-introductions/:id'//,
+                  //'/new-request-for-introduction'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -242,6 +254,18 @@ const Routes = () => {
                         component={IntroductionProposals}
                       />
                       <Route
+                        exact path="/request-for-introductions"
+                        component={RequestForIntroductions}
+                      />
+                      <Route
+                        exact path="/request-for-introductions/:id"
+                        component={RequestForIntroduction}
+                      />
+                      {/* <Route
+                        exact path="/new-request-for-introduction"
+                        component={RequestForIntroduction}
+                      /> */}
+                      <Route
                         exact path="/users/:id"
                         component={UserProfile}
                       />
@@ -253,6 +277,7 @@ const Routes = () => {
                   </Switch>
                 </LeftSidebar>
               </Route>
+              <Route path="*" component={PageError404} />
             </Switch>
           </Suspense>
         </AnimatePresence>

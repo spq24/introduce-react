@@ -12,15 +12,15 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 
 export default function List(props) {
-  const introductionRequests = props.introductionRequests
+  const introductions = props.introductions
 
   return (
     <>
       <Card className="card-box mb-spacing-6-x2">
         <div className="card-header">
           <div className="card-header--title">
-            <small>Introduction Requests</small>
-            <b>The most recent people who have asked you to introduce them to someone in your network.</b>
+            <small>Introductions That Came From This Request</small>
+            <b>These are all the introductions that came from your request for an introduction</b>
           </div>
         </div>
         <CardContent className="p-0">
@@ -28,8 +28,8 @@ export default function List(props) {
             <Table className="table table-hover table-striped text-nowrap mb-0">
               <thead className="thead-light">
                 <tr>
-                  <th style={{ width: '40%' }}>Who asked you to introduce them</th>
-                  <th>Who they asked you to introduce them to</th>
+                  <th>Introducer</th>
+                  <th>Introducer's Contact</th>
                   <th>Status</th>
                   <th>Date</th>
                   <th>&nbsp;</th>
@@ -37,34 +37,32 @@ export default function List(props) {
               </thead>
               <tbody>
                 {
-                  !introductionRequests ?
+                  !introductions ?
                     <tr>
-                      <td>No requests made yet</td>
+                      <td>No introductions yet</td>
                     </tr> :
-                    introductionRequests.map(introductionRequest => {
+                    introductions.map(introduction => {
                       return(
-                        <tr key={introductionRequest.id}>
+                        <tr key={introduction.id}>
                           <td>
                             <div className="d-flex align-items-center">
                               <div className="avatar-icon-wrapper mr-3">
                                 <div className="avatar-icon">
                                   <Avatar>
-                                    {introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ? introductionRequest.introduction_requester.first_name[0] : 'NA'}
+                                    {introduction.introducer && introduction.introducer.first_name ? introduction.introducer.first_name[0] : 'NA'}
                                   </Avatar>
                                 </div>
                               </div>
                               <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
-                                  {
-                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ?
-                                      introductionRequest.introduction_requester.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.last_name ?
-                                      introductionRequest.introduction_requester.last_name : null
-                                  }
-                                </Link>
+                                {
+                                  introduction.introducer && introduction.introducer.first_name ?
+                                    introduction.introducer.first_name : null
+                                }
+                                <br />
+                                {
+                                  introduction.introducer && introduction.introducer.last_name ?
+                                    introduction.introducer.last_name : null
+                                }
                               </div>
                             </div>
                           </td>
@@ -73,40 +71,38 @@ export default function List(props) {
                               <div className="avatar-icon-wrapper mr-3">
                                 <div className="avatar-icon">
                                   <Avatar>
-                                    {introductionRequest.introducee && introductionRequest.introducee.first_name ? introductionRequest.introducee.first_name[0] : 'NA'}
+                                    {introduction.introducee && introduction.introducee.first_name ? introduction.introducee.first_name[0] : 'NA'}
                                   </Avatar>
                                 </div>
                               </div>
                               <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
-                                  {
-                                    introductionRequest.introducee && introductionRequest.introducee.first_name ?
-                                      introductionRequest.introducee.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionRequest.introducee && introductionRequest.introducee.last_name ?
-                                      introductionRequest.introducee.last_name : null
-                                  }
-                                </Link>
+                                {
+                                  introduction.introducee && introduction.introducee.first_name ?
+                                    introduction.introducee.first_name : null
+                                }
+                                <br />
+                                {
+                                  introduction.introducee && introduction.introducee.last_name ?
+                                    introduction.introducee.last_name : null
+                                }
                               </div>
                             </div>
                           </td>
 
                           <td>
                             {
-                              introductionRequest.status ?
-                                <div className={`badge badge-${introductionRequest.status.status_color} h-auto py-0 px-3`}>
-                                  {introductionRequest.status.short_status}
+                              introduction.status ?
+                                <div className={`badge badge-${introduction.status.status_color} h-auto py-0 px-3`}>
+                                  {introduction.status.short_status}
                                 </div> : null
                             }
                           </td>
                           <td>
-                            {<Moment format="MM/DD/YYYY">{introductionRequest.created_at}</Moment>}
+                            {<Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>}
                           </td>
                           <td>
                             <div>
-                              <Link to={`/introduction-requests/${introductionRequest.id}`}>
+                              <Link to={`/introductions/${introduction.id}`}>
                                 <Button
                                   size="small"
                                   className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">

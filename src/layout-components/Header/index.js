@@ -26,7 +26,7 @@ const Header = (props) => {
   const userDetails = useAuthState();
   const dispatch = useAuthDispatch();
   const history = useHistory();
-  let image = userDetails && userDetails && userDetails.user ? userDetails.user.image.url : ''
+  let image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
 
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
@@ -35,11 +35,11 @@ const Header = (props) => {
   useEffect(() => {
     const userId = userDetails && userDetails.user ? userDetails.user.id : null
     const credentials = userDetails && userDetails.credentials ? userDetails.credentials : null
+    //let image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
     if(!userId || !credentials) {
       history.push('/login');
       return;
     }
-
     axios.get(image)
          .catch(error => {
            axios.get(`/api/v1/users/${userId}`, {

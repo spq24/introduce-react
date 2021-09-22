@@ -37,6 +37,7 @@ import PeopleTwoToneIcon from '@material-ui/icons/PeopleTwoTone';
 import SecurityTwoToneIcon from '@material-ui/icons/SecurityTwoTone';
 import CameraTwoToneIcon from '@material-ui/icons/CameraTwoTone';
 import OpenInNewTwoToneIcon from '@material-ui/icons/OpenInNewTwoTone';
+import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 
 const SidebarMenu = (props) => {
   const dispatch = useAuthDispatch();
@@ -206,6 +207,21 @@ const SidebarMenu = (props) => {
                   <PersonAddTwoToneIcon />
                 </span>
                 Intros Proposed
+                <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
+                  <ChevronRightTwoToneIcon />
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeClassName="active"
+                onClick={toggleSidebarMobile}
+                className="nav-link-simple"
+                to="/request-for-introductions">
+                <span className="sidebar-icon">
+                  <SearchTwoToneIcon />
+                </span>
+                Request For Intros
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
