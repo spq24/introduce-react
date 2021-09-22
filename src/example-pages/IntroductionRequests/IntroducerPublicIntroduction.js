@@ -119,13 +119,13 @@ export default function PublicIntroductionRequest() {
   }
 
   const validateEmail = () => {
-    const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const email = introducee.email && introducee.email.length > 0 && validEmailRegex.test(introducee.email)
+    //const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
+    const email = introducee.email && introducee.email.length > 0 //&& validEmailRegex.test(introducee.email)
     if(email) {
       return true
     } else {
       setErrorMessage(
-        `Please make sure the email you entered for ${introducee.first_name} ${introducee.last_name}`
+        `Please make sure the email you entered for ${introducee.first_name} ${introducee.last_name} is valid`
       )
       return false
     }

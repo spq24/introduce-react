@@ -104,15 +104,13 @@ export default function PublicIntroductionRequest() {
   }
 
   const validateIntroducee = () => {
-    const firstName = introducee.first_name && introducee.first_name.length > 0
-    const lastName = introducee.last_name && introducee.last_name.length > 0
-    if (firstName && lastName) {
+    const aboutIntroducee = introducee.about_introducee.length > 0
+    if (aboutIntroducee) {
       return true
     } else {
       setErrorMessage(
         `Please make sure all required fields are filled in properly.
-        You are missing: ${!firstName ? 'First Name' : ''}
-        ${!lastName ? 'Last Name' : ''}`
+        You are missing a description of the person you are trying to meet.`
       )
       return false
     }
