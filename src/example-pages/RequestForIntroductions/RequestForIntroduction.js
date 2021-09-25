@@ -25,9 +25,9 @@ import stock6 from 'assets/images/stock-photos/stock-6.jpg';
 
 import avatar4 from 'assets/images/avatars/avatar4.jpg';
 
-import logo1 from 'assets/images/stock-logos/spotify-icon.svg';
-import logo2 from 'assets/images/stock-logos/pinterest-icon.svg';
-import logo3 from 'assets/images/stock-logos/slack-icon.svg';
+import logo1 from 'assets/images/stock-logos/twitter-logo.svg';
+import logo2 from 'assets/images/stock-logos/linkedin-logo.svg';
+import logo3 from 'assets/images/stock-logos/facebook-logo.svg';
 
 export default function RequestForIntroduction(props) {
   const userDetails = useAuthState();
@@ -217,14 +217,13 @@ export default function RequestForIntroduction(props) {
 
               <div className="divider mx-auto my-3" />
               <div className="text-center px-3">
-                <Button
-                  fullWidth
-                  className="d-flex btn-transition-none border-0 shadow-none btn-neutral-dark">
-                  <span className="btn-wrapper--icon">
-                    <FontAwesomeIcon icon={['far', 'user-circle']} />
-                  </span>
-                  <span className="btn-wrapper--label">Share</span>
-                </Button>
+                  <a href={`https://twitter.com/intent/tweet?text=Looking%20for%20an%20intro.%20Can%20anyone%20intro%20me%20to%20${requestForIntroduction.description}.%20canyouintro.me/request-for-intro/${id}`} target="_blank">
+                  <Button
+                    fullWidth
+                    className="d-flex btn-transition-none border-0 shadow-none" style={{ background: '#1da1f2', color: '#fff'}}>
+                    <span className="btn-wrapper--label">Tweet it out</span>
+                  </Button>
+                </a>
               </div>
             </div>
           </Card>
@@ -242,14 +241,13 @@ export default function RequestForIntroduction(props) {
 
               <div className="divider mx-auto my-3" />
               <div className="text-center px-3">
-                <Button
-                  fullWidth
-                  className="d-flex btn-transition-none border-0 shadow-none btn-neutral-dark">
-                  <span className="btn-wrapper--icon">
-                    <FontAwesomeIcon icon={['far', 'user-circle']} />
-                  </span>
-                  <span className="btn-wrapper--label">Share</span>
-                </Button>
+                <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://canyouintro.me/request-for-intro/${id}`} target="_blank">
+                  <Button
+                    fullWidth
+                  className="d-flex btn-transition-none border-0 shadow-none" style={{ background: '#2867B2', color: '#fff' }}>
+                    <span className="btn-wrapper--label">Post</span>
+                  </Button>
+                </a>
               </div>
             </div>
           </Card>
@@ -267,14 +265,13 @@ export default function RequestForIntroduction(props) {
 
               <div className="divider mx-auto my-3" />
               <div className="text-center px-3">
-                <Button
-                  fullWidth
-                  className="d-flex btn-transition-none border-0 shadow-none btn-neutral-dark">
-                  <span className="btn-wrapper--icon">
-                    <FontAwesomeIcon icon={['far', 'user-circle']} />
-                  </span>
-                  <span className="btn-wrapper--label">Share</span>
-                </Button>
+                <a href={`https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https%3A%2F%2Fcanyouintro.me%2Frequest-intro%2F${id}%2F&display=popup&ref=plugin&src=share_button`} target="_blank">
+                  <Button
+                    fullWidth
+                    className="d-flex btn-transition-none border-0 shadow-none" style={{ background: '#3b5999', color: '#fff' }}>
+                    <span className="btn-wrapper--label">Share</span>
+                  </Button>
+                </a>
               </div>
             </div>
           </Card>
