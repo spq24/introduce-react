@@ -130,8 +130,8 @@ const Routes = () => {
                   '/r/:id',
                   '/requested-introduction/:id',
                   '/introducee-requested-introduction/:id',
-                  '/introduction-proposal/:id/introducee-one/:introducee_id',
-                  '/introduction-proposal/:id/introducee-two/:introducee_id',
+                  '/introduction-proposal/:id/introducee-one',
+                  '/introduction-proposal/:id/introducee-two',
                   '/request-for-intro/:id',
                   '/request-for-intro/:id/new-introduction',
                   '/PageError404',
@@ -157,7 +157,7 @@ const Routes = () => {
                         component={PublicIntroductionRequest}
                       />
                       <Route
-                        exact path="/introduction-proposal/:id/introducee-one"
+                        path="/introduction-proposal/:id/introducee-one"
                         component={IntroduceeOneIntroductionProposal}
                       />
                       <Route
