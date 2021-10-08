@@ -200,7 +200,7 @@ export default function UserProfile() {
         <Grid container spacing={2}>
           <ProfileCard
             title='Your Personalized Link'
-            link={`https://canyouintro.me/${user.unique_id}`} />
+            link={`https://canyouintro.me/r/${user.unique_id}`} />
         </Grid>
       {/* </div> */}
       <div className="app-inner-content-layout">

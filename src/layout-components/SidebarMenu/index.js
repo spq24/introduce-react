@@ -161,7 +161,7 @@ const SidebarMenu = (props) => {
                 <span className="sidebar-icon">
                   <BallotTwoToneIcon />
                 </span>
-                  Dashboard
+                  Home
                 <span className="sidebar-icon-indicator sidebar-icon-indicator-right">
                   <ChevronRightTwoToneIcon />
                 </span>
