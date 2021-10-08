@@ -54,17 +54,15 @@ export default function List(props) {
                                 </div>
                               </div>
                               <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
-                                  {
-                                    introductionProposal.introduction_requester && introductionProposal.introduction_requester.first_name ?
-                                      introductionProposal.introduction_requester.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionProposal.introduction_requester && introductionProposal.introduction_requester.last_name ?
-                                      introductionProposal.introduction_requester.last_name : null
-                                  }
-                                </Link>
+                                {
+                                  introductionProposal.introduction_requester && introductionProposal.introduction_requester.first_name ?
+                                    introductionProposal.introduction_requester.first_name.substring(0, 15) : null
+                                }
+                                &nbsp;
+                                {
+                                  introductionProposal.introduction_requester && introductionProposal.introduction_requester.last_name ?
+                                    introductionProposal.introduction_requester.last_name.substring(0, 15) : null
+                                }
                               </div>
                             </div>
                           </td>
@@ -78,17 +76,15 @@ export default function List(props) {
                                 </div>
                               </div>
                               <div>
-                                {/* <Link to="/people/:id" className="font-weight-bold text-black"> */}
-                                  {
-                                    introductionProposal.introducee && introductionProposal.introducee.first_name ?
-                                      introductionProposal.introducee.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionProposal.introducee && introductionProposal.introducee.last_name ?
-                                      introductionProposal.introducee.last_name : null
-                                  }
-                                {/* </Link> */}
+                                {
+                                  introductionProposal.introducee && introductionProposal.introducee.first_name ?
+                                    introductionProposal.introducee.first_name.substring(0, 15) : null
+                                }
+                                &nbsp;
+                                {
+                                  introductionProposal.introducee && introductionProposal.introducee.last_name ?
+                                    introductionProposal.introducee.last_name.substring(0, 15) : null
+                                }
                               </div>
                             </div>
                           </td>

@@ -196,7 +196,7 @@ export default function PublicIntroFromRequestForIntro() {
                             className="font-size-lg"
                           />&nbsp;&nbsp;
                           <Tooltip arrow title="You and your contact's info is kept private until everyone agrees to the introduction. We ask your contact for permission before making any introductions. If they say no, then we stop the introduction process and let you and the requester know without sharing anyone's contact info. We make sure it is a properly done double opt-in introduction." placement="top">
-                            <span><u>What info is shared and how does this?</u></span>
+                            <span><u>What info is shared and how does this work?</u></span>
                           </Tooltip>
                         </div>
                         <h5 className="font-size-xl mb-1 font-weight-bold">

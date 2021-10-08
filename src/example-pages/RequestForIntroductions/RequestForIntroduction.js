@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuthState } from 'context';
 import { useParams } from 'react-router-dom';
-import { Avatar, Card, Grid, Button, Tooltip, TextField } from '@material-ui/core';
+import { Avatar, Card, Grid, Button, Tooltip, TextField, Chip } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import { NotificationManager } from 'react-notifications';
 import List from './List'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import avatar3 from 'assets/images/avatars/avatar3.jpg';
 import Loader from '../../example-components/Loader';
@@ -44,6 +45,7 @@ export default function RequestForIntroduction(props) {
       headers: userDetails.credentials
     })
     .then(response => {
+      console.log('response', response)
       setRequestForIntroduction(response.data.request_for_introduction)
       setIntroductions(response.data.request_for_introduction.introductions)
       setLoading(false)
@@ -107,43 +109,17 @@ export default function RequestForIntroduction(props) {
                   <h2 className="display-3 my-3 font-weight-bold">
                     Your Request For Introduction
                   </h2>
-                  <Grid container spacing={0}>
-                    <Grid item xl={4}>
-                      <p className="font-size-lg mb-2 text-white-10">
-                        <b>Job Title:</b><br />
-                        {
-                          requestForIntroduction.job_title.length > 0 ?
-                            requestForIntroduction.job_title :
-                            'N/A'
-                        }
-                      </p>
-                    </Grid>
-                    <Grid item xl={4}>
-                      <p className="font-size-lg mb-2 text-white-10">
-                        <b>Company:</b><br />
-                        {requestForIntroduction.company}
-                      </p>
-                    </Grid>
-                    <Grid item xl={4}>
-                      <p className="font-size-lg mb-2 text-white-10">
-                        <b>Why Category:</b><br />
-                        {
-                          requestForIntroduction.why_category.length > 0 ?
-                            requestForIntroduction.why :
-                            'N/A'
-                        }
-                      </p>
-                    </Grid>
+                <Grid container spacing={0} className="mb-3">
                     <Grid item xl={6}>
                       <p className="font-size-lg mb-2 text-white-10">
-                        <b>Description:</b><br />
+                        <b>Who You Are Trying To Meet:</b><br />
                         {requestForIntroduction.description}
                       </p>
                     </Grid>
 
                     <Grid item xl={6}>
                       <p className="font-size-lg mb-2 text-white-10">
-                        <b>Why:</b><br />
+                        <b>Why You Are Trying To Meet Them:</b><br />
                         {
                           requestForIntroduction.why.length > 0 ?
                             requestForIntroduction.why :
@@ -152,20 +128,72 @@ export default function RequestForIntroduction(props) {
                       </p>
                     </Grid>
                   </Grid>
+                  <Grid container spacing={0} className="mb-3">
+                    <Grid item xl={6}>
+                      <b className="text-align-center">Job Titles They Might Have:</b><br />
+                      <p className="font-size-lg mb-2 text-white-10 d-flex justify-content-evenly">
+                        {
+                          requestForIntroduction.job_titles && requestForIntroduction.job_titles.length > 0 ?
+                            requestForIntroduction.job_titles.map(title => {
+                              return(
+                                <Chip
+                                  key={title.id}
+                                  variant="outlined"
+                                  label={title.name}
+                                  style={{ backgroundColor: '#fff', color: '#20262D' }} />
+                              )}) :
+                              'N/A'
+                        }
+                      </p>
+                    </Grid>
+                    <Grid item xl={6}>
+                      <b>Companies They Might Work For:</b><br />
+                      <p className="font-size-lg mb-2 text-white-10 d-flex justify-content-around">
+                        {
+                          requestForIntroduction.introducee_companies && requestForIntroduction.introducee_companies.length > 0 ?
+                              requestForIntroduction.introducee_companies.map(company => {
+                                return (
+                                  <Chip
+                                    key={company.id}
+                                    avatar={<Avatar src={company.logo_url} />}
+                                    variant="outlined"
+                                    label={company.name}
+                                    style={{ backgroundColor: '#fff', color: '#20262D' }} />
+                              )}) :
+                              'N/A'
+                        }
+                      </p>
+                    </Grid>
+                  </Grid>
                   <div className="divider border-1 mx-auto my-4 border-light opacity-2 rounded w-25" />
                   <div className="d-flex justify-content-around">
                     {
                       !requestForIntroduction.closed ?
-                        <Button
-                          href="#/"
-                          onClick={(e) => e.preventDefault()}
-                          size="large"
-                          className="btn-success btn-pill hover-scale-lg">
-                          <span className="btn-wrapper--label">See Public Request</span>
-                          <span className="btn-wrapper--icon">
-                            <FontAwesomeIcon icon={['fas', 'external-link-alt']} />
-                          </span>
-                        </Button> : null
+                        <a href={`/request-for-intro/${id}`} target="_blank">
+                          <Button
+                            size="large"
+                            className="btn-success btn-pill hover-scale-lg">
+                            <span className="btn-wrapper--label">See Public Request</span>
+                            <span className="btn-wrapper--icon">
+                              <FontAwesomeIcon icon={['fas', 'external-link-alt']} />
+                            </span>
+                          </Button>
+                        </a> : null
+                    }
+                    {
+                      !requestForIntroduction.closed ?
+                        <CopyToClipboard
+                          text={`https://canyouintro.me/request-for-intro/${id}`}
+                          onCopy={() => NotificationManager.success('Link copied!')}>
+                            <Button
+                              size="large"
+                              className="btn-info btn-pill hover-scale-lg">
+                              <span className="btn-wrapper--label">Copy Share Link</span>
+                              <span className="btn-wrapper--icon">
+                                <FontAwesomeIcon icon={['fas', 'save']} />
+                              </span>
+                            </Button>
+                          </CopyToClipboard> : null
                     }
                     {
                       requestForIntroduction.closed ?
@@ -275,6 +303,9 @@ export default function RequestForIntroduction(props) {
               </div>
             </div>
           </Card>
+        </Grid>
+        <Grid item md={12} lg={12} xl={12}>
+          <div class="addthis_inline_share_toolbox"></div>
         </Grid>
       </Grid>
 

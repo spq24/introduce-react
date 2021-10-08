@@ -14,7 +14,8 @@ import {
   ListItem,
   TextField,
   FormHelperText,
-  Avatar
+  Avatar,
+  Chip
 } from '@material-ui/core';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -39,6 +40,7 @@ export default function PublicRequestForIntroduction() {
     if(id) {
       axios.get(`/api/v1/request_for_introductions/${id}/public_show`)
            .then(response => {
+             console.log('response', response)
              setRequestForIntroduction(response.data.request_for_introduction)
              const user = response.data.request_for_introduction.user
              setUser(user)
@@ -120,26 +122,43 @@ export default function PublicRequestForIntroduction() {
                         </p>
                       </Grid>
                       <Grid item xl={6}>
-                        <p className="font-size-xl font-weight-bold">
-                          Job Title They Might Have:
+                        <p className="font-size-xl font-weight-bold d-flex justify-content-center">
+                          Job Titles They Might Have:
                         </p>
-                        <p className="font-size-md">
+                        <p className="font-size-md d-flex justify-content-evenly">
                           {
-                            requestForIntroduction.job_title.length > 0 ?
-                              requestForIntroduction.job_title :
+                            requestForIntroduction.job_titles && requestForIntroduction.job_titles.length > 0 ?
+                              requestForIntroduction.job_titles.map(title => {
+                                return (
+                                  <Chip
+                                    key={title.id}
+                                    variant="outlined"
+                                    label={title.name}
+                                    style={{ backgroundColor: '#fff', color: '#20262D' }} />
+                                )
+                              }) :
                               'N/A'
                           }
                         </p>
                       </Grid>
                       <Grid item xl={6}>
-                        <p className="font-size-xl font-weight-bold">
-                          Company They Work For:
+                        <p className="font-size-xl font-weight-bold  d-flex justify-content-center">
+                          Companies They Might Work For:
                         </p>
-                        <p className="font-size-md">
+                        <p className="font-size-md d-flex justify-content-evenly">
                           {
-                            requestForIntroduction.company ?
-                            requestForIntroduction.company :
-                            'N/A'
+                            requestForIntroduction.introducee_companies && requestForIntroduction.introducee_companies.length > 0 ?
+                              requestForIntroduction.introducee_companies.map(company => {
+                                return (
+                                  <Chip
+                                    key={company.id}
+                                    avatar={<Avatar src={company.logo_url} />}
+                                    variant="outlined"
+                                    label={company.name}
+                                    style={{ backgroundColor: '#fff', color: '#20262D' }} />
+                                )
+                              }) :
+                              'N/A'
                           }
                         </p>
                       </Grid>

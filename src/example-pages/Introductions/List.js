@@ -50,17 +50,15 @@ export default function List(props) {
                               </div>
                             </div>
                             <div>
-                              <Link to="/people/:id" className="font-weight-bold text-black">
-                                {
-                                  introduction.introducee && introduction.introducee.first_name ?
-                                    introduction.introducee.first_name : null
-                                }
-                                &nbsp;
-                                {
-                                  introduction.introducee && introduction.introducee.last_name ?
-                                    introduction.introducee.last_name : null
-                                }
-                              </Link>
+                              {
+                                introduction.introducee && introduction.introducee.first_name ?
+                                  introduction.introducee.first_name.substring(0, 15) : null
+                              }
+                              &nbsp;
+                              {
+                                introduction.introducee && introduction.introducee.last_name ?
+                                  introduction.introducee.last_name.substring(0, 15) : null
+                              }
                             </div>
                           </div>
                         </td>
@@ -76,12 +74,12 @@ export default function List(props) {
                             <div>
                               {
                                 introduction.introducer && introduction.introducer.first_name ?
-                                  introduction.introducer.first_name : null
+                                  introduction.introducer.first_name.substring(0, 15) : null
                               }
                               &nbsp;
                               {
                                 introduction.introducer && introduction.introducer.last_name ?
-                                  introduction.introducer.last_name : null
+                                  introduction.introducer.last_name.substring(0, 15) : null
                               }
                             </div>
                           </div>

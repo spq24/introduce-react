@@ -54,17 +54,15 @@ export default function List(props) {
                                 </div>
                               </div>
                               <div>
-                                <Link to="/people/:id" className="font-weight-bold text-black">
-                                  {
-                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ?
-                                      introductionRequest.introduction_requester.first_name : null
-                                  }
-                                  &nbsp;
-                                  {
-                                    introductionRequest.introduction_requester && introductionRequest.introduction_requester.last_name ?
-                                      introductionRequest.introduction_requester.last_name : null
-                                  }
-                                </Link>
+                                {
+                                  introductionRequest.introduction_requester && introductionRequest.introduction_requester.first_name ?
+                                    introductionRequest.introduction_requester.first_name.substring(0, 15) : null
+                                }
+                                &nbsp;
+                                {
+                                  introductionRequest.introduction_requester && introductionRequest.introduction_requester.last_name ?
+                                    introductionRequest.introduction_requester.last_name.substring(0, 15) : null
+                                }
                               </div>
                             </div>
                           </td>
@@ -81,12 +79,12 @@ export default function List(props) {
                                 <Link to="/people/:id" className="font-weight-bold text-black">
                                   {
                                     introductionRequest.introducee && introductionRequest.introducee.first_name ?
-                                      introductionRequest.introducee.first_name : null
+                                      introductionRequest.introducee.first_name.substring(0, 15) : null
                                   }
                                   &nbsp;
                                   {
                                     introductionRequest.introducee && introductionRequest.introducee.last_name ?
-                                      introductionRequest.introducee.last_name : null
+                                      introductionRequest.introducee.last_name.substring(0, 15) : null
                                   }
                                 </Link>
                               </div>

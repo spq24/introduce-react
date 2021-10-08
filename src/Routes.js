@@ -28,7 +28,7 @@ import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIn
 import IntroductionProposal from './example-pages/IntroductionProposals/IntroductionProposal';
 import RequestForIntroductions from './example-pages/RequestForIntroductions';
 import RequestForIntroduction from './example-pages/RequestForIntroductions/RequestForIntroduction';
-
+import NewRequestForIntroduction from './example-pages/RequestForIntroductions/NewRequestForIntroduction';
 
 
 import UserProfile from './example-pages/Users/UserProfile';
@@ -202,8 +202,8 @@ const Routes = () => {
                   '/users/:id',
                   '/users',
                   '/request-for-introductions',
-                  '/request-for-introductions/:id'//,
-                  //'/new-request-for-introduction'
+                  '/request-for-introductions/:id',
+                  '/new-request-for-introduction'
                 ]}>
                 <LeftSidebar>
                   <Switch location={location} key={location.pathname}>
@@ -261,10 +261,10 @@ const Routes = () => {
                         exact path="/request-for-introductions/:id"
                         component={RequestForIntroduction}
                       />
-                      {/* <Route
+                      <Route
                         exact path="/new-request-for-introduction"
-                        component={RequestForIntroduction}
-                      /> */}
+                        component={NewRequestForIntroduction}
+                      />
                       <Route
                         exact path="/users/:id"
                         component={UserProfile}
