@@ -13,14 +13,14 @@ import avatar3 from 'assets/images/avatars/avatar3.jpg';
 
 export default function IntroductionProposal(props) {
   const userDetails = useAuthState();
-  const [introduction, setIntroduction] = useState([]);
-  const [requesterStatus, setRequesterStatus] = useState({
+  const [introductionProposal, setIntroductionProposal] = useState({});
+  const [introduceeOneStatus, setIntroduceeOneStatus] = useState({
     title: '',
     date: '',
     description: '',
     color: 'default'
   })
-  const [introduceeStatus, setIntroduceeStatus] = useState({
+  const [introduceeTwoStatus, setIntroduceeTwoStatus] = useState({
     title: '',
     date: '',
     description: '',
@@ -34,11 +34,12 @@ export default function IntroductionProposal(props) {
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`/api/v1/introductions/${id}`, {
+    axios.get(`/api/v1/introduction_proposals/${id}`, {
       headers: userDetails.credentials
     })
     .then(response => {
-      setIntroduction(response.data.introduction)
+      console.log('response', response)
+      setIntroductionProposal(response.data.introduction_proposal)
     })
     .catch(error => {
       let message = error && error.response && error.response.data && error.response.data.message ?
@@ -47,80 +48,80 @@ export default function IntroductionProposal(props) {
     })
   }, [])
 
-  useEffect(() => {
-    if (introduction.introduction_requester_rejected) {
-      setRequesterStatus({
-        shortTitle: 'Denied',
-        title: 'Introducee #2 Denied Request',
-        description: `The introduction proposal was denied${introduction.introduction_requester && introduction.introduction_requester.first_name ? ` by ${introduction.introduction_requester.first_name}` : ''}.`,
-        date: introduction.introduction_requester_rejected_at,
-        color: 'danger'
-      })
-    } else if (introduction.introduction_requester_accepted) {
-      setRequesterStatus({
-        shortTitle: 'Accepted',
-        title: 'Introducee #2 Request Accepted!',
-        description: `${introduction.introduction_requester ? `${introduction.introduction_requester.first_name} has` : 'They have'} agreed to the introduction proposal!`,
-        date: introduction.introduction_requester_accepted_at,
-        color: 'success'
-      })
-    } else {
-      setRequesterStatus({
-        shortTitle: 'Pending',
-        title: `Request Sent`,
-        description: `We are waiting to hear from ${introduction.introduction_requester ? `${introduction.introduction_requester.first_name}` : 'introducee #2'} about your introduction proposal.`,
-        date: introduction.introducer_sent_request_at,
-        color: 'warning'
-      })
-    }
-  }, [introduction])
-
-  useEffect(() => {
-    if (introduction.introducee_rejected) {
-      setIntroduceeStatus({
+   useEffect(() => {
+    if (introductionProposal.introducee_one_rejected) {
+      setIntroduceeOneStatus({
         shortTitle: 'Denied',
         title: 'Introducee #1 Denied Request',
-        description: `The introduction proposal was denied${introduction.introducee && introduction.introducee.first_name ? ` by ${introduction.introducee.first_name}` : ''}.`,
-        date: introduction.introducee_rejected_at,
+        description: `The introduction proposal was denied${introductionProposal.introducee_one && introductionProposal.introducee_one.first_name ? ` by ${introductionProposal.introducee_one.first_name}` : ''}.`,
+        date: introductionProposal.introducee_one_rejected_at,
         color: 'danger'
       })
-    } else if (introduction.introducee_accepted) {
-      setIntroduceeStatus({
+    } else if (introductionProposal.introducee_one_accepted) {
+      setIntroduceeOneStatus({
         shortTitle: 'Accepted',
         title: 'Introducee #1 Request Accepted!',
-        description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} agreed to the introduction proposal!`,
-        date: introduction.introducee_accepted_at,
+        description: `${introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name} has` : 'They have'} agreed to the introduction proposal!`,
+        date: introductionProposal.introducee_one_accepted_at,
         color: 'success'
       })
     } else {
-      setIntroduceeStatus({
+      setIntroduceeOneStatus({
         shortTitle: 'Pending',
         title: `Request Sent`,
-        description: `We are waiting to hear from ${introduction.introducee ? `${introduction.introducee.first_name}` : 'introducee #2'} about your introduction proposal.`,
-        date: introduction.introducer_sent_request_at,
+        description: `We are waiting to hear from ${introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name}` : 'introducee #1'} about your introduction proposal.`,
+        date: introductionProposal.created_at,
         color: 'warning'
       })
     }
-  }, [introduction])
+  }, [introductionProposal])
 
   useEffect(() => {
-    if(introduction.introduction_requester_rejected) {
-      setStatus({
+    if (introductionProposal.introducee_two_rejected) {
+      setIntroduceeTwoStatus({
+        shortTitle: 'Denied',
         title: 'Introducee #2 Denied',
-        color: 'danger',
-        date: introduction.introduction_requester_rejected_at
+        description: `The introduction proposal was denied${introductionProposal.introducee_two && introductionProposal.introducee_two.first_name ? ` by ${introductionProposal.introducee_two.first_name}` : ''}.`,
+        date: introductionProposal.introducee_two_rejected_at,
+        color: 'danger'
       })
-    } else if(introduction.introducee_rejected) {
+    } else if (introductionProposal.introducee_two_accepted) {
+      setIntroduceeTwoStatus({
+        shortTitle: 'Accepted',
+        title: 'Introducee #2 Accepted!',
+        description: `${introductionProposal.introducee_two ? `${introductionProposal.introducee_two.first_name} has` : 'They have'} agreed to the introduction proposal!`,
+        date: introductionProposal.introducee_two_accepted_at,
+        color: 'success'
+      })
+    } else {
+      setIntroduceeTwoStatus({
+        shortTitle: 'Pending',
+        title: `Request Sent`,
+        description: `We are waiting to hear from ${introductionProposal.introducee_two ? `${introductionProposal.introducee_two.first_name}` : 'introducee #2'} about your introduction proposal.`,
+        date: introductionProposal.created_at,
+        color: 'warning'
+      })
+    }
+  }, [introductionProposal])
+
+  useEffect(() => {
+    if (introductionProposal.introducee_one_rejected) {
       setStatus({
-        title: 'Introducee # 1 Denied',
+        title: 'Proposal Denied',
         color: 'danger',
-        date: introduction.introducee_rejected_at
+        date: introductionProposal.introducee_one_rejected_at
       })
-    } else if(introduction.completed) {
+    } else if (introductionProposal.introducee_two_rejected) {
+      setStatus({
+        title: 'Proposal Denied',
+        color: 'danger',
+        date: introductionProposal.introducee_two_rejected_at
+      })
+    } else if (introductionProposal.completed) {
       setStatus({
         title: 'Complete',
         color: 'success',
-        date: introduction.completed_at
+        date: introductionProposal.completed_at
       })
     } else {
       setStatus({
@@ -129,8 +130,7 @@ export default function IntroductionProposal(props) {
         date: null
       })
     }
-  }, [introduction])
-
+  }, [introductionProposal])
 
   return (
     <>
@@ -139,36 +139,37 @@ export default function IntroductionProposal(props) {
           <div className="timeline-list mb-5">
             <div className="timeline-item">
               <div className="timeline-item--content">
-                <div className={`timeline-item--icon bg-${requesterStatus.color}`} />
+                <div className='timeline-item--icon bg-success' />
                 <h4 className="timeline-item--label mb-2 font-weight-bold">
-                  Introduction Proposal Sent -<span>&nbsp;</span> <Moment format="MM/DD/YYYY">{introduction.created_at}</Moment>
+                  Introduction Proposal Sent -<span>&nbsp;</span> <Moment format="MM/DD/YYYY">{introductionProposal.created_at}</Moment>
                 </h4>
-                <p>You proposed that {introduction.introduction_requester ? `${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}` : ''} and {introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name} should meet.` : ''}</p>
+                <p>You proposed that {introductionProposal.introducee_two ? `${introductionProposal.introducee_two.first_name} ${introductionProposal.introducee_two.last_name}` : ''} and {introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name} ${introductionProposal.introducee_one.last_name} should meet.` : ''}</p>
               </div>
             </div>
+            {console.log('introduceeeOneStatus', introduceeOneStatus.date)}
             <div className="timeline-item">
               <div className="timeline-item--content">
-                <div className={`timeline-item--icon bg-${requesterStatus.color}`} />
+                <div className={`timeline-item--icon bg-${introduceeOneStatus.color}`} />
                 <h4 className="timeline-item--label mb-2 font-weight-bold">
-                  {requesterStatus.title}<span>&nbsp;</span>{
-                    requesterStatus.date && requesterStatus.date.length > 0 ?
-                    ` - ${<Moment format="MM/DD/YYYY">{requesterStatus.date}</Moment>}` : null
+                  {introduceeOneStatus.title} - <span>&nbsp;</span>{
+                    introduceeOneStatus.date && introduceeOneStatus.date.length > 0 ?
+                    <Moment format="MM/DD/YYYY">{introduceeOneStatus.date}</Moment> : null
                   }
                 </h4>
-                <p>{requesterStatus.description}</p>
+                <p>{introduceeOneStatus.description}</p>
               </div>
             </div>
             <div className="timeline-item">
               <div className="timeline-item--content">
-                <div className={`timeline-item--icon bg-${introduceeStatus.color}`} />
+                <div className={`timeline-item--icon bg-${introduceeTwoStatus.color}`} />
                 <h4 className="timeline-item--label mb-2 font-weight-bold">
-                  {introduceeStatus.title}
+                  {introduceeTwoStatus.title} -
                   {
-                    introduceeStatus.date && introduceeStatus.date.length > 0 ?
-                    ` - ${<Moment format="MM/DD/YYYY">{introduceeStatus.date}</Moment>}` : null
+                    introduceeTwoStatus.date && introduceeTwoStatus.date.length > 0 ?
+                      <Moment format="MM/DD/YYYY">{introduceeTwoStatus.date}</Moment> : null
                   }
                 </h4>
-                <p>{introduceeStatus.description}</p>
+                <p>{introduceeTwoStatus.description}</p>
               </div>
             </div>
             <div className="timeline-item">
@@ -193,17 +194,17 @@ export default function IntroductionProposal(props) {
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>
-                      {introduction.introducee ? introduction.introducee.first_name[0] : 'NA'}
+                      {introductionProposal.introducee_one ? introductionProposal.introducee_one.first_name[0] : 'NA'}
                     </Avatar>
                   </div>
                   <h3 className="font-weight-bold mt-3">
                     <small>Introducee #1:</small><br />
                     {
-                      introduction.introducee ? `${introduction.introducee.first_name} ${introduction.introducee.last_name}` : 'No Name'
+                      introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name} ${introductionProposal.introducee_one.last_name}` : 'No Name'
                     }
                   </h3>
-                  <div className={`badge badge-${introduceeStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                    Request Status: <br /> {introduceeStatus.shortTitle}
+                  <div className={`badge badge-${introduceeOneStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                    Request Status: <br /> {introduceeOneStatus.shortTitle}
                   </div>
                 </div>
               </Card>
@@ -213,17 +214,17 @@ export default function IntroductionProposal(props) {
                 <div className="text-center">
                   <div className="avatar-icon-wrapper rounded-circle m-0">
                     <Avatar>
-                      {introduction.introduction_requester ? introduction.introduction_requester.first_name[0] : 'NA'}
+                      {introductionProposal.introducee_two ? introductionProposal.introducee_two.first_name[0] : 'NA'}
                     </Avatar>
                   </div>
                   <h3 className="font-weight-bold mt-3">
                     <small>Introducee #2:</small><br />
                     {
-                      introduction.introduction_requester ? `${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}` : 'No Name'
+                      introductionProposal.introducee_two ? `${introductionProposal.introducee_two.first_name} ${introductionProposal.introducee_two.last_name}` : 'No Name'
                     }
                   </h3>
-                  <div className={`badge badge-${requesterStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
-                    Request Status: <br />{requesterStatus.shortTitle}
+                  <div className={`badge badge-${introduceeTwoStatus.color} mt-1 mb-4 font-size-xs px-4 py-1 h-auto`}>
+                    Request Status: <br />{introduceeTwoStatus.shortTitle}
                   </div>
                 </div>
               </Card>

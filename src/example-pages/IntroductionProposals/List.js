@@ -39,7 +39,7 @@ export default function List(props) {
                 {
                   !introductionProposals ?
                     <tr>
-                      <td>No requests made yet</td>
+                      <td>No proposals made yet</td>
                     </tr> :
                     introductionProposals.map(introductionProposal => {
                       return(
@@ -49,19 +49,19 @@ export default function List(props) {
                               <div className="avatar-icon-wrapper mr-3">
                                 <div className="avatar-icon">
                                   <Avatar>
-                                    {introductionProposal.introduction_requester && introductionProposal.introduction_requester.first_name ? introductionProposal.introduction_requester.first_name[0] : 'NA'}
+                                    {introductionProposal.introducee_one && introductionProposal.introducee_one.first_name ? introductionProposal.introducee_one.first_name[0] : 'NA'}
                                   </Avatar>
                                 </div>
                               </div>
                               <div>
                                 {
-                                  introductionProposal.introduction_requester && introductionProposal.introduction_requester.first_name ?
-                                    introductionProposal.introduction_requester.first_name.substring(0, 15) : null
+                                  introductionProposal.introducee_one && introductionProposal.introducee_one.first_name ?
+                                    introductionProposal.introducee_one.first_name.substring(0, 15) : null
                                 }
                                 &nbsp;
                                 {
-                                  introductionProposal.introduction_requester && introductionProposal.introduction_requester.last_name ?
-                                    introductionProposal.introduction_requester.last_name.substring(0, 15) : null
+                                  introductionProposal.introducee_one && introductionProposal.introducee_one.last_name ?
+                                    introductionProposal.introducee_one.last_name.substring(0, 15) : null
                                 }
                               </div>
                             </div>
@@ -71,19 +71,19 @@ export default function List(props) {
                               <div className="avatar-icon-wrapper mr-3">
                                 <div className="avatar-icon">
                                   <Avatar>
-                                    {introductionProposal.introducee && introductionProposal.introducee.first_name ? introductionProposal.introducee.first_name[0] : 'NA'}
+                                    {introductionProposal.introducee_two && introductionProposal.introducee_two.first_name ? introductionProposal.introducee_two.first_name[0] : 'NA'}
                                   </Avatar>
                                 </div>
                               </div>
                               <div>
                                 {
-                                  introductionProposal.introducee && introductionProposal.introducee.first_name ?
-                                    introductionProposal.introducee.first_name.substring(0, 15) : null
+                                  introductionProposal.introducee && introductionProposal.introducee_two.first_name ?
+                                    introductionProposal.introducee_two.first_name.substring(0, 15) : null
                                 }
                                 &nbsp;
                                 {
-                                  introductionProposal.introducee && introductionProposal.introducee.last_name ?
-                                    introductionProposal.introducee.last_name.substring(0, 15) : null
+                                  introductionProposal.introducee && introductionProposal.introducee_two.last_name ?
+                                    introductionProposal.introducee_two.last_name.substring(0, 15) : null
                                 }
                               </div>
                             </div>
