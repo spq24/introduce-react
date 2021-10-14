@@ -52,7 +52,7 @@ export default function IntroductionProposal(props) {
     if (introductionProposal.introducee_one_rejected) {
       setIntroduceeOneStatus({
         shortTitle: 'Denied',
-        title: 'Introducee #1 Denied Request',
+        title: 'Introducee #1 Denied',
         description: `The introduction proposal was denied${introductionProposal.introducee_one && introductionProposal.introducee_one.first_name ? ` by ${introductionProposal.introducee_one.first_name}` : ''}.`,
         date: introductionProposal.introducee_one_rejected_at,
         color: 'danger'
@@ -60,7 +60,7 @@ export default function IntroductionProposal(props) {
     } else if (introductionProposal.introducee_one_accepted) {
       setIntroduceeOneStatus({
         shortTitle: 'Accepted',
-        title: 'Introducee #1 Request Accepted!',
+        title: 'Introducee #1 Accepted!',
         description: `${introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name} has` : 'They have'} agreed to the introduction proposal!`,
         date: introductionProposal.introducee_one_accepted_at,
         color: 'success'

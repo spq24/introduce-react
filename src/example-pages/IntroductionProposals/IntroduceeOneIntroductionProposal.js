@@ -23,7 +23,7 @@ import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
 export default function IntroduceePublicIntroduction() {
   const [loading, setLoading] = useState(true)
-  const [introduction, setIntroduction] = useState({});
+  const [introductionProposal, setIntroductionProposal] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
@@ -38,11 +38,12 @@ export default function IntroduceePublicIntroduction() {
     if(id) {
       axios.get(`/api/v1/proposed-introduction/${id}`)
            .then(response => {
-             let intro = response.data.introduction
-             setIntroduction(intro)
+             console.log('response', response)
+             let intro = response.data.introduction_proposal
+             setIntroductionProposal(intro)
              setLoading(false)
-             document.title = `${response.data.introduction.introducer.first_name} ${response.data.introduction.introducer.last_name} wants to introduce you to ${response.data.introduction.introduction_requester.first_name} ${response.data.introduction.introduction_requester.last_name}`
-             if (intro.completed || intro.introducer_rejected || intro.introducee_rejected || intro.introducee_accepted) {
+             document.title = `${intro.introducer.first_name} ${intro.introducer.last_name} wants to introduce you to ${intro.introducee_two.first_name} ${intro.introducee_two.last_name}`
+             if (intro.completed || intro.introducee_one_rejected || intro.introducee_one_accepted) {
                setHandled(true)
              }
 
@@ -55,7 +56,10 @@ export default function IntroduceePublicIntroduction() {
              }
            })
            .catch(error => {
-             console.log('error', error.response)
+             console.log('error', error)
+             let message = error && error.response && error.response.data && error.response.data.message ?
+               error.response.data.message : 'There was an error. Please try again!'
+             NotificationManager.error(message)
            })
     }
   }, [])
@@ -63,8 +67,8 @@ export default function IntroduceePublicIntroduction() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setIntroduction(introduction => ({
-      ...introduction,
+    setIntroductionProposal(introductionProposal => ({
+      ...introductionProposal,
       [name]: value
     }));
   }
@@ -78,9 +82,9 @@ export default function IntroduceePublicIntroduction() {
     setSubmitting(true)
 
     axios.put(`/api/v1/introducee-proposal-accept-reject/${id}`, {
-        introduction: introduction,
+        introduction_proposal: introductionProposal,
         status: acceptRejectStatus,
-        class_name: 'introducee'
+        introducee_number: 'one'
     }).then(response => {
       NotificationManager.success('Successfully submitted!')
       setSubmitted(true)
@@ -109,7 +113,7 @@ export default function IntroduceePublicIntroduction() {
                   <Grid container spacing={6}>
                     <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                       <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
-                        Will You Accept This Introduction?
+                        Will You Accept This Introduction Proposal?
                       </h1>
                     </Grid>
                   </Grid>
@@ -142,11 +146,11 @@ export default function IntroduceePublicIntroduction() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                      {`Hey ${introduction.introducee.first_name}`},<br /> {`${introduction.introducer.first_name} ${introduction.introducer.last_name} wants to introduce you to ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}.`}
+                    {`Hey ${introductionProposal.introducee_one.first_name}`},<br /> {`${introductionProposal.introducer.first_name} ${introductionProposal.introducer.last_name} is proposing an introduction to ${introductionProposal.introducee_two.first_name} ${introductionProposal.introducee_two.last_name}.`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
-                      Will You Accept This Introduction?
+                      Will You Accept This Introduction Proposal?
                     </h1>
                   </Grid>
                 </Grid>
@@ -161,14 +165,14 @@ export default function IntroduceePublicIntroduction() {
                                 <span>
                                   {
                                     handled ?
-                                      "This introduction request has already been responded to. Nothing to do." :
+                                      "This introduction proposal has already been responded to. Nothing to do." :
                                       null
                                   }
                                   {
                                     submitted && acceptRejectStatus == 'accepted' ?
-                                    `Great! Look out for an email soon that will connect you to ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}. We will Cc ${introduction.introducer.first_name} ${introduction.introducer.last_name} as well.` :
+                                    `Great! Look out for an email soon that will connect you to ${introductionProposal.introducee_two.first_name} ${introductionProposal.introducee_two.last_name}. We will Cc ${introductionProposal.introducer.first_name} ${introductionProposal.introducer.last_name} as well.` :
                                     acceptRejectStatus !== '' ?
-                                      `Thank you we will let ${introduction.introducer.first_name} ${introduction.introducer.last_name} know.` : null
+                                      `Thank you we will let ${introductionProposal.introducer.first_name} ${introductionProposal.introducer.last_name} know.` : null
                                   }
                                 </span>
                               </Alert>
@@ -214,7 +218,7 @@ export default function IntroduceePublicIntroduction() {
                                       </span>&nbsp;
                                     </> : null
                                 }
-                                Deny Introduction Request
+                                Deny Introduction Proposal
                               </Button>
                             </Grid>
                             {
@@ -222,15 +226,15 @@ export default function IntroduceePublicIntroduction() {
                                 <Grid item md={12}>
                                   <TextField
                                     fullWidth
-                                    label={`Can you let ${introduction.introducer.first_name}  ${introduction.introducer.last_name} why you are denying the introduction request?`}
+                                    label={`Can you let ${introductionProposal.introducer.first_name}  ${introductionProposal.introducer.last_name} know why you are denying the introduction proposal?`}
                                     multiline
                                     rows={4}
                                     variant="outlined"
                                     name="introducee_rejection_reason"
-                                    value={introduction.introducee_rejection_reason}
+                                    value={introductionProposal.introducee_one_rejection_reason}
                                     onChange={(e) => handleChange(e)}
                                   />
-                                <FormHelperText>{`This will only be sent to ${introduction.introducer.first_name} ${introduction.introducer.last_name}. We will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know but, we will not share the reason why.`}</FormHelperText>
+                                  <FormHelperText>{`This will only be sent to ${introductionProposal.introducer.first_name} ${introductionProposal.introducer.last_name}.`}</FormHelperText>
                                 </Grid>
                                 : null
                             }
