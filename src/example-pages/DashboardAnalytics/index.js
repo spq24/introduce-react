@@ -22,6 +22,7 @@ import illustration3 from 'assets/images/illustrations/pack1/handshake.svg';
 import illustration4 from 'assets/images/illustrations/pack1/moving.svg';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import NewUser from './NewUser';
+import ProfileCard from '../../example-pages/Users/ProfileCard';
 
 export default function DashboardAnalytics() {
   const userDetails = useAuthState();
@@ -31,6 +32,7 @@ export default function DashboardAnalytics() {
   const [introductionProposals, setIntroductionProposals] = useState(0);
   const [requestForIntro, setRequestForIntro] = useState(0);
   const [profileLink, setProfileLink] = useState('#')
+  const PROFILE_LINK = `https://canyouintro.me/r/${userDetails.user.unique_id}`
 
   useEffect(() => {
     axios.get('/api/v1/dashboard', {
@@ -229,6 +231,12 @@ export default function DashboardAnalytics() {
               </CopyToClipboard>
             </div>
           </Card>
+        </Grid>
+
+        <Grid item md={12} lg={12} xl={12}>
+          <ProfileCard
+            title='Share your intro request link'
+            link={PROFILE_LINK} />
         </Grid>
       </Grid>
     </>

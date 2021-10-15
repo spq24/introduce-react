@@ -34,27 +34,27 @@ import StepConnector from '@material-ui/core/StepConnector';
 export default function NewIntroduction() {
   const userDetails = useAuthState();
   const [activeStep, setActiveStep] = useState(0);
-  const [introducee, setIntroducee] = useState({});
+  const [introduceeOne, setIntroduceeOne] = useState({});
+  const [introduceeTwo, setIntroduceeTwo] = useState({});
   const [introducer] = useState(userDetails.user);
-  const [requester, setRequester] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
   const steps = getSteps();
 
-  const handleIntroduceeChange = (e) => {
+  const handleIntroduceeOneChange = (e) => {
     const { name, value } = e.target;
 
-    setIntroducee(introducee => ({
-      ...introducee,
+    setIntroduceeOne(introduceeOne => ({
+      ...introduceeOne,
       [name]: value
     }));
   }
 
-  const handleRequesterChange = (e) => {
+  const handleIntroduceeTwoChange = (e) => {
     const { name, value } = e.target;
 
-    setRequester(requester => ({
-      ...requester,
+    setIntroduceeTwo(introduceeTwo => ({
+      ...introduceeTwo,
       [name]: value
     }));
   }
@@ -89,7 +89,7 @@ export default function NewIntroduction() {
   };
 
   function getSteps() {
-    return ["1st Person's Info", "2nd Person's Info", 'Send It!'];
+    return ["Introducee #1's Info", "Introducee #2's Info", 'Send It!'];
   }
 
   const handleNext = () => {
@@ -106,49 +106,49 @@ export default function NewIntroduction() {
   const validateData = (step) => {
     let validData = false;
     if (step === 0) {
-      validData = validateIntroducee()
+      validData = validateIntroduceeOne()
     } else if (step === 1) {
-      validData = validateRequester()
+      validData = validateIntroduceeTwo()
     }
 
     return validData
   }
 
-  const validateIntroducee = () => {
-    const firstName = introducee.first_name && introducee.first_name.length > 0
-    const lastName = introducee.last_name && introducee.last_name.length > 0
-    const requestReason = introducee.request_reason && introducee.request_reason.length > 0
+  const validateIntroduceeOne = () => {
+    const firstName = introduceeOne.first_name && introduceeOne.first_name.length > 0
+    const lastName = introduceeOne.last_name && introduceeOne.last_name.length > 0
+    const introducerIntroduceeOneMessage = introduceeOne.introducer_introducee_one_message && introduceeOne.introducer_introducee_one_message.length > 0
     const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const email = introducee.email && introducee.email.length > 0 && validEmailRegex.test(introducee.email)
+    const email = introduceeOne.email && introduceeOne.email.length > 0 && validEmailRegex.test(introduceeOne.email)
 
-    if (firstName && lastName && email && requestReason) {
+    if (firstName && lastName && email && introducerIntroduceeOneMessage) {
       return true
     } else {
       setErrorMessage(
         `Please make sure all required fields are filled in properly.
         You are missing: ${!firstName ? 'First Name' : ''}
         ${!lastName ? 'Last Name' : ''}
-        ${!requestReason ? 'Request Reason' : ''}`
+        ${!introducerIntroduceeOneMessage ? 'Message To Introducee #1' : ''}`
       )
       return false
     }
   }
 
-  const validateRequester = () => {
-    const firstName = requester.first_name && requester.first_name.length > 0
-    const lastName = requester.last_name && requester.last_name.length > 0
+  const validateIntroduceeTwo = () => {
+    const firstName = introduceeTwo.first_name && introduceeTwo.first_name.length > 0
+    const lastName = introduceeTwo.last_name && introduceeTwo.last_name.length > 0
+    const introducerIntroduceeTwoMessage = introduceeTwo.introducer_introducee_two_message && introduceeTwo.introducer_introducee_two_message.length > 0
     const validEmailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
-    const requesterIntroducerMessage = requester.requester_introducer_message && requester.requester_introducer_message.length > 0
-    const email = requester.email && requester.email.length > 0 && validEmailRegex.test(requester.email)
+    const email = introduceeTwo.email && introduceeTwo.email.length > 0 && validEmailRegex.test(introduceeTwo.email)
 
-    if (firstName && lastName && email && requesterIntroducerMessage) {
+    if (firstName && lastName && email && introducerIntroduceeTwoMessage) {
       return true
     } else {
       setErrorMessage(
         `Please make sure all required fields are filled in properly.
         You are missing: ${!firstName ? 'First Name' : ''}
         ${!lastName ? 'Last Name' : ''}
-        ${!email ? 'Valid Email' : ''}`
+        ${!introducerIntroduceeTwoMessage ? 'Message To Introducee #2' : ''}`
       )
       return false
     }
@@ -164,13 +164,13 @@ export default function NewIntroduction() {
 
   const handleSubmit = () => {
     let intro = {
-      introducee: introducee,
-      requester: requester,
+      introducee_one: introduceeOne,
+      introducee_two: introduceeTwo,
       introducer: introducer,
       proposal: true
     }
 
-    axios.post('/api/v1/introduction-proposal-create',
+    axios.post('/api/v1/introduction_proposals',
       intro,
       { headers: userDetails.credentials }
     ).then(response => {
@@ -190,9 +190,7 @@ export default function NewIntroduction() {
           <small>New Introduction Proposal</small>
           <b>Tell us the two people you think should meet, and we'll handle the rest.</b>
         </div>
-        <div className="card-header--actions">
-
-        </div>
+        <div className="card-header--actions"></div>
       </div>
       <div>
         <div className="bg-secondary mb-3">
@@ -258,9 +256,9 @@ export default function NewIntroduction() {
                               label="First Name"
                               name="first_name"
                               variant="outlined"
-                              value={introducee.first_name}
+                              value={introduceeOne.first_name}
                               required={true}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              onChange={(e) => handleIntroduceeOneChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -270,8 +268,8 @@ export default function NewIntroduction() {
                               name="last_name"
                               variant="outlined"
                               required={true}
-                              value={introducee.last_name}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              value={introduceeOne.last_name}
+                              onChange={(e) => handleIntroduceeOneChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -282,21 +280,21 @@ export default function NewIntroduction() {
                               name="email"
                               variant="outlined"
                               required={true}
-                              value={introducee.email}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              value={introduceeOne.email}
+                              onChange={(e) => handleIntroduceeOneChange(e)}
                             />
                           </Grid>
                           <Grid item md={12}>
                             <TextField
                               fullWidth
-                              label={`Your message to ${introducee.first_name && introducee.first_name.length > 0 ? introducee.first_name : 'introducee #1'}`}
+                              label={`Your message to ${introduceeOne.first_name && introduceeOne.first_name.length > 0 ? introduceeOne.first_name : 'introducee #1'}`}
                               multiline
                               rows={4}
                               variant="outlined"
                               required={true}
-                              name="request_reason"
-                              value={introducee.request_reason}
-                              onChange={(e) => handleIntroduceeChange(e)}
+                              name="introducer_introducee_one_message"
+                              value={introduceeOne.request_reason}
+                              onChange={(e) => handleIntroduceeOneChange(e)}
                             />
                             <FormHelperText>example: John Doe is great, I've worked with him for years. He's looking for people with your expertise so I thought you two should connect.</FormHelperText>
                           </Grid>
@@ -312,7 +310,7 @@ export default function NewIntroduction() {
                         <h5 className="font-size-xl mb-1 font-weight-bold">
                           Who is the 2nd introducee?
                         </h5>
-                        <p className="text-black-50 mb-4">Tell us who you want to introduce{introducee.first_name ? ` to ${introducee.first_name}` : null}</p>
+                        <p className="text-black-50 mb-4">Tell us who you want to introduce{introduceeTwo.first_name ? ` to ${introduceeTwo.first_name}` : null}</p>
                         <Grid container spacing={6}>
                           <Grid item md={4}>
                             <TextField
@@ -320,9 +318,9 @@ export default function NewIntroduction() {
                               label="First Name"
                               name="first_name"
                               variant="outlined"
-                              value={requester.first_name}
+                              value={introduceeTwo.first_name}
                               required={true}
-                              onChange={(e) => handleRequesterChange(e)}
+                              onChange={(e) => handleIntroduceeTwoChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -332,8 +330,8 @@ export default function NewIntroduction() {
                               name="last_name"
                               required={true}
                               variant="outlined"
-                              value={requester.last_name}
-                              onChange={(e) => handleRequesterChange(e)}
+                              value={introduceeTwo.last_name}
+                              onChange={(e) => handleIntroduceeTwoChange(e)}
                             />
                           </Grid>
                           <Grid item md={4}>
@@ -344,21 +342,21 @@ export default function NewIntroduction() {
                               name="email"
                               required={true}
                               variant="outlined"
-                              value={requester.email}
-                              onChange={(e) => handleRequesterChange(e)}
+                              value={introduceeTwo.email}
+                              onChange={(e) => handleIntroduceeTwoChange(e)}
                             />
                           </Grid>
                           <Grid item md={12}>
                             <TextField
                               fullWidth
-                              label={`Your message to ${requester.first_name && requester.first_name.length > 0 ? requester.first_name : 'introducee #2'}`}
+                              label={`Your message to ${introduceeTwo.first_name && introduceeTwo.first_name.length > 0 ? introduceeTwo.first_name : 'introducee #2'}`}
                               multiline
                               rows={4}
                               variant="outlined"
                               required={true}
-                              name="requester_introducer_message"
-                              value={requester.requester_introducer_message}
-                              onChange={(e) => handleRequesterChange(e)}
+                              name="introducer_introducee_two_message"
+                              value={introduceeTwo.introducer_introducee_two_message}
+                              onChange={(e) => handleIntroduceeTwoChange(e)}
                             />
                             <FormHelperText>example: Jane Doe is great, I've worked with her for years. She's looking for people with your expertise so I thought you two should connect.</FormHelperText>
                           </Grid>
