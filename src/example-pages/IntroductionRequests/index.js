@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useAuthState } from 'context'
 import { Link } from 'react-router-dom';
 import { PageTitle } from 'layout-components';
-import DashboardAnalytics1 from '../../example-components/DashboardAnalytics/DashboardAnalytics1';
 import { Table, Card, Button, Grid, CardContent, } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

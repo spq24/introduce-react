@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useAuthState } from 'context'
 import { Link } from 'react-router-dom';
 import { PageTitle } from 'layout-components';
-import DashboardAnalytics1 from '../../example-components/DashboardAnalytics/DashboardAnalytics1';
 import { Table, Card, Button, Grid, CardContent, } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar/Avatar';
 import RequestForIntrosList from './RequestForIntrosList';
 import { NotificationManager } from 'react-notifications';
 import ProfileCard from '../../example-pages/Users/ProfileCard';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 import MarketingCta from '../MarketingCta';
 
 export default function RequestForIntros(props) {

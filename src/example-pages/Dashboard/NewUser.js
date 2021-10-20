@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { PageTitle } from 'layout-components';
 import NumberBoxes from './NumberBoxes';
-import Table from '../../example-components/Tables/Tables8';
 import Introductions from '../../example-pages/Introductions/List';
 import IntroductionRequests from '../../example-pages/IntroductionRequests/List';
 import IntroductionProposals from '../../example-pages/IntroductionProposals/List';
 import { Card, Button, Grid } from '@material-ui/core';
-import MarketingCta from '../MarketingCta';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 import { NotificationManager } from 'react-notifications';
 import {
   Fab,
@@ -28,7 +26,7 @@ import requestForIntroIllustration from 'assets/images/illustrations/request-for
 import introProposalIllustration from 'assets/images/illustrations/introduction-proposal.svg';
 import introIllustration from 'assets/images/illustrations/introduction.svg';
 
-export default function DashboardAnalytics() {
+export default function NewUser() {
   const userDetails = useAuthState();
   const [loading, setLoading] = useState(true)
   const [acceptedIntroductions, setAcceptedIntroductions] = useState(0);

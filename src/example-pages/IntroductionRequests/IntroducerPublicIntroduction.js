@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { NotificationManager } from 'react-notifications';
 import Alert from '@material-ui/lab/Alert';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 

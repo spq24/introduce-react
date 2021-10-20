@@ -16,7 +16,7 @@ import {
   ListItem,
   TextField
 } from '@material-ui/core';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 import ProfileCard from './ProfileCard';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';

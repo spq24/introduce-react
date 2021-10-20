@@ -12,7 +12,7 @@ import List from './List'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import avatar3 from 'assets/images/avatars/avatar3.jpg';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 
 import avatar1 from 'assets/images/avatars/avatar1.jpg';
 import avatar2 from 'assets/images/avatars/avatar2.jpg';

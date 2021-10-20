@@ -23,7 +23,7 @@ import Alert from '@material-ui/lab/Alert';
 import { NotificationManager } from 'react-notifications';
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 
 export default function PublicRequestForIntroduction() {
   const [loading, setLoading] = useState(true);

@@ -10,7 +10,7 @@ import 'moment-timezone';
 import { NotificationManager } from 'react-notifications';
 import avatar2 from 'assets/images/avatars/avatar2.jpg';
 import avatar3 from 'assets/images/avatars/avatar3.jpg';
-import Loader from '../../example-components/Loader';
+import Loader from '../Loader';
 
 export default function IntroductionRequest(props) {
   const { id } = useParams();
