@@ -65,6 +65,12 @@ export default function DashboardAnalytics() {
   return (
     <>
       <Grid container spacing={6}>
+        <Grid item md={12} lg={12} xl={12}>
+          <ProfileCard
+            marginBottom='0px'
+            title='Share your intro request link'
+            link={PROFILE_LINK} />
+        </Grid>
         <Grid item md={6} lg={12} xl={6}>
           <Card>
             <div className="p-4">
@@ -233,11 +239,7 @@ export default function DashboardAnalytics() {
           </Card>
         </Grid>
 
-        <Grid item md={12} lg={12} xl={12}>
-          <ProfileCard
-            title='Share your intro request link'
-            link={PROFILE_LINK} />
-        </Grid>
+
       </Grid>
     </>
   );

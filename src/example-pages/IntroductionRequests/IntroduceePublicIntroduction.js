@@ -38,7 +38,7 @@ export default function IntroduceePublicIntroduction() {
 
   useEffect(() => {
     if(id) {
-      axios.get(`/api/v1/requested-introduction/${id}`)
+      axios.get(`/api/v1/introduction_requests/${id}`)
            .then(response => {
              let intro = response.data.introduction
              setIntroduction(intro)

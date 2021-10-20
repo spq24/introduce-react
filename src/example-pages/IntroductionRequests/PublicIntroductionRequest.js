@@ -34,7 +34,7 @@ export default function PublicIntroductionRequest() {
 
   useEffect(() => {
     if(id) {
-      axios.get(`/api/v1/request-introduction/${id}`)
+      axios.get(`/api/v1/introdution_requests/${id}`)
            .then(response => {
              const user = response.data.user
              setIntroducer(user)
@@ -74,7 +74,6 @@ export default function PublicIntroductionRequest() {
       setSubmitting(false)
       return
     }
-
 
     let intro = {
       introducer_id: id,

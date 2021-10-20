@@ -13,9 +13,14 @@ import avatar3 from 'assets/images/avatars/avatar3.jpg';
 import Loader from '../../example-components/Loader';
 
 export default function IntroductionRequest(props) {
+  const { id } = useParams();
   const userDetails = useAuthState();
   const [loading, setLoading] = useState(true);
   const [introductionRequest, setIntroductionRequest] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [handled, setHandled] = useState(false);
+  const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
   const [introducerStatus, setIntroducerStatus] = useState({
     title: '',
     date: '',
@@ -33,18 +38,13 @@ export default function IntroductionRequest(props) {
     color: 'default',
     date: null
   })
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [handled, setHandled] = useState(false);
-  const [acceptRejectStatus, setAcceptRejectStatus] = useState('')
-  const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`/api/v1/introductions/${id}`, {
+    axios.get(`/api/v1/introduction_requests/${id}`, {
       headers: userDetails.credentials
     })
     .then(response => {
-      let intro = response.data.introduction
+      let intro = response.data.introduction_request
       setIntroductionRequest(intro)
       if (intro.completed || intro.introducer_rejected || intro.introducer_accepted) {
         setHandled(true)

@@ -97,14 +97,16 @@ export default function List(props) {
                         </td>
                         <td>
                           <div>
-                            <Button
-                              size="small"
-                              className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">
-                              <FontAwesomeIcon
-                                icon={['fas', 'link']}
-                                className="font-size-lg"
-                              />
-                            </Button>
+                            <Link to={`/introductions/${introduction.id}`}>
+                              <Button
+                                size="small"
+                                className="btn-primary btn-icon d-40 p-0 btn-animated-icon-sm">
+                                <FontAwesomeIcon
+                                  icon={['fas', 'link']}
+                                  className="font-size-lg"
+                                />
+                              </Button>
+                            </Link>
                           </div>
                         </td>
                       </tr>
