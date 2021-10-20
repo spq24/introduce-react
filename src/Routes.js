@@ -16,8 +16,8 @@ import {
 } from './layout-blueprints';
 
 // Authenticated Pages
-import Dashboard from './example-pages/DashboardAnalytics';
-import NewUser from './example-pages/DashboardAnalytics/NewUser';
+import Dashboard from './example-pages/Dashboard';
+import NewUser from './example-pages/Dashboard/NewUser';
 import Introductions from './example-pages/Introductions';
 import NewIntroduction from './example-pages/Introductions/NewIntroduction';
 import Introduction from './example-pages/Introductions/Introduction';
@@ -43,9 +43,8 @@ import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionPropo
 import PublicRequestForIntroduction from './example-pages/RequestForIntroductions/PublicRequestForIntroduction';
 import PublicNewIntroFromRequestForIntro from './example-pages/Introductions/PublicNewIntroFromRequestForIntro';
 
-const PageLoginCover = lazy(() => import('./example-pages/PageLoginCover'));
-const PageRegisterOverlay = lazy(() =>import('./example-pages/PageRegisterOverlay'));
-const PageInvoice = lazy(() => import('./example-pages/PageInvoice'));
+const Login = lazy(() => import('./example-pages/Login'));
+const CreateAccount = lazy(() =>import('./example-pages/CreateAccount'));
 const PageError404 = lazy(() => import('./example-pages/PageError404'));
 const PageError500 = lazy(() => import('./example-pages/PageError500'));
 const PageError505 = lazy(() => import('./example-pages/PageError505'));
@@ -146,11 +145,11 @@ const Routes = () => {
                       exit="out"
                       variants={pageVariants}
                       transition={pageTransition}>
-                      <Route path="/login" component={PageLoginCover} />
+                      <Route path="/login" component={Login} />
                       <Route exact path="/linkedin" component={LinkedInPopUp} />
                       <Route
                         path="/sign-up"
-                        component={PageRegisterOverlay}
+                        component={CreateAccount}
                       />
                       <Route
                         exact path="/r/:id"
