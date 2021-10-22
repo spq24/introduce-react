@@ -11,8 +11,10 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { NotificationManager } from 'react-notifications';
+import Loader from '../Loader';
 
 export default function PublicIntroductionRequest() {
+  const [loading, setLoading] = useState(true);
   const [introducee, setIntroducee] = useState({});
   const [introducer, setIntroducer] = useState({});
   const [requester, setRequester] = useState({});
@@ -30,11 +32,13 @@ export default function PublicIntroductionRequest() {
              const user = response.data.user
              setIntroducer(user)
              document.title = `Request An Introduction From ${user.first_name} ${user.last_name}`
+             setLoading(false)
            })
            .catch(error => {
              let message = error && error.response && error.response.data && error.response.data.message ?
                error.response.data.message : 'There was an error. Please try again!'
              NotificationManager.error(message)
+             setLoading(false)
            })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +132,40 @@ export default function PublicIntroductionRequest() {
     }
   }
 
+  if (loading) {
+    return (
+      <>
+      <div className="app-wrapper min-vh-100 bg-white">
+        <div className="hero-wrapper w-100 bg-composed-wrapper bg-midnight-bloom min-vh-100">
+          <div className="flex-grow-1 w-100 d-flex align-items-center">
+            <div
+              className="bg-composed-wrapper--image opacity-6"
+              style={{ backgroundImage: 'url(https://ik.imagekit.io/canyouintrome/handshake-close_kmndubvB_.jpeg)' }}
+            />
+            <div className="bg-composed-wrapper--bg bg-second opacity-7" />
+            <div className="bg-composed-wrapper--content p-3 p-md-5">
+              <Container>
+                <Grid container spacing={6}>
+                  <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
+                    <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
+                      Can You Make This Introduction?
+                      </h1>
+                  </Grid>
+                </Grid>
+                <Card className="rounded-sm modal-content p-3 bg-white-10">
+                  <Card className="rounded-sm overflow-hidden shadow-xxl font-size-sm p-3 p-sm-0">
+                    <Loader />
+                  </Card>
+                </Card>
+              </Container>
+            </div>
+          </div>
+        </div>
+      </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="app-wrapper min-vh-100 bg-white">
@@ -143,7 +181,7 @@ export default function PublicIntroductionRequest() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     {
-                      introducer.image && introducer.image.url ?
+                      introducer && introducer.image && introducer.image.url ?
                         <div className="avatar-icon-wrapper border-white m-3">
                           <div className="avatar-icon shadow-sm d-100">
                             <img alt={`${introducer.first_name} ${introducer.last_name}`} src={introducer.image.url} />
