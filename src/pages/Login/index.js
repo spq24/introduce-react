@@ -198,56 +198,7 @@ export default function Login() {
                           <div className="d-flex justify-content-center">
                             {submitting ? <Loader /> : null}
                           </div>
-
-                          {/* <div className="text-center text-black-50 mb-4">
-                              or sign in with credentials
-                              </div> */}
                           <div>
-                            {/* <div className="mb-4">
-                                <TextField
-                                  fullWidth
-                                  variant="outlined"
-                                  id="textfield-email"
-                                  label="Email address"
-                                  onChange={ (e) => handleEmailChange(e) }
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start">
-                                        <MailOutlineTwoToneIcon />
-                                      </InputAdornment>
-                                    )
-                                  }}
-                                />
-                              </div>
-                              <div className="mb-3">
-                                <TextField
-                                  fullWidth
-                                  variant="outlined"
-                                  id="textfield-password"
-                                  label="Password"
-                                  type="password"
-                                  onChange={ (e) => handlePasswordChange(e) }
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start">
-                                        <LockTwoToneIcon />
-                                      </InputAdornment>
-                                    )
-                                  }}
-                                />
-                              </div>
-                              <div className="d-flex justify-content-end align-items-center font-size-md">
-                                <div>
-                                  <Link to='/forgot-password' className="text-first">
-                                    Forgot password
-                                  </Link>
-                                </div>
-                              </div>
-                              <div className="text-center py-4">
-                                <Button className="btn-second font-weight-bold w-50 my-2" onClick={ (e) => handleLogin(e) }>
-                                  Sign in
-                                </Button>
-                              </div> */}
                             <div className="text-center text-black-50 mt-3">
                               Don't have an account?{' '}
                               <Link to='/sign-up' className="text-first">

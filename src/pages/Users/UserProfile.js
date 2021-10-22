@@ -160,13 +160,11 @@ export default function UserProfile() {
 
   return (
     <>
-      {/* <div style={{ margin: '0px 15% 2% 15%' }}> */}
         <Grid container spacing={2}>
           <ProfileCard
             title='Your Personalized Link'
             link={`https://canyouintro.me/r/${user.unique_id}`} />
         </Grid>
-      {/* </div> */}
       <div className="app-inner-content-layout">
         <div className="app-inner-content-layout--main bg-white p-0">
           <div className="hero-wrapper mx-5 rounded-bottom shadow-xxl bg-composed-wrapper bg-second" style={{ minHeight: '350px' }}>

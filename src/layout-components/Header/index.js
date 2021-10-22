@@ -86,7 +86,6 @@ const Header = (props) => {
             <span className="hamburger-inner" />
           </span>
         </button>
-        {/* <HeaderSearch /> */}
       </div>
       <div className="app-header--pane">
         <HeaderUserbox

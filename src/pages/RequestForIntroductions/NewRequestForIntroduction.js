@@ -168,16 +168,6 @@ export default function NewReqeustForIntroduction() {
                   <FormHelperText>examples: Looking for possible investors, looking to network, looking to understand if I would be a fit as a Google PM, etc.</FormHelperText>
                 </Grid>
                 <Grid item md={12}>
-                  {/* <TextField
-                    fullWidth
-                    label="What Are Some Possible Job Titles This Person Or People Might Have?"
-                    multiline
-                    rows={1}
-                    variant="outlined"
-                    name="job_title"
-                    value={requestForIntro.job_title}
-                    onChange={(e) => handleRequestForIntroChange(e)}
-                  /> */}
                   <Autocomplete
                     multiple
                     sx={{ width: 300 }}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { useSegment } from 'react-segment-hooks';
+import { useSegment } from 'react-segment-hooks';
 import {
   Typography,
   Menu,
@@ -12,21 +12,21 @@ import {
 } from '@material-ui/core';
 
 const HeaderUserbox = (props) => {
-//  const analytics = useSegment();
+  const analytics = useSegment();
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
-    //const { user } = props
-    // analytics.identify({
-    //   userId: user.id,
-    //   traits: {
-    //     first_name: user.first_name,
-    //     last_name: user.last_name,
-    //     email: user.email,
-    //     true_user_id: props.trueUser ? props.trueUser.id : null,
-    //     true_user: props.trueUser
-    //   }
-    // })
+    const { user } = props
+    analytics.identify({
+      userId: user.id,
+      traits: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        true_user_id: props.trueUser ? props.trueUser.id : null,
+        true_user: props.trueUser
+      }
+    })
   })
 
   const handleClick = (event) => {

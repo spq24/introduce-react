@@ -49,7 +49,7 @@ export default function RequestForIntros(props) {
   return (
     <>
       <MarketingCta
-        text="Want An Introduction, but you don't know the specific person? Get help from the crowd."
+      text="Looking for an introduction to a certain type of person or people? Example: Looking for great software engineers."
         type='success'
         button='Create A Request For Introduction'
         link='/new-request-for-introduction' />
