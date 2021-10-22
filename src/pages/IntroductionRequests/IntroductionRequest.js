@@ -54,6 +54,7 @@ export default function IntroductionRequest(props) {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -82,6 +83,7 @@ export default function IntroductionRequest(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionRequest])
 
   useEffect(() => {
@@ -126,6 +128,7 @@ export default function IntroductionRequest(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionRequest])
 
   useEffect(() => {
@@ -160,8 +163,8 @@ export default function IntroductionRequest(props) {
         date: null
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionRequest])
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;

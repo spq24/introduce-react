@@ -28,7 +28,6 @@ export default function RequestForIntroduction(props) {
       headers: userDetails.credentials
     })
     .then(response => {
-      console.log('response', response)
       setRequestForIntroduction(response.data.request_for_introduction)
       setIntroductions(response.data.request_for_introduction.introductions)
       setLoading(false)
@@ -38,6 +37,7 @@ export default function RequestForIntroduction(props) {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const closeRequest = (e) => {

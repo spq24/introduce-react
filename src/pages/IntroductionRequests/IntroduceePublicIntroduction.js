@@ -47,9 +47,12 @@ export default function IntroduceePublicIntroduction() {
              }
            })
            .catch(error => {
-             console.log('error', error.response)
+             let message = error && error.response && error.response.data && error.response.data.message ?
+               error.response.data.message : 'There was an error. Please try again!'
+             NotificationManager.success(message)
            })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = (e) => {

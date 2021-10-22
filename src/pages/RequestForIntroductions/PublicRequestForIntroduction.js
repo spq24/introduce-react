@@ -26,7 +26,6 @@ export default function PublicRequestForIntroduction() {
     if(id) {
       axios.get(`/api/v1/request_for_introductions/${id}/public_show`)
            .then(response => {
-             console.log('response', response)
              setRequestForIntroduction(response.data.request_for_introduction)
              const user = response.data.request_for_introduction.user
              setUser(user)
@@ -39,6 +38,7 @@ export default function PublicRequestForIntroduction() {
              NotificationManager.error(message)
            })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (loading) {

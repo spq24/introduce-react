@@ -42,6 +42,7 @@ export default function UserProfile() {
              error.response.data.message : 'There was an error. Please try again!'
            NotificationManager.error(message)
          })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = (e) => {

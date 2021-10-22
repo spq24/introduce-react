@@ -33,6 +33,7 @@ export default function Login() {
           return history.push('/dashboard')
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let url = () => {
@@ -51,6 +52,7 @@ export default function Login() {
     if (codeString) {
       setCode(codeString.split('&')[0])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export default function Login() {
           NotificationManager.error(message)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   const handleGoogleLogin = (payload) => {

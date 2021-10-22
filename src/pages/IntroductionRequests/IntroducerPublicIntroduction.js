@@ -33,7 +33,6 @@ export default function PublicIntroductionRequest() {
       axios.get(`/api/v1/introduction_requests/${id}`)
            .then(response => {
              let intro = response.data.introduction_request
-             console.log('response', response)
              setIntroduction(intro)
              setIntroducee(intro.introducee)
              setLoading(false)
@@ -56,6 +55,7 @@ export default function PublicIntroductionRequest() {
              NotificationManager.error(message)
            })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = (e) => {
@@ -73,7 +73,6 @@ export default function PublicIntroductionRequest() {
       ...introducee,
       [name]: value
     }));
-    console.log('introducee', introducee)
   }
 
   const handleAcceptRejectChange = (e, status) => {

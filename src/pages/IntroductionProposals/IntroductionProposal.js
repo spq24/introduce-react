@@ -34,7 +34,6 @@ export default function IntroductionProposal(props) {
       headers: userDetails.credentials
     })
     .then(response => {
-      console.log('response', response)
       setIntroductionProposal(response.data.introduction_proposal)
     })
     .catch(error => {
@@ -42,6 +41,7 @@ export default function IntroductionProposal(props) {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
    useEffect(() => {
@@ -70,6 +70,7 @@ export default function IntroductionProposal(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionProposal])
 
   useEffect(() => {
@@ -98,6 +99,7 @@ export default function IntroductionProposal(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionProposal])
 
   useEffect(() => {
@@ -126,6 +128,7 @@ export default function IntroductionProposal(props) {
         date: null
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introductionProposal])
 
   return (
@@ -142,7 +145,6 @@ export default function IntroductionProposal(props) {
                 <p>You proposed that {introductionProposal.introducee_two ? `${introductionProposal.introducee_two.first_name} ${introductionProposal.introducee_two.last_name}` : ''} and {introductionProposal.introducee_one ? `${introductionProposal.introducee_one.first_name} ${introductionProposal.introducee_one.last_name} should meet.` : ''}</p>
               </div>
             </div>
-            {console.log('introduceeeOneStatus', introduceeOneStatus.date)}
             <div className="timeline-item">
               <div className="timeline-item--content">
                 <div className={`timeline-item--icon bg-${introduceeOneStatus.color}`} />

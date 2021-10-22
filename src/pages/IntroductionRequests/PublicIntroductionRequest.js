@@ -37,6 +37,7 @@ export default function PublicIntroductionRequest() {
              NotificationManager.error(message)
            })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleIntroduceeChange = (e) => {

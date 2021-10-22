@@ -12,6 +12,7 @@ export default function Introductions(props) {
 
   useEffect(() => {
     retrieveIntroductions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const retrieveIntroductions = () => {
@@ -26,6 +27,7 @@ export default function Introductions(props) {
 
   useEffect(() => {
     retrieveIntroductions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber])
 
   const handlePageChange = (e, pageNumber) => {

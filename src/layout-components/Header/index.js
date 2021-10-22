@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAuthState, logout, updateUser, useAuthDispatch } from 'context'
 import {useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
 import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
-
 import HeaderUserbox from '../../layout-components/HeaderUserbox';
 import { NotificationManager } from 'react-notifications';
 
@@ -20,7 +18,7 @@ const Header = (props) => {
   const userDetails = useAuthState();
   const dispatch = useAuthDispatch();
   const history = useHistory();
-  let image = '';
+  let image = useRef(userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : '');
 
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
@@ -29,19 +27,20 @@ const Header = (props) => {
   useEffect(() => {
     const userId = userDetails && userDetails.user ? userDetails.user.id : null
     const credentials = userDetails && userDetails.credentials ? userDetails.credentials : null
-    image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
     if(!userId || !credentials) {
       history.push('/login');
       return;
     }
-    axios.get(image)
+
+
+    axios.get(image.current)
          .catch(error => {
            axios.get(`/api/v1/users/${userId}`, {
              headers: credentials
            })
            .then(response => {
               if(response && response.data && response.data.user) {
-                image = response.data.user.image.url
+                image.current = response.data.user.image.url
                 updateUser(dispatch, response.data.user)
               }
            })
@@ -54,6 +53,7 @@ const Header = (props) => {
            NotificationManager.error(message)
            history.push('/login')
          })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleLogout = (e) => {

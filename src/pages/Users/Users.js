@@ -18,6 +18,7 @@ export default function Users(props) {
 
   useEffect(() => {
     retrieveUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const retrieveUsers = () => {
@@ -32,6 +33,7 @@ export default function Users(props) {
 
   useEffect(() => {
     retrieveUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber])
 
   const handlePageChange = (e, pageNumber) => {

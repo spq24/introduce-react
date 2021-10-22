@@ -45,6 +45,7 @@ export default function PublicIntroFromRequestForIntro() {
           NotificationManager.error(message)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

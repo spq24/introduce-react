@@ -30,7 +30,6 @@ export default function IntroduceePublicIntroduction() {
     if (id) {
       axios.get(`/api/v1/proposed-introduction/${id}`)
         .then(response => {
-          console.log('response', response)
           let intro = response.data.introduction_proposal
           setIntroductionProposal(intro)
           setLoading(false)
@@ -48,12 +47,12 @@ export default function IntroduceePublicIntroduction() {
           }
         })
         .catch(error => {
-          console.log('error', error)
           let message = error && error.response && error.response.data && error.response.data.message ?
             error.response.data.message : 'There was an error. Please try again!'
           NotificationManager.error(message)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = (e) => {

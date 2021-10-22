@@ -41,6 +41,7 @@ export default function Introductions(props) {
         error.response.data.message : 'There was an error. Please try again!'
       NotificationManager.error(message)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function Introductions(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introduction])
 
   useEffect(() => {
@@ -105,6 +107,7 @@ export default function Introductions(props) {
         color: 'warning'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introduction])
 
   useEffect(() => {
@@ -133,8 +136,8 @@ export default function Introductions(props) {
         date: null
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introduction])
-
 
   return (
     <>

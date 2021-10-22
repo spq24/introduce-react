@@ -37,6 +37,7 @@ export default function CreateAccount() {
           history.push('/dashboard')
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetails])
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function CreateAccount() {
     if (codeString) {
       setCode(codeString.split('&')[0])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function CreateAccount() {
           NotificationManager.error(message)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code])
 
   let url = () => {
