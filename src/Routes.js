@@ -33,7 +33,7 @@ import UserProfile from './pages/Users/UserProfile';
 import Users from './pages/Users/Users';
 
 //Public Pages
-import PublicIntroductionRequest from './pages/IntroductionRequests/PublicIntroductionRequest';
+import PublicNewIntroductionRequest from './pages/IntroductionRequests/PublicNewIntroductionRequest';
 import IntroducerPublicIntroduction from './pages/IntroductionRequests/IntroducerPublicIntroduction';
 import IntroduceePublicIntroduction from './pages/IntroductionRequests/IntroduceePublicIntroduction';
 import IntroduceeOneIntroductionProposal from './pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
@@ -151,7 +151,7 @@ const Routes = () => {
                       />
                       <Route
                         exact path="/r/:id"
-                        component={PublicIntroductionRequest}
+                        component={PublicNewIntroductionRequest}
                       />
                       <Route
                         path="/introduction-proposal/:id/introducee-one"
