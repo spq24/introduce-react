@@ -1,11 +1,6 @@
 import React from 'react';
-
 import clsx from 'clsx';
-
-import { List, ListItem } from '@material-ui/core';
-
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 const Footer = (props) => {
   const { footerShadow, footerBgTransparent } = props;

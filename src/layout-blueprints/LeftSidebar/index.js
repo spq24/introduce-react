@@ -1,20 +1,16 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { impersonate, stopImpersonate, useAuthState, useAuthDispatch } from 'context';
+import { stopImpersonate, useAuthState, useAuthDispatch } from 'context';
 import { Sidebar, Header, Footer } from '../../layout-components';
 import { Button, Snackbar, SnackbarContent } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 
 const LeftSidebar = (props) => {
   const dispatch = useAuthDispatch();
   const userDetails = useAuthState();
   const trueUser = userDetails.trueUser
   const currentUser = userDetails.user
-  const history = useHistory();
 
   const {
     children,

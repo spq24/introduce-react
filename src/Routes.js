@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ClimbingBoxLoader } from 'react-spinners';
 import { AuthProvider } from "context";
@@ -10,44 +10,42 @@ import { LinkedInPopUp } from 'react-linkedin-login-oauth2';
 
 import {
   LeftSidebar,
-  CollapsedSidebar,
   MinimalLayout,
-  PresentationLayout
 } from './layout-blueprints';
 
 // Authenticated Pages
-import Dashboard from './example-pages/Dashboard';
-import NewUser from './example-pages/Dashboard/NewUser';
-import Introductions from './example-pages/Introductions';
-import NewIntroduction from './example-pages/Introductions/NewIntroduction';
-import Introduction from './example-pages/Introductions/Introduction';
-import IntroductionRequests from './example-pages/IntroductionRequests';
-import IntroductionRequest from './example-pages/IntroductionRequests/IntroductionRequest';
-import IntroductionProposals from './example-pages/IntroductionProposals';
-import NewIntroductionProposal from './example-pages/IntroductionProposals/NewIntroductionProposal';
-import IntroductionProposal from './example-pages/IntroductionProposals/IntroductionProposal';
-import RequestForIntroductions from './example-pages/RequestForIntroductions';
-import RequestForIntroduction from './example-pages/RequestForIntroductions/RequestForIntroduction';
-import NewRequestForIntroduction from './example-pages/RequestForIntroductions/NewRequestForIntroduction';
+import Dashboard from './pages/Dashboard';
+import NewUser from './pages/Dashboard/NewUser';
+import Introductions from './pages/Introductions';
+import NewIntroduction from './pages/Introductions/NewIntroduction';
+import Introduction from './pages/Introductions/Introduction';
+import IntroductionRequests from './pages/IntroductionRequests';
+import IntroductionRequest from './pages/IntroductionRequests/IntroductionRequest';
+import IntroductionProposals from './pages/IntroductionProposals';
+import NewIntroductionProposal from './pages/IntroductionProposals/NewIntroductionProposal';
+import IntroductionProposal from './pages/IntroductionProposals/IntroductionProposal';
+import RequestForIntroductions from './pages/RequestForIntroductions';
+import RequestForIntroduction from './pages/RequestForIntroductions/RequestForIntroduction';
+import NewRequestForIntroduction from './pages/RequestForIntroductions/NewRequestForIntroduction';
 
 
-import UserProfile from './example-pages/Users/UserProfile';
-import Users from './example-pages/Users/Users';
+import UserProfile from './pages/Users/UserProfile';
+import Users from './pages/Users/Users';
 
 //Public Pages
-import PublicIntroductionRequest from './example-pages/IntroductionRequests/PublicIntroductionRequest';
-import IntroducerPublicIntroduction from './example-pages/IntroductionRequests/IntroducerPublicIntroduction';
-import IntroduceePublicIntroduction from './example-pages/IntroductionRequests/IntroduceePublicIntroduction';
-import IntroduceeOneIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
-import IntroduceeTwoIntroductionProposal from './example-pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
-import PublicRequestForIntroduction from './example-pages/RequestForIntroductions/PublicRequestForIntroduction';
-import PublicNewIntroFromRequestForIntro from './example-pages/Introductions/PublicNewIntroFromRequestForIntro';
+import PublicIntroductionRequest from './pages/IntroductionRequests/PublicIntroductionRequest';
+import IntroducerPublicIntroduction from './pages/IntroductionRequests/IntroducerPublicIntroduction';
+import IntroduceePublicIntroduction from './pages/IntroductionRequests/IntroduceePublicIntroduction';
+import IntroduceeOneIntroductionProposal from './pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
+import IntroduceeTwoIntroductionProposal from './pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
+import PublicRequestForIntroduction from './pages/RequestForIntroductions/PublicRequestForIntroduction';
+import PublicNewIntroFromRequestForIntro from './pages/Introductions/PublicNewIntroFromRequestForIntro';
 
-const Login = lazy(() => import('./example-pages/Login'));
-const CreateAccount = lazy(() =>import('./example-pages/CreateAccount'));
-const PageError404 = lazy(() => import('./example-pages/PageError404'));
-const PageError500 = lazy(() => import('./example-pages/PageError500'));
-const PageError505 = lazy(() => import('./example-pages/PageError505'));
+const Login = lazy(() => import('./pages/Login'));
+const CreateAccount = lazy(() =>import('./pages/CreateAccount'));
+const PageError404 = lazy(() => import('./pages/PageError404'));
+const PageError500 = lazy(() => import('./pages/PageError500'));
+const PageError505 = lazy(() => import('./pages/PageError505'));
 
 function usePageViews() {
   const location = useLocation();

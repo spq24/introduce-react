@@ -7,14 +7,8 @@ import { connect } from 'react-redux';
 
 import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
 
-import HeaderDots from '../../layout-components/HeaderDots';
-import HeaderDrawer from '../../layout-components/HeaderDrawer';
 import HeaderUserbox from '../../layout-components/HeaderUserbox';
-import HeaderSearch from '../../layout-components/HeaderSearch';
-import HeaderMenu from '../../layout-components/HeaderMenu';
-import { useDispatch } from 'react-redux/lib/hooks/useDispatch';
 import { NotificationManager } from 'react-notifications';
-
 
 const Header = (props) => {
   const {
@@ -26,7 +20,7 @@ const Header = (props) => {
   const userDetails = useAuthState();
   const dispatch = useAuthDispatch();
   const history = useHistory();
-  let image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
+  let image = '';
 
   const toggleSidebarMobile = () => {
     setSidebarToggleMobile(!sidebarToggleMobile);
@@ -35,7 +29,7 @@ const Header = (props) => {
   useEffect(() => {
     const userId = userDetails && userDetails.user ? userDetails.user.id : null
     const credentials = userDetails && userDetails.credentials ? userDetails.credentials : null
-    //let image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
+    image = userDetails && userDetails && userDetails.user && userDetails.user.image ? userDetails.user.image.url : ''
     if(!userId || !credentials) {
       history.push('/login');
       return;
