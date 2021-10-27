@@ -28,7 +28,7 @@ export default function IntroduceePublicIntroduction() {
 
   useEffect(() => {
     if(id) {
-      axios.get(`/api/v1/proposed-introduction/${id}`)
+      axios.get(`/api/v1/introduction_proposals/${id}`)
            .then(response => {
              let intro = response.data.introduction_proposal
              setIntroductionProposal(intro)
@@ -221,7 +221,7 @@ export default function IntroduceePublicIntroduction() {
                                     multiline
                                     rows={4}
                                     variant="outlined"
-                                    name="introducee_rejection_reason"
+                                    name="introducee_one_rejection_reason"
                                     value={introductionProposal.introducee_one_rejection_reason}
                                     onChange={(e) => handleChange(e)}
                                   />

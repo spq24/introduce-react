@@ -21,13 +21,13 @@ export default function PublicIntroductionRequest() {
   const [errorMessage, setErrorMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { id } = useParams();
+  const { unique_id } = useParams();
   const date = new Date();
   const year = date.getFullYear();
 
   useEffect(() => {
-    if(id) {
-      axios.get(`/api/v1/introducer/${id}/introduction_requests/new`)
+    if(unique_id) {
+      axios.get(`/api/v1/users/${unique_id}/introduction_requests/new`)
            .then(response => {
              const user = response.data.user
              setIntroducer(user)
@@ -72,12 +72,12 @@ export default function PublicIntroductionRequest() {
     }
 
     let intro = {
-      introducer_id: id,
+      user_unique_id: unique_id,
       requester: requester,
       introducee: introducee
     }
 
-    axios.post('/api/v1/new-introduction-request',
+    axios.post('/api/v1/introduction_requests',
       intro,
     ).then(response => {
       NotificationManager.success('Successfully Submitted. Email sent to introducer to ask for permission.')

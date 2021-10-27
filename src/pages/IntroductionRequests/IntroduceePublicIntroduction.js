@@ -12,10 +12,11 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { NotificationManager } from 'react-notifications';
+import Loader from '../Loader';
 
 export default function IntroduceePublicIntroduction() {
   const [loading, setLoading] = useState(true)
-  const [introduction, setIntroduction] = useState({});
+  const [introductionRequest, setIntroductionRequest] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [handled, setHandled] = useState(false);
@@ -30,10 +31,10 @@ export default function IntroduceePublicIntroduction() {
     if(id) {
       axios.get(`/api/v1/introduction_requests/${id}`)
            .then(response => {
-             let intro = response.data.introduction
-             setIntroduction(intro)
-             setLoading(false)
-             document.title = `${response.data.introduction.introduction_requester.first_name} ${response.data.introduction.introduction_requester.last_name} requested an introduction to ${response.data.introduction.introducee.first_name} ${response.data.introduction.introducee.last_name}`
+             let intro = response.data.introduction_request
+             setIntroductionRequest(intro)
+
+             document.title = `${response.data.introduction_request.introduction_requester.first_name} ${response.data.introduction_request.introduction_requester.last_name} requested an introduction to ${response.data.introduction_request.introducee.first_name} ${response.data.introduction_request.introducee.last_name}`
              if (intro.completed || intro.introducer_rejected || intro.introducee_rejected || intro.introducee_accepted) {
                setHandled(true)
              }
@@ -45,11 +46,13 @@ export default function IntroduceePublicIntroduction() {
                  setAcceptRejectStatus('denied')
                }
              }
+
+             setLoading(false)
            })
            .catch(error => {
              let message = error && error.response && error.response.data && error.response.data.message ?
                error.response.data.message : 'There was an error. Please try again!'
-             NotificationManager.success(message)
+             NotificationManager.error(message)
            })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,8 +61,8 @@ export default function IntroduceePublicIntroduction() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setIntroduction(introduction => ({
-      ...introduction,
+    setIntroductionRequest(introductionRequest => ({
+      ...introductionRequest,
       [name]: value
     }));
   }
@@ -72,9 +75,9 @@ export default function IntroduceePublicIntroduction() {
   const handleSubmit = () => {
     setSubmitting(true)
 
-    axios.put(`/api/v1/introducee-accept-reject/${id}`,
+    axios.put(`/api/v1/introducee-request-accept-reject/${id}`,
       {
-        introduction: introduction,
+        introduction_request: introductionRequest,
         status: acceptRejectStatus
       },
     ).then(response => {
@@ -111,7 +114,7 @@ export default function IntroduceePublicIntroduction() {
                   </Grid>
                   <Card className="rounded-sm modal-content p-3 bg-white-10">
                     <Card className="rounded-sm overflow-hidden shadow-xxl font-size-sm p-3 p-sm-0">
-                      <h2>Loading...</h2>
+                      <Loader />
                     </Card>
                   </Card>
                 </Container>
@@ -138,7 +141,7 @@ export default function IntroduceePublicIntroduction() {
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex justify-content-center" style={{ marginBottom: '50px', flexDirection: 'column', alignItems: 'center' }}>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                    {`Hey ${introduction.introducee.first_name}`},<br /> {`${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} asked ${introduction.introducer.first_name} ${introduction.introducer.last_name} to make an introduction to you. We are helping to facilitate that introduction.`}
+                    {`Hey ${introductionRequest.introducee.first_name}`},<br /> {`${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} asked ${introductionRequest.introducer.first_name} ${introductionRequest.introducer.last_name} to make an introduction to you. We are helping to facilitate the introduction.`}
                     </span>
                     <br /><br />
                     <h1 className="font-size-xxl mb-2 font-weight-bold text-white">
@@ -162,9 +165,9 @@ export default function IntroduceePublicIntroduction() {
                                   }
                                   {
                                     submitted && acceptRejectStatus === 'accepted' ?
-                                    `Great! Look out for an email soon that will connect you to ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name}. We will Cc ${introduction.introducer.first_name} ${introduction.introducer.last_name} as well.` :
+                                    `Great! Look out for an email soon that will connect you to ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name}. We will Cc ${introductionRequest.introducer.first_name} ${introductionRequest.introducer.last_name} as well.` :
                                     acceptRejectStatus !== '' ?
-                                      `Thank you we will let ${introduction.introducer.first_name} ${introduction.introducer.last_name} know.` : null
+                                      `Thank you we will let ${introductionRequest.introducer.first_name} ${introductionRequest.introducer.last_name} know.` : null
                                   }
                                 </span>
                               </Alert>
@@ -218,15 +221,15 @@ export default function IntroduceePublicIntroduction() {
                                 <Grid item md={12}>
                                   <TextField
                                     fullWidth
-                                    label={`Can you let ${introduction.introducer.first_name}  ${introduction.introducer.last_name} why you are denying the introduction request?`}
+                                    label={`Can you let ${introductionRequest.introducer.first_name}  ${introductionRequest.introducer.last_name} why you are denying the introduction request?`}
                                     multiline
                                     rows={4}
                                     variant="outlined"
                                     name="introducee_rejection_reason"
-                                    value={introduction.introducee_rejection_reason}
+                                    value={introductionRequest.introducee_rejection_reason}
                                     onChange={(e) => handleChange(e)}
                                   />
-                                <FormHelperText>{`This will only be sent to ${introduction.introducer.first_name} ${introduction.introducer.last_name}. We will let ${introduction.introduction_requester.first_name} ${introduction.introduction_requester.last_name} know but, we will not share the reason why.`}</FormHelperText>
+                                <FormHelperText>{`This will only be sent to ${introductionRequest.introducer.first_name} ${introductionRequest.introducer.last_name}. We will let ${introductionRequest.introduction_requester.first_name} ${introductionRequest.introduction_requester.last_name} know but, we will not share the reason why.`}</FormHelperText>
                                 </Grid>
                                 : null
                             }

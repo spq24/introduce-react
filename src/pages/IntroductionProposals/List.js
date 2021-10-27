@@ -73,12 +73,12 @@ export default function List(props) {
                               </div>
                               <div>
                                 {
-                                  introductionProposal.introducee && introductionProposal.introducee_two.first_name ?
+                                  introductionProposal.introducee_two && introductionProposal.introducee_two.first_name ?
                                     introductionProposal.introducee_two.first_name.substring(0, 15) : null
                                 }
                                 &nbsp;
                                 {
-                                  introductionProposal.introducee && introductionProposal.introducee_two.last_name ?
+                                  introductionProposal.introducee_two && introductionProposal.introducee_two.last_name ?
                                     introductionProposal.introducee_two.last_name.substring(0, 15) : null
                                 }
                               </div>

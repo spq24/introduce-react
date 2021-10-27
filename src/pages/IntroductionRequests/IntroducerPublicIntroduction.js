@@ -90,7 +90,7 @@ export default function PublicIntroductionRequest() {
       }
     }
 
-    axios.put(`/api/v1/introducer-accept-reject/${id}`,
+    axios.put(`/api/v1/introducer-request-accept-reject/${id}`,
       {
         introduction: introduction,
         introducee: introducee,

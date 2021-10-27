@@ -124,11 +124,11 @@ const Routes = () => {
                   '/login',
                   '/linkedin',
                   '/sign-up',
-                  '/r/:id',
+                  '/r/:unique_id',
                   '/requested-introduction/:id',
-                  '/introducee-requested-introduction/:id',
-                  '/introduction-proposal/:id/introducee-one',
-                  '/introduction-proposal/:id/introducee-two',
+                  '/introduction-requests/:id/introducee',
+                  '/introduction-proposals/:id/introducee-one',
+                  '/introduction-proposals/:id/introducee-two',
                   '/request-for-intro/:id',
                   '/request-for-intro/:id/new-introduction',
                   '/PageError404',
@@ -150,15 +150,15 @@ const Routes = () => {
                         component={CreateAccount}
                       />
                       <Route
-                        exact path="/r/:id"
+                        exact path="/r/:unique_id"
                         component={PublicNewIntroductionRequest}
                       />
                       <Route
-                        path="/introduction-proposal/:id/introducee-one"
+                        exact path="/introduction-proposals/:id/introducee-one"
                         component={IntroduceeOneIntroductionProposal}
                       />
                       <Route
-                        exact path="/introduction-proposal/:id/introducee-two"
+                        exact path="/introduction-proposals/:id/introducee-two"
                         component={IntroduceeTwoIntroductionProposal}
                       />
                       <Route
@@ -166,7 +166,7 @@ const Routes = () => {
                         component={IntroducerPublicIntroduction}
                       />
                       <Route
-                        exact path="/introducee-requested-introduction/:id"
+                        exact path="/introduction-requests/:id/introducee"
                         component={IntroduceePublicIntroduction}
                       />
                       <Route
