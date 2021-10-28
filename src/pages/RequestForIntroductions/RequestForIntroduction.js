@@ -17,8 +17,8 @@ import logo3 from 'assets/images/stock-logos/facebook-logo.svg';
 export default function RequestForIntroduction(props) {
   const userDetails = useAuthState();
   const [loading, setLoading] = useState(true);
-  const [setSubmitting] = useState(true);
-  const [setSubmitted] = useState(true);
+  const [submitting, setSubmitting] = useState(true);
+  const [submitted, setSubmitted] = useState(true);
   const [requestForIntroduction, setRequestForIntroduction] = useState({});
   const [introductions, setIntroductions] = useState([]);
   const { id } = useParams();
@@ -219,7 +219,7 @@ export default function RequestForIntroduction(props) {
 
               <div className="divider mx-auto my-3" />
               <div className="text-center px-3">
-                <a href={`https://twitter.com/intent/tweet?text=Looking%20for%20an%20intro.%20Can%20anyone%20intro%20me%20to%20${requestForIntroduction.description}.%20canyouintro.me/request-for-intro/${id}`} target="_blank" rel="noopener noreferrer">
+                <a href={`https://twitter.com/intent/tweet?text=Looking%20for%20an%20intro.%20Can%20anyone%20intro%20me%20to%20${requestForIntroduction.description}.%20https://canyouintro.me/request-for-intro/${id}`} target="_blank" rel="noopener noreferrer">
                   <Button
                     fullWidth
                     className="d-flex btn-transition-none border-0 shadow-none" style={{ background: '#1da1f2', color: '#fff'}}>

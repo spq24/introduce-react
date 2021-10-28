@@ -79,8 +79,8 @@ export default function PublicRequestForIntroduction() {
                       {user.first_name} {user.last_name}
                     </h1>
                     <span className="font-size-xl mb-1 text-white" style={{ textAlign: 'center' }}>
-                      Hello! I'm looking for some help getting introduced to some helpful people, but I'm not sure exactly who.<br />
-                      Would you be able to help make an introduction?
+                      Hello! I'd appreciate any help you could give in making introductions <br />
+                      to anyone you know who fits the description below. Can you help me out?
                     </span>
                   </Grid>
                 </Grid>

@@ -85,7 +85,7 @@ export default function PublicIntroFromRequestForIntro() {
     axios.post('/api/v1/request-for-intro-new-introduction',
       intro,
     ).then(response => {
-      NotificationManager.success('Successfully Submitted. Email sent to introducer to ask for permission.')
+      NotificationManager.success('Successfully Submitted. Email sent to requester to ask for permission.')
       setSubmitted(true)
       setSubmitting(false)
     }).catch(error => {

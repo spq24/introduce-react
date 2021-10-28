@@ -34,12 +34,14 @@ import Users from './pages/Users/Users';
 
 //Public Pages
 import PublicNewIntroductionRequest from './pages/IntroductionRequests/PublicNewIntroductionRequest';
-import IntroducerPublicIntroduction from './pages/IntroductionRequests/IntroducerPublicIntroduction';
-import IntroduceePublicIntroduction from './pages/IntroductionRequests/IntroduceePublicIntroduction';
+import IntroducerPublicIntroductionRequest from './pages/IntroductionRequests/IntroducerPublicIntroductionRequest';
+import IntroduceePublicIntroductionRequest from './pages/IntroductionRequests/IntroduceePublicIntroductionRequest';
+import IntroduceePublicIntroduction from './pages/Introductions/IntroduceePublicIntroduction';
 import IntroduceeOneIntroductionProposal from './pages/IntroductionProposals/IntroduceeOneIntroductionProposal';
 import IntroduceeTwoIntroductionProposal from './pages/IntroductionProposals/IntroduceeTwoIntroductionProposal';
 import PublicRequestForIntroduction from './pages/RequestForIntroductions/PublicRequestForIntroduction';
 import PublicNewIntroFromRequestForIntro from './pages/Introductions/PublicNewIntroFromRequestForIntro';
+
 
 const Login = lazy(() => import('./pages/Login'));
 const CreateAccount = lazy(() =>import('./pages/CreateAccount'));
@@ -127,6 +129,7 @@ const Routes = () => {
                   '/r/:unique_id',
                   '/requested-introduction/:id',
                   '/introduction-requests/:id/introducee',
+                  '/introductions/:id/introducee',
                   '/introduction-proposals/:id/introducee-one',
                   '/introduction-proposals/:id/introducee-two',
                   '/request-for-intro/:id',
@@ -163,10 +166,14 @@ const Routes = () => {
                       />
                       <Route
                         exact path="/requested-introduction/:id"
-                        component={IntroducerPublicIntroduction}
+                        component={IntroducerPublicIntroductionRequest}
                       />
                       <Route
                         exact path="/introduction-requests/:id/introducee"
+                        component={IntroduceePublicIntroductionRequest}
+                      />
+                      <Route
+                        exact path="/introductions/:id/introducee"
                         component={IntroduceePublicIntroduction}
                       />
                       <Route
