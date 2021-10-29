@@ -69,6 +69,14 @@ export default function Introductions(props) {
         date: introduction.introducee_accepted_at,
         color: 'success'
       })
+    } else if (introduction.introducee_rejected) {
+      setIntroduceeStatus({
+        shortTitle: 'Denied',
+        title: 'Introducee Request Denied',
+        description: `${introduction.introducee ? `${introduction.introducee.first_name} has` : 'They have'} denied the introduction request`,
+        date: introduction.introducee_rejected_at,
+        color: 'danger'
+      })
     } else {
       setIntroduceeStatus({
         shortTitle: 'Pending',

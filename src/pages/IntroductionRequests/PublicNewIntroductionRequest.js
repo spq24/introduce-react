@@ -330,11 +330,12 @@ export default function PublicIntroductionRequest() {
                           <h5 className="font-size-xl mb-1 font-weight-bold">
                             How Will This Introduction Help You?
                           </h5>
+                        <small><b>This will be shared with {introducee.first_name ? introducee.first_name : 'the introducee'} {introducee.last_name ? introducee.last_name : 'the introducee'}.</b></small>
                           <Grid container spacing={6}>
                             <Grid item md={12}>
                               <TextField
                                 fullWidth
-                                label="Tell me why you are requesting this introduction"
+                                label={`Tell me why you are requesting this introduction. (This will be shared!)`}
                                 multiline
                                 rows={4}
                                 variant="outlined"
@@ -342,7 +343,7 @@ export default function PublicIntroductionRequest() {
                                 value={requester.request_reason}
                                 onChange={(e) => handleRequesterChange(e)}
                               />
-                              <FormHelperText>examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
+                            <FormHelperText><b>This will be shared with {introducee.first_name ? introducee.first_name : 'the introducee'} {introducee.last_name ? introducee.last_name : 'the introducee'}.</b> examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
                             </Grid>
                             <Grid item md={12}>
                               {

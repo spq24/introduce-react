@@ -284,7 +284,7 @@ export default function NewIntroduction() {
                               value={introducee.request_reason}
                               onChange={(e) => handleIntroduceeChange(e)}
                             />
-                            <FormHelperText>examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
+                            <FormHelperText><b>This will be shared with {introducee.first_name ? introducee.first_name : 'the introducee'} {introducee.last_name ? introducee.last_name : 'the introducee'}.</b> examples: Curious about a job, looking to learn more, networking, partnership, etc.</FormHelperText>
                           </Grid>
                         </Grid>
                       </div>
