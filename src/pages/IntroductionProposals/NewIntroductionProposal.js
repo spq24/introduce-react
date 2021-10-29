@@ -85,13 +85,6 @@ export default function NewIntroduction() {
   }
 
   const handleNext = () => {
-    let validated = validateData(activeStep)
-    if (!validated) {
-      return
-    }
-
-    setErrorMessage('')
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
